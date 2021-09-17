@@ -44,6 +44,7 @@ IMAGE_TAG=noetic
 docker run -it --privileged --shm-size 16G \
     -p 5005:5005 \
     -p 10000:10000 \
+    -e DISPLAY=129.107.119.99:0.0 \
     -v /mnt/c/Users/mqt0029xx/Desktop/Workspace/Docker-Shared:/root/catkin_ws/src \
     ${IMAGE_NAME}:${IMAGE_TAG} \
     bash
