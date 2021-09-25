@@ -56,7 +56,8 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
 # get selected gazebo (Gazebo 11)
 RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -sc) main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
     wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add - && \
-    apt-get update && apt-get -y --no-install-recommends install gazebo11 \
+    apt-get update && apt-get -y --no-install-recommends install gazebo11 && \
+    apt-get update && apt-get -y --no-install-recommends install libignition-common3-graphics \
     && apt-get -y autoremove \
     && apt-get clean
 
@@ -66,7 +67,8 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     ros-noetic-ros-controllers \
     ros-noetic-gazebo-ros-pkgs \
     ros-noetic-gazebo-ros-control \
-    ros-noetic-moveit
+    ros-noetic-moveit \
+    ros-noetic-moveit-resources-prbt-moveit-config
 
 # define catkin workspace
 ENV HOME /root
@@ -96,9 +98,9 @@ RUN echo "alias src_ros='source ${CATKIN_WS}/devel/setup.bash'" >> ${HOME}/.bash
 RUN echo "PS1='\n\[\e[0;38;5;122m\]\u \[\e[0;38;5;147m\]\w\n\[\e[0m\]> \[\e[0m\]'" >> ${HOME}/.bashrc
 
 # nvidia-container-runtime for nvidia-docker hosts
-# ENV NVIDIA_VISIBLE_DEVICES \
-#     ${NVIDIA_VISIBLE_DEVICES:-all}
-# ENV NVIDIA_DRIVER_CAPABILITIES \
-#     ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
-# ENV QT_X11_NO_MITSHM 1
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+ENV QT_X11_NO_MITSHM 1
 ENV TERM xterm-256color

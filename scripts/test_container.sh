@@ -36,16 +36,18 @@
 IMAGE_NAME=robosim
 IMAGE_TAG=noetic
 
-# echo "Starting temporary Docker container for ${IMAGE_NAME}:${IMAGE_TAG}";
-# sleep 1;
+echo "Starting temporary Docker container for ${IMAGE_NAME}:${IMAGE_TAG}";
+sleep 1;
 
-# xhost +local:root
+xhost +local:root
 
-docker run -it --privileged --shm-size 16G \
+docker run -it --rm --privileged --shm-size 16G \
+    --runtime nvidia \
     -p 5005:5005 \
     -p 10000:10000 \
-    -e DISPLAY=129.107.119.99:0.0 \
-    -v /mnt/c/Users/mqt0029xx/Desktop/Workspace/Docker-Shared:/root/catkin_ws/src \
+    -e "DISPLAY=$DISPLAY" \
+    -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    -v "/home/rvl/Workspace/Unity-Projects/ROS-Unity-Sim:/root/catkin_ws/src:rw" \
     ${IMAGE_NAME}:${IMAGE_TAG} \
     bash
 
