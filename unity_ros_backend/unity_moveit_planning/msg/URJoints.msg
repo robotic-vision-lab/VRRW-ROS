@@ -1,0 +1,6 @@
+float64 shoulder_pan
+float64 shoulder_lift
+float64 elbow
+float64 wrist_1
+float64 wrist_2
+float64 wrist_3

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="test_ur_xacro">
+
+    <xacro:include filename="$(find unity_robot_description)/xacro/universal_robot/macros/ur3_macro.xacro"/>
+    <xacro:include filename="$(find unity_robot_description)/xacro/universal_robot/macros/ur3e_macro.xacro"/>
+    <xacro:include filename="$(find unity_robot_description)/xacro/universal_robot/macros/ur5_macro.xacro"/>
+    <xacro:include filename="$(find unity_robot_description)/xacro/universal_robot/macros/ur5e_macro.xacro"/>
+    <xacro:include filename="$(find unity_robot_description)/xacro/universal_robot/macros/ur10_macro.xacro"/>
+    <xacro:include filename="$(find unity_robot_description)/xacro/universal_robot/macros/ur10e_macro.xacro"/>
+    <xacro:include filename="$(find unity_robot_description)/xacro/universal_robot/macros/ur16e_macro.xacro"/>
+    
+    <xacro:ur3_robot prefix=""/>
+    <xacro:ur3e_robot prefix=""/>
+    <xacro:ur5_robot prefix=""/>
+    <xacro:ur5e_robot prefix=""/>
+    <xacro:ur10_robot prefix=""/>
+    <xacro:ur10e_robot prefix=""/>
+    <xacro:ur16e_robot prefix=""/>
+</robot>
