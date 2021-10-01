@@ -72,14 +72,14 @@
   <!-- Trajectory Execution Functionality -->
   <include ns="move_group" file="$(find ur5e_2f_85_moveit_config)/launch/trajectory_execution.launch.xml" if="$(arg allow_trajectory_execution)">
     <arg name="moveit_manage_controllers" value="true" />
-    <arg name="moveit_controller_manager" value="ur5e_2f_85_gripper" unless="$(arg fake_execution)"/>
+    <arg name="moveit_controller_manager" value="ur5e_robotiq_2f_85_gripper" unless="$(arg fake_execution)"/>
     <arg name="moveit_controller_manager" value="fake" if="$(arg fake_execution)"/>
     <arg name="execution_type" value="$(arg execution_type)" />
   </include>
 
   <!-- Sensors Functionality -->
   <include ns="move_group" file="$(find ur5e_2f_85_moveit_config)/launch/sensor_manager.launch.xml" if="$(arg allow_trajectory_execution)">
-    <arg name="moveit_sensor_manager" value="ur5e_2f_85_gripper" />
+    <arg name="moveit_sensor_manager" value="ur5e_robotiq_2f_85_gripper" />
   </include>
 
   <!-- Start the actual move_group node/action server -->

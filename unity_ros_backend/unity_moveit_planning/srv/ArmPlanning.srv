@@ -1,4 +1,0 @@
-URJoints current
-URJoints target
----
-moveit_msgs/RobotTrajectory[] trajectories

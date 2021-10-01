@@ -10,5 +10,5 @@ catkin_package()
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-install(DIRECTORY xacro urdf config meshes
+install(DIRECTORY xacro urdf
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

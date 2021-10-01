@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur5e_robotiq_2f_85_gripper">
+
+    <xacro:include filename="$(find unity_robot_description)/xacro/macros/robotiq_arg2f_85_macro.xacro"/>
+    <xacro:include filename="$(find ur_description)/urdf/inc/ur5e_macro.xacro"/>
+
+    <xacro:macro name="ur5e_with_gripper" params="prefix">
+        <!-- Universal Robot UR 5e Arm -->
+        <xacro:ur5e_robot prefix="${prefix}"/>
+
+        <!-- Robotiq 2F-85 2-Finger Gripper -->
+        <xacro:robotiq_arg2f_85 prefix="${prefix}" />
+
+        <!-- attach gripper to tool0 -->
+        <joint name="ur5e_tool0-gripper_base" type="fixed">
+            <parent link= "${prefix}tool0" />
+            <child link = "${prefix}robotiq_arg2f_base_link" />
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        </joint>
+
+    </xacro:macro>
+
+    <xacro:ur5e_with_gripper prefix=""/>
+</robot>

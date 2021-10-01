@@ -1,6 +1,6 @@
-float64 shoulder_pan
-float64 shoulder_lift
-float64 elbow
-float64 wrist_1
-float64 wrist_2
-float64 wrist_3
+float64 joint_00
+float64 joint_01
+float64 joint_02
+float64 joint_03
+float64 joint_04
+float64 joint_05

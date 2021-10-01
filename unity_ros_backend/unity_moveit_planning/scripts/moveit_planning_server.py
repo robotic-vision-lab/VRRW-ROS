@@ -1,30 +1,39 @@
 #!/usr/bin/python3
 
 from moveit_commander.move_group import MoveGroupCommander
+
 import rospy
 import sys
 import math
 
 import moveit_commander as mc
-from moveit_commander.conversions import list_to_pose
 
-from unity_moveit_planning.srv import ArmPlanning, ArmPlanningRequest, ArmPlanningResponse
+from unity_moveit_planning.srv import ForwardKinematics, ForwardKinematicsRequest, ForwardKinematicsResponse
 from unity_moveit_planning.msg import URJoints
-from sensor_msgs.msg import JointState
 
-def plan_arm_motion(req: ArmPlanningRequest, group: MoveGroupCommander):
-    plan = ArmPlanningResponse()
+def serverLog(msg):
+    print(f"[Moveit Planning Server] {msg}")
 
+def planCompat(plan):
+    return plan[1]
+
+def plan_arm_motion(request: ForwardKinematicsRequest, group: MoveGroupCommander):
+    plan = ForwardKinematicsResponse()
+    
     group.set_joint_value_target([
-        req.target.shoulder_pan,
-        req.target.shoulder_lift,
-        req.target.elbow,
-        req.target.wrist_1,
-        req.target.wrist_2,
-        req.target.wrist_3,
+        request.target.joint_00,
+        request.target.joint_01,
+        request.target.joint_02,
+        request.target.joint_03,
+        request.target.joint_04,
+        request.target.joint_05
     ])
     
-    plan.trajectories.append(group.plan()[1])    
+    moveit_plan = group.plan()
+    plan.trajectories.append(planCompat(moveit_plan))
+    group.go(wait=False)
+    print(moveit_plan)
+    group.clear_pose_targets()
 
     return plan
 
@@ -34,10 +43,19 @@ if __name__ == "__main__":
     
     robot_commander = mc.RobotCommander()
     planning_scene  = mc.PlanningSceneInterface()
-    arm_planning_group  = mc.MoveGroupCommander('arm')
-    gripper_planning_group = mc.MoveGroupCommander('gripper')
 
-    s = rospy.Service('arm_planning_service', ArmPlanning, lambda handle: plan_arm_motion(handle, arm_planning_group))
-    print("Ready to plan")
+    # strict typing?
+    arm_planning_group: MoveGroupCommander = mc.MoveGroupCommander('arm')
+    arm_planning_group.allow_looking(True);
+    arm_planning_group.allow_replanning(True);
+    arm_planning_group.set_max_acceleration_scaling_factor(1.0);
+    arm_planning_group.set_max_velocity_scaling_factor(1.0);
+    arm_planning_group.set_num_planning_attempts(10);
+    arm_planning_group.set_planning_time(10);
+    
+    s = rospy.Service('arm_fk_service', ForwardKinematics, lambda handle: plan_arm_motion(handle, arm_planning_group))
+    
+    serverLog("MoveIt! ready to plan")
+    
     rospy.spin()
     

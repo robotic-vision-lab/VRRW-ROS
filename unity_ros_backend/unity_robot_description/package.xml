@@ -13,4 +13,9 @@
   <exec_depend>urdf</exec_depend>
   <exec_depend>xacro</exec_depend>
   <exec_depend>roslaunch</exec_depend>
+  <exec_depend>ur_description</exec_depend>
+  <exec_depend>robotiq_2f_85_gripper_visualization</exec_depend>
+  <exec_depend>robotiq_2f_140_gripper_visualization</exec_depend>
+  <exec_depend>robotiq_2f_c2_gripper_visualization</exec_depend>
+  <exec_depend>robotiq_3f_gripper_visualization</exec_depend>
 </package>

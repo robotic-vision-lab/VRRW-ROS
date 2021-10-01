@@ -4,8 +4,8 @@ moveit_setup_assistant_config:
     relative_path: urdf/ur5e_2f_85.urdf
     xacro_args: ""
   SRDF:
-    relative_path: config/ur5e_2f_85_gripper.srdf
+    relative_path: config/ur5e_robotiq_2f_85_gripper.srdf
   CONFIG:
     author_name: Minh "Jerry" Tram
     author_email: minh.tram@mavs.uta.edu
-    generated_timestamp: 1632952608
+    generated_timestamp: 1633109637

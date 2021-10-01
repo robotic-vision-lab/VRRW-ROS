@@ -16,7 +16,7 @@
   <param name="trajectory_execution/allowed_start_tolerance" value="0.01"/> <!-- default 0.01 -->
 
   <!-- Load the robot specific controller manager; this sets the moveit_controller_manager ROS parameter -->
-  <arg name="moveit_controller_manager" default="ur5e_2f_85_gripper" />
+  <arg name="moveit_controller_manager" default="ur5e_robotiq_2f_85_gripper" />
   <include file="$(find ur5e_2f_85_moveit_config)/launch/$(arg moveit_controller_manager)_moveit_controller_manager.launch.xml">
     <arg name="execution_type" value="$(arg execution_type)" />
   </include>
