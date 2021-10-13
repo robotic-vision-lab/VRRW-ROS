@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="transmission_hw_interface" default="hardware_interface/EffortJointInterface" />
+  <arg name="description" default="$(find unity_robot_description)/xacro/robots/robotiq-3f-gripper_articulated.xacro" />
+  
+  <param name="robot_description" command="$(find xacro)/xacro $(arg description) transmission_hw_interface:=$(arg transmission_hw_interface)" />  
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find unity_robot_description)/configs/view_robotiq_3f.rviz" required="true" />
+</launch>
