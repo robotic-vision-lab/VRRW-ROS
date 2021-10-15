@@ -1,0 +1,21 @@
+<launch>
+    <arg name="use_rviz" default="true" />
+    <arg name="simulated" default="true"/>
+    <arg name="execution_type" default="interpolated"/>
+
+    <rosparam file="$(find unity_moveit_planning)/config/params.yaml" command="load"/>
+
+    <node name="server_endpoint" pkg="unity_moveit_planning" type="server_endpoint.py" args="--wait" output="screen" respawn="true" />
+    <node name="planning_server" pkg="unity_moveit_planning" type="moveit_planning_server.py" args="--wait" output="screen" respawn="true" />
+    
+    <!-- <include file="$(find ur5e_2f_85_moveit_config)/launch/move_group.launch" pass_all_args="true" /> -->
+    <!-- <include file="$(find ur5e_moveit_config)/launch/move_group.launch" pass_all_args="true" /> -->
+
+    <group if="$(eval arg('simulated') == true)">
+        <include file="$(find ur5e_robotiq_2f_85_moveit_config)/launch/demo.launch" pass_all_args="true" />
+    </group>
+
+    <group if="$(eval arg('simulated') == false)">
+        <include file="$(find ur5e_robotiq_2f_85_moveit_config)/launch/move_group.launch" pass_all_args="true" />
+    </group>
+</launch>

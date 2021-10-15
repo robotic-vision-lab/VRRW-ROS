@@ -11,6 +11,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <exec_depend>unity_robot_description</exec_depend>
+  <exec_depend>unity_moveit_planning</exec_depend>
 
   <export>
     <metapackage />

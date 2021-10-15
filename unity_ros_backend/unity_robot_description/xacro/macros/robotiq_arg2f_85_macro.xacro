@@ -223,7 +223,7 @@
             <mesh filename="package://unity_robot_description/models/robotiq_2f_85/collision/robotiq_arg2f_base_link.stl" />
           </geometry>
         </collision>
-      </link>
+    </link>
 
     <!-- left finger -->
     <xacro:finger_links prefix="${prefix}" fingerprefix="left"/>

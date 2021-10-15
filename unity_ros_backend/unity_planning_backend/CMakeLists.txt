@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(unity_moveit_planning)
+project(unity_planning_backend)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
@@ -34,6 +34,7 @@ catkin_install_python(PROGRAMS
   scripts/server_endpoint.py
   scripts/unity_joints_subscriber.py
   scripts/moveit_planning_server.py
+  scripts/ur5e_drift.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
