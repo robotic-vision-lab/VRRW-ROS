@@ -35,6 +35,7 @@ catkin_install_python(PROGRAMS
   scripts/unity_joints_subscriber.py
   scripts/moveit_planning_server.py
   scripts/ur5e_drift.py
+  scripts/urscript_test.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
