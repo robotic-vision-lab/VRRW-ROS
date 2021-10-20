@@ -37,7 +37,7 @@ if [ -z "${ROBOSIM_ID}" ]; then
 
     # creating the docker container
     # see https://docs.docker.com/engine/reference/run/ for more details
-    docker run -t -d --rm --name ${CONTAINER_NAME} --privileged --network=host --shm-size 16G --runtime nvidia -e "DISPLAY=${DISPLAY}" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v "${HOST_CATKIN_PATH}:/root/catkin_ws/src:rw" robosim:latest bash
+    docker run -t -d --name ${CONTAINER_NAME} --privileged --network=host --shm-size 16G --runtime nvidia -e "DISPLAY=${DISPLAY}" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v "${HOST_CATKIN_PATH}:/root/catkin_ws/src:rw" robosim:latest bash
     docker exec ${CONTAINER_NAME} touch /root/.bash_eternal_history 
     docker cp $(dirname "$BASH_SOURCE")/configs/.bash_aliases ${CONTAINER_NAME}:/root/.bash_aliases
 else
@@ -54,16 +54,3 @@ else
         docker exec -it ${ROBOSIM_ID} bash
     fi
 fi
-
-# # creating the docker container
-# # see https://docs.docker.com/engine/reference/run/ for more details
-# docker run -it --name ${CONTAINER_NAME}            # shorthand --tty + --interactive \
-# --privileged                                       # extending all devices on host \
-# --network host                                     # use host network interface \
-# --shm-size 16G                                     # set /dev/shm size (small shm causes issues with CUDA ML stuff, like TF and Torch) \
-# --runtime nvidia                                   # nvidia-docker2 requirement \
-# -e "DISPLAY=${DISPLAY}"                            # specify display to spawn windows on \
-# -v "/tmp/.X11-unix:/tmp/.X11-unix:rw"              # map X11 into container with read/write permission \
-# -v "${HOST_CATKIN_PATH}:/root/catkin_ws/src:rw"    # map catkin workspace into container \
-# robosim:latest                                     # which image to use (default robosim:latest) \
-# bash                                               # spawn a bash when we're in the container \

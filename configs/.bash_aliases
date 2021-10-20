@@ -36,13 +36,6 @@ shopt -s histappend
 
 # -------------------------------- ROS ALIASES ------------------------------- #
 
-function connect_ur
-{
-    roslaunch ur_robot_driver
-}
-
-alias connect_ur_backend=connect_ur
-
 alias src_ros='source ${CATKIN_WS}/devel/setup.bash'
 
 alias run_rosdep='cd ${CATKIN_WS} && rosdep update && rosdep install --from-paths src --ignore-src -r -y'
