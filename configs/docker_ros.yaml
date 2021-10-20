@@ -48,9 +48,9 @@ windows:
   - internal:
       layout: 1329,150x39,0,0{75x39,0,0[75x19,0,0,0,75x19,0,20,5],74x39,76,0[74x9,76,0,1,74x9,76,10,4,74x9,76,20,2,74x9,76,30,3]}
       panes:
-        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/attach_real.sh
-        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/attach_real.sh
-        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/attach_real.sh
-        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/attach_real.sh
-        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/attach_real.sh
-        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/attach_real.sh
+        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/run_robosim_container.sh
+        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/run_robosim_container.sh
+        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/run_robosim_container.sh
+        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/run_robosim_container.sh
+        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/run_robosim_container.sh
+        - sh /home/rvl/Workspace/Robotic-Vision-Lab/Robosim-Docker/scripts/run_robosim_container.sh
