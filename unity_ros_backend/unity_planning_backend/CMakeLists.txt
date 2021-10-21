@@ -20,6 +20,8 @@ add_message_files(DIRECTORY msg)
 
 add_service_files(DIRECTORY srv)
 
+catkin_python_setup()
+
 generate_messages(
   DEPENDENCIES
   geometry_msgs
@@ -30,12 +32,12 @@ generate_messages(
 
 catkin_package()
 
+file(GLOB python_scripts_DIR
+    "scripts/*.py"
+)
+
 catkin_install_python(PROGRAMS
-  scripts/server_endpoint.py
-  scripts/unity_joints_subscriber.py
-  scripts/moveit_planning_server.py
-  scripts/ur5e_drift.py
-  scripts/urscript_test.py
+  ${python_scripts_DIR}
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
