@@ -38,7 +38,8 @@ if [ -z "${ROBOSIM_ID}" ]; then
     # creating the docker container
     # see https://docs.docker.com/engine/reference/run/ for more details
     docker run -t -d --name ${CONTAINER_NAME} --privileged --network=host --shm-size 16G --runtime nvidia -e "DISPLAY=${DISPLAY}" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v "${HOST_CATKIN_PATH}:/root/catkin_ws/src:rw" robosim:latest bash
-    docker exec ${CONTAINER_NAME} touch /root/.bash_eternal_history 
+
+    # add convenient aliases
     docker cp $(dirname "$BASH_SOURCE")/configs/.bash_aliases ${CONTAINER_NAME}:/root/.bash_aliases
 else
     echo "Found ROBOSIM container: ${CONTAINER_NAME}"
