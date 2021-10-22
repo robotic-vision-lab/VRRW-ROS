@@ -2,6 +2,7 @@
 
 from pprint import pprint
 from enum import Enum
+from rospy.service import ServiceException
 
 from ur_msgs.srv import *
 
@@ -89,6 +90,7 @@ class URDashboard():
     def set_debug(self, debugging=False):
         self.debug = debugging
         
+    # TODO: Add delay for booting time
     def power_on_arm(self):
         """Power on the robot motors. To fully start the robot, call release_brakes() or trigger brake_release service afterwards."""
         rospy.wait_for_service('/ur_hardware_interface/dashboard/power_on')
@@ -99,6 +101,7 @@ class URDashboard():
         rospy.wait_for_service('/ur_hardware_interface/dashboard/power_off')
         rospy.ServiceProxy('/ur_hardware_interface/dashboard/power_off', Trigger)()
         
+    # TODO: Add delay
     def release_brakes(self):
         """Service to release the brakes. If the robot is currently powered off, it will get powered on on the fly."""
         rospy.wait_for_service('/ur_hardware_interface/dashboard/brake_release')
@@ -127,7 +130,8 @@ class URDashboard():
     def connect(self):
         """Service to reconnect to the dashboard server."""
         rospy.wait_for_service('/ur_hardware_interface/dashboard/connect')
-        rospy.ServiceProxy('/ur_hardware_interface/dashboard/connect', Trigger)()
+        resp = rospy.ServiceProxy('/ur_hardware_interface/dashboard/connect', Trigger)()
+        return resp.success
         
     def disconnect(self):
         """Disconnect from the dashboard service."""
@@ -195,15 +199,25 @@ class URDashboard():
         if report: print(SafetyModeMapping(resp.safety_mode.mode))
         return resp.safety_mode.mode
     
-    def load_installation(self, filename):
+    def load_installation(self, filename, wait=5, reconnect_retries=10):
         """Load a robot installation from a file."""
+        req = LoadRequest()
+        req.filename = filename
         rospy.wait_for_service('/ur_hardware_interface/dashboard/load_installation')
-        rospy.ServiceProxy('/ur_hardware_interface/dashboard/load_installation', Load)(filename)
+        try:
+            rospy.ServiceProxy('/ur_hardware_interface/dashboard/load_installation', Load)(req)
+        except ServiceException as e:
+            print('Known disconnection error occured. Ignoring.')
+            print(f'Waiting for {wait} seconds so installation load correctly.')
+            rospy.sleep(rospy.Duration(wait))
+            self.spam_reconnect(reconnect_retries)
 
     def load_program(self, filename):
         """Load a robot program from a file."""
+        req = LoadRequest()
+        req.filename = filename
         rospy.wait_for_service('/ur_hardware_interface/dashboard/load_program')
-        rospy.ServiceProxy('/ur_hardware_interface/dashboard/load_program', Load)(filename)
+        rospy.ServiceProxy('/ur_hardware_interface/dashboard/load_program', Load)(req)
 
     def pause_program(self):
         """Pause a running program."""
@@ -371,7 +385,17 @@ class URDashboard():
     def send_raw_urscript(self, script):
         raise NotImplemented
     
-    def cold_boot(self):
+    def cold_boot(self, wait=10):
         """Go directly to operational mode from power up."""
         self.power_on_arm()
         self.release_brakes()
+        print('Waiting for {wait} seconds so robot started correctly.')
+        rospy.sleep(rospy.Duration(wait))
+        
+    def spam_reconnect(self, retries=10):
+        for _ in range(retries): 
+            print("Reconnecting to dashboard server...")
+            success = self.connect()
+            if success:
+                break
+            rospy.sleep(rospy.Duration(1))
