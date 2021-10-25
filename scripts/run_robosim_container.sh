@@ -32,7 +32,7 @@ if [ -z "${ROBOSIM_ID}" ]; then
     docker run -t -d --name ${CONTAINER_NAME} --privileged --network=host --shm-size 16G --runtime nvidia -e "DISPLAY=${DISPLAY}" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" robosim:latest bash
 
     # copying catkin_ws/src into container
-    docker cp ${HOST_CATKIN_WS} ${CONTAINER_NAME}:/root/catkin_ws/src
+    docker cp ${HOST_CATKIN_WS} ${CONTAINER_NAME}:/root/catkin_ws/
 
     # add convenient aliases
     docker cp ${CONFIGS_PATH}/.bash_aliases ${CONTAINER_NAME}:/root/.bash_aliases
