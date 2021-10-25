@@ -26,6 +26,11 @@ alias run_catkin='catkin build -DCMAKE_BUILD_TYPE=Debug'
 
 alias rebuild_catkin='catkin clean -y && catkin build --cmake-args -DCMAKE_BUILD_TYPE=Debug'
 
+alias connect_driver='roslaunch ur_robot_driver ur5e_bringup.launch \
+robot_ip:=192.168.1.147 \
+kinematics_config:=$(rospack find unity_robot_description)/configs/real_ur5e_calibration.yaml \
+use_tool_communication:=true'
+
 # ------------------------------ DOCKER ALIASES ------------------------------ #
 
 # https://gist.github.com/jgrodziski/9ed4a17709baad10dbcd4530b60dfcbb

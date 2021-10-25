@@ -19,25 +19,17 @@ This will build the image named `robosim` with the tag `latest` ready to use for
 
 ## Running Instructions
 
-The given shell script in `scripts/run_robosim_container.sh` will handle spawning appropriate container. It optionally takes two parameters, with default values.
+The given shell script in `scripts/run_robosim_container.sh` will handle spawning appropriate container.
 
 ```bash
-# Assuming terminal still at [some_path]/Robosim-Docker
-# Usage: [sh or ./]run_robosim_container.sh [container_name] [ROS_src_path]
-# ROS_src_path will be mapped to /root/catkin_ws/src inside the container
-
-# default container_name: robosim-container; default_path:/home/rvl/Workspace/Unity-Projects/ROS-Unity-Sim
 $ sh scripts/run_robosim_container.sh
 
-# new name and some different path
-$ sh scripts/run_robosim_container.sh [my-container] [my/ros/src/path]
+# or
 
-# second run only need the name
-# in another terminal
-$ sh scripts/run_robosim_container.sh my-container
+$ sh [path_to_repo]/scripts/run_robosim_container.sh
 ```
 
-First run of the script will spawn the container in detached mode (curent terminal is not inside container), with subsequent runs will attach a bash shell inside the container. You will see your terminal prompt change. **Subsequent command only needs the correct name as the path has been mapped in the first run!**
+First run of the script will spawn the container in detached mode (curent terminal is not inside container), with subsequent runs will attach a bash shell inside the container. You will see your terminal prompt change.
 
 ```bash
 # external shell

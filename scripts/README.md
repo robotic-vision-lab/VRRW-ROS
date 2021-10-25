@@ -2,11 +2,11 @@
 
 Collection of frequently used or referenced scripts for Docker, Bash, etc.
 
-## Initial Setup
+## initial_setup.sh
 
 This script meant to setup the workspace, placing folders, files, and assign aliases approriately. **Currently not implemented**.
 
-## Run RoboSim Container
+## run_robosim_container.sh
 
 This script creates a container if given parameters are not found, otherwise attach to found container. Curently positional arguments are statically defined and need to be modified manually.
 
@@ -26,3 +26,7 @@ docker run -it --name ${CONTAINER_NAME}            # shorthand --tty + --interac
 robosim:latest                                     # which image to use (default robosim:latest) \
 bash                                               # spawn a bash when we're in the container \
 ```
+
+## Internal Aliases
+
+See [`.bash_profile`](../configs/.bash_aliases).
