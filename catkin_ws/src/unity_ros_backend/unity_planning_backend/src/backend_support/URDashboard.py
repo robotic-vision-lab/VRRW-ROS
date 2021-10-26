@@ -78,23 +78,41 @@ class ToolStates():
     VOLTAGE_24V = 24
     
 class URDashboard():
-    def __init__(self, name='TeachPendant'):
+    def __init__(self, name='Dashboard', using_urscript=False, using_gripper=False):
         self.name  = name
         self.debug = False
-        self.command_publisher = rospy.Publisher('/ur_hardware_interface/script_command', String, queue_size=1)
+        self.urscript_publisher = None
+        self.gripper = None
         
-        while self.command_publisher.get_num_connections() < 1:
-            print('Waiting for a connection...')
-            rospy.sleep(rospy.Duration(1))
-    
+        if self.scripting:
+            self.register_scripting()
+        
+        if using_gripper:
+            self.register_gripper()
+            
     def set_debug(self, debugging=False):
         self.debug = debugging
         
-    # TODO: Add delay for booting time
-    def power_on_arm(self):
+    def register_scripting(self, timeout=10):
+        self.urscript_publisher = rospy.Publisher('/ur_hardware_interface/script_command', String, queue_size=1)
+        timeout_count = 0
+        while self.urscript_publisher.get_num_connections() < 1:
+            print('Waiting for a connection...')
+            rospy.sleep(rospy.Duration(1))
+            timeout_count += 1
+            if timeout_count > timeout:
+                print("Attempting to register urscript publisher failed.")
+                break
+            
+    def register_gripper(self):
+        raise NotImplementedError
+    
+    def power_on_arm(self, wait=10):
         """Power on the robot motors. To fully start the robot, call release_brakes() or trigger brake_release service afterwards."""
         rospy.wait_for_service('/ur_hardware_interface/dashboard/power_on')
         rospy.ServiceProxy('/ur_hardware_interface/dashboard/power_on', Trigger)()
+        print('Waiting for {wait} seconds so robot power on correctly.')
+        rospy.sleep(rospy.Duration(wait))
         
     def power_off_arm(self):
         """Power off the robot motors."""
@@ -386,9 +404,9 @@ class URDashboard():
         raise NotImplemented
     
     def cold_boot(self, wait=10):
-        """Go directly to operational mode from power up."""
+        """Go directly to operational mode from power up. This internally calls power_on_arm() with no wait time"""
         self.release_brakes()
-        print('Waiting for {wait} seconds so robot started correctly.')
+        print('Waiting for {wait} seconds so robot power on correctly.')
         rospy.sleep(rospy.Duration(wait))
         
     def spam_reconnect(self, retries=10):
