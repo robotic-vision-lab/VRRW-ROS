@@ -26,10 +26,14 @@ alias run_catkin='catkin build -DCMAKE_BUILD_TYPE=Debug'
 
 alias rebuild_catkin='catkin clean -y && catkin build --cmake-args -DCMAKE_BUILD_TYPE=Debug'
 
-alias connect_driver='roslaunch ur_robot_driver ur5e_bringup.launch \
+alias connect_arm='roslaunch ur_robot_driver ur5e_bringup.launch \
 robot_ip:=192.168.1.147 \
 kinematics_config:=$(rospack find unity_robot_description)/configs/real_ur5e_calibration.yaml \
 use_tool_communication:=true'
+
+alias connect_robotiq_gripper='rosrun robotiq_2f_gripper_control Robotiq2FGripperRtuNode.py /tmp/ttyUR'
+
+alias robotiq_console='rosrun robotiq_2f_gripper_control Robotiq2FGripperSimpleController.py'
 
 # ------------------------------ DOCKER ALIASES ------------------------------ #
 

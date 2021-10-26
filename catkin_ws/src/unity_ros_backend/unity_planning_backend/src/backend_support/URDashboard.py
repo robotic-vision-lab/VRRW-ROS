@@ -101,12 +101,10 @@ class URDashboard():
         rospy.wait_for_service('/ur_hardware_interface/dashboard/power_off')
         rospy.ServiceProxy('/ur_hardware_interface/dashboard/power_off', Trigger)()
         
-    # TODO: Add delay
     def release_brakes(self):
         """Service to release the brakes. If the robot is currently powered off, it will get powered on on the fly."""
         rospy.wait_for_service('/ur_hardware_interface/dashboard/brake_release')
         rospy.ServiceProxy('/ur_hardware_interface/dashboard/brake_release', Trigger)()
-
             
     def log_pendant(self, msg):
         """Service to add a message to the robot's log. View in Log on Teach Pendant."""
@@ -199,7 +197,7 @@ class URDashboard():
         if report: print(SafetyModeMapping(resp.safety_mode.mode))
         return resp.safety_mode.mode
     
-    def load_installation(self, filename, wait=5, reconnect_retries=10):
+    def load_installation(self, filename, wait=10, reconnect_retries=10):
         """Load a robot installation from a file."""
         req = LoadRequest()
         req.filename = filename
@@ -209,7 +207,9 @@ class URDashboard():
         except ServiceException as e:
             print('Known disconnection error occured. Ignoring.')
             print(f'Waiting for {wait} seconds so installation load correctly.')
-            rospy.sleep(rospy.Duration(wait))
+            for _ in range(wait):
+                rospy.sleep(rospy.Duration(1))
+                self.close_popup()
             self.spam_reconnect(reconnect_retries)
 
     def load_program(self, filename):
@@ -387,15 +387,22 @@ class URDashboard():
     
     def cold_boot(self, wait=10):
         """Go directly to operational mode from power up."""
-        self.power_on_arm()
         self.release_brakes()
         print('Waiting for {wait} seconds so robot started correctly.')
         rospy.sleep(rospy.Duration(wait))
         
     def spam_reconnect(self, retries=10):
         for _ in range(retries): 
-            print("Reconnecting to dashboard server...")
+            print("Attempting to reconnect to dashboard server...")
             success = self.connect()
             if success:
                 break
             rospy.sleep(rospy.Duration(1))
+            
+    def enable_freedrive():
+        """Enable manual control of the robot equivalent to pressing Free Drive button on Teach Pendant."""
+        raise NotImplementedError
+    
+    def disable_freedrive():
+        """Disable manual manuevring of the arm (Free Drive)"""
+        raise NotImplementedError
