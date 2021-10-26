@@ -1,5 +1,0 @@
-<launch>
-    <rosparam file="$(find unity_moveit_planning)/config/params.yaml" command="load"/>
-    <node name="server_endpoint" pkg="unity_moveit_planning" type="server_endpoint.py" args="--wait" output="screen" respawn="true" />
-    <node name="unity_joints_subscriber" pkg="unity_moveit_planning" type="unity_joints_subscriber.py" args="--wait" output="screen"/>
-</launch>

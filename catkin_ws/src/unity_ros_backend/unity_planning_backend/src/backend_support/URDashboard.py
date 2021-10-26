@@ -16,13 +16,6 @@ from std_srvs.srv import Trigger
 
 import rospy
 
-class DirectEnum(Enum):
-    def __repr__(self):
-        return self.value
-    
-    def __str__(self):
-        return str(self.value)
-
 class RobotModeMapping(Enum):
     NO_CONTROLLER=-1
     DISCONNECTED=0

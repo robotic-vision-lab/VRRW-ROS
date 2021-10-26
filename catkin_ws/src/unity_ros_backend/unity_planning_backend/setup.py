@@ -6,8 +6,10 @@ from catkin_pkg.python_setup import generate_distutils_setup
 # fetch values from package.xml
 setup_args = generate_distutils_setup(
     packages=['backend_support'],
-    package_dir={'': 'src'},
-    requires=['rospy']
+    package_dir={
+        '': 'src',
+        'backend_support': 'src/backend_support'},
+    requires=['rospy', 'python3-modbus']
 )
 
 setup(**setup_args)

@@ -5,10 +5,5 @@ find_package(catkin REQUIRED)
 
 catkin_package()
 
-# catkin_install_python(PROGRAMS
-#   make_robot.py
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-install(DIRECTORY xacro urdf configs launch models
+install(DIRECTORY xacro urdf configs models
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

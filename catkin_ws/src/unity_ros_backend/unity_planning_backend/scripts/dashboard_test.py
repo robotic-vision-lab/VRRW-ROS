@@ -2,7 +2,7 @@
 
 import rospy
 
-from backend_support.URDashboard import URDashboard #, IOFunctions, IOStates, DigitalIOMapping
+from backend_support.URDashboard import URDashboard
 
 installation_name = 'jerry_remote.installation'
 program_name      = 'jerry_ext.urp'

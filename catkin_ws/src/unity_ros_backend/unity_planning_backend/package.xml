@@ -43,4 +43,8 @@
   <exec_depend>moveit_msgs</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>controller_manager</exec_depend>
+
+  <depend>python3-pymodbus</depend>
+  <depend>unity_robot_description</depend>
+
 </package>
