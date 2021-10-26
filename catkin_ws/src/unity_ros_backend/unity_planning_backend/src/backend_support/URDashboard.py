@@ -84,7 +84,7 @@ class URDashboard():
         self.urscript_publisher = None
         self.gripper = None
         
-        if self.scripting:
+        if using_urscript:
             self.register_scripting()
         
         if using_gripper:
@@ -97,21 +97,21 @@ class URDashboard():
         self.urscript_publisher = rospy.Publisher('/ur_hardware_interface/script_command', String, queue_size=1)
         timeout_count = 0
         while self.urscript_publisher.get_num_connections() < 1:
-            print('Waiting for a connection...')
-            rospy.sleep(rospy.Duration(1))
+            print('Waiting for publisher to register...')
             timeout_count += 1
             if timeout_count > timeout:
                 print("Attempting to register urscript publisher failed.")
                 break
+            rospy.sleep(rospy.Duration(1))
             
     def register_gripper(self):
         raise NotImplementedError
     
     def power_on_arm(self, wait=10):
-        """Power on the robot motors. To fully start the robot, call release_brakes() or trigger brake_release service afterwards."""
+        """Power on the robot motors with brakes enabled. To fully start the robot, call release_brakes() or trigger brake_release service afterwards."""
         rospy.wait_for_service('/ur_hardware_interface/dashboard/power_on')
         rospy.ServiceProxy('/ur_hardware_interface/dashboard/power_on', Trigger)()
-        print('Waiting for {wait} seconds so robot power on correctly.')
+        print(f'Waiting for {wait} seconds so robot power on correctly...')
         rospy.sleep(rospy.Duration(wait))
         
     def power_off_arm(self):
@@ -119,10 +119,12 @@ class URDashboard():
         rospy.wait_for_service('/ur_hardware_interface/dashboard/power_off')
         rospy.ServiceProxy('/ur_hardware_interface/dashboard/power_off', Trigger)()
         
-    def release_brakes(self):
+    def release_brakes(self, wait=20):
         """Service to release the brakes. If the robot is currently powered off, it will get powered on on the fly."""
         rospy.wait_for_service('/ur_hardware_interface/dashboard/brake_release')
         rospy.ServiceProxy('/ur_hardware_interface/dashboard/brake_release', Trigger)()
+        print(f'Waiting for {wait} seconds so robot power on correctly...')
+        rospy.sleep(rospy.Duration(wait))
             
     def log_pendant(self, msg):
         """Service to add a message to the robot's log. View in Log on Teach Pendant."""
@@ -217,21 +219,22 @@ class URDashboard():
     
     def load_installation(self, filename, wait=10, reconnect_retries=10):
         """Load a robot installation from a file."""
+        print(f'Loading the installation {filename}...')
         req = LoadRequest()
         req.filename = filename
         rospy.wait_for_service('/ur_hardware_interface/dashboard/load_installation')
         try:
             rospy.ServiceProxy('/ur_hardware_interface/dashboard/load_installation', Load)(req)
         except ServiceException as e:
-            print('Known disconnection error occured. Ignoring.')
-            print(f'Waiting for {wait} seconds so installation load correctly.')
-            for _ in range(wait):
-                rospy.sleep(rospy.Duration(1))
-                self.close_popup()
+            print(f'    Known disconnection error occured. Ignored.')
+            print(f'    Waiting for {wait} seconds so installation load correctly...')
+            rospy.sleep(rospy.Duration(wait))
             self.spam_reconnect(reconnect_retries)
+            self.close_popup()
 
     def load_program(self, filename):
         """Load a robot program from a file."""
+        print(f'Loading the program {filename}...')
         req = LoadRequest()
         req.filename = filename
         rospy.wait_for_service('/ur_hardware_interface/dashboard/load_program')
@@ -403,15 +406,14 @@ class URDashboard():
     def send_raw_urscript(self, script):
         raise NotImplemented
     
-    def cold_boot(self, wait=10):
+    def cold_boot(self, wait=20):
         """Go directly to operational mode from power up. This internally calls power_on_arm() with no wait time"""
-        self.release_brakes()
-        print('Waiting for {wait} seconds so robot power on correctly.')
-        rospy.sleep(rospy.Duration(wait))
+        self.release_brakes(wait=wait)
         
     def spam_reconnect(self, retries=10):
-        for _ in range(retries): 
-            print("Attempting to reconnect to dashboard server...")
+        print(f'    Attempting to reconnect to dashboard server... {retries} attempts.')
+        for i in range(retries): 
+            print(f'        Dashboard reconnecting attempt {i + 1}...')
             success = self.connect()
             if success:
                 break

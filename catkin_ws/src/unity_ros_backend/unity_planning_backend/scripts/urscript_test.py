@@ -12,14 +12,12 @@ if __name__ == '__main__':
 
     dashboard = URDashboard()
     
-    # dashboard.load_installation(installation_name)
-    # dashboard.cold_boot()
-    # dashboard.load_program(program_name)
-    # dashboard.start_program()
+    dashboard.load_installation(installation_name)
+    dashboard.cold_boot()
+    dashboard.load_program(program_name)
+    dashboard.start_program()
     
-    # input("Press Enter to continue...")
+    input("Press Enter to continue...")
 
-    # dashboard.stop_program()
-    # dashboard.power_off_arm()
-
-    rospy.spin()
+    dashboard.stop_program()
+    dashboard.power_off_arm()
