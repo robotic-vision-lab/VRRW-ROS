@@ -71,31 +71,16 @@ class ToolStates():
     VOLTAGE_24V = 24
     
 class URDashboard():
-    def __init__(self, name='Dashboard', using_urscript=False, using_gripper=False):
+    def __init__(self, name='Dashboard', using_gripper=False):
         self.name  = name
         self.debug = False
-        self.urscript_publisher = None
         self.gripper = None
-        
-        if using_urscript:
-            self.register_scripting()
         
         if using_gripper:
             self.register_gripper()
             
     def set_debug(self, debugging=False):
         self.debug = debugging
-        
-    def register_scripting(self, timeout=10):
-        self.urscript_publisher = rospy.Publisher('/ur_hardware_interface/script_command', String, queue_size=1)
-        timeout_count = 0
-        while self.urscript_publisher.get_num_connections() < 1:
-            print('Waiting for publisher to register...')
-            timeout_count += 1
-            if timeout_count > timeout:
-                print("Attempting to register urscript publisher failed.")
-                break
-            rospy.sleep(rospy.Duration(1))
             
     def register_gripper(self):
         raise NotImplementedError
@@ -394,10 +379,16 @@ class URDashboard():
         self.SetSpeedSlider_serv = rospy.ServiceProxy('/ur_hardware_interface/set_speed_slider', SetSpeedSliderFraction)
         
     def send_raw_ur_command(self, command):
-        self.command_publisher.publish(String(command))
+        print('IGNORING RAW URSCRIPT COMMANDS')
+        # req = String()
+        # req.data = 'sec raw_ros_request():\n'
+        # req.data += '    ' + command + '\n'
+        # req.data += 'end'
+        # self.urscript_publisher.publish(req)
         
     def send_raw_urscript(self, script):
-        raise NotImplemented
+        print('IGNORING RAW URSCRIPTS')
+        # raise NotImplemented
     
     def cold_boot(self, wait=20):
         """Go directly to operational mode from power up. This internally calls power_on_arm() with no wait time"""
