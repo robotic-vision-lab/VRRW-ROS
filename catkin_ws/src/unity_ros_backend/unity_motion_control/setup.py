@@ -5,10 +5,13 @@ from catkin_pkg.python_setup import generate_distutils_setup
 
 # fetch values from package.xml
 setup_args = generate_distutils_setup(
-    packages=['backend_support'],
+    packages=['robotiq_controller', 'ur_dashboard_wrapper', 'ur_moveit_wrapper'],
     package_dir={
         '': 'src',
-        'backend_support': 'src/backend_support'},
+        'robotiq_controller': 'src/robotiq_controller',
+        'ur_dashboard_wrapper': 'src/ur_dashboard_wrapper',
+        'ur_moveit_wrapper': 'src/ur_moveit_wrapper',
+    },
     requires=['rospy', 'python3-modbus']
 )
 

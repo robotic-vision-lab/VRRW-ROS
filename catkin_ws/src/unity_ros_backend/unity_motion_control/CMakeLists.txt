@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(unity_planning_backend)
+project(unity_motion_control)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy

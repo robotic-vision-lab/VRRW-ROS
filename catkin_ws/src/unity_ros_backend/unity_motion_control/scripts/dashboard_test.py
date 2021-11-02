@@ -5,8 +5,10 @@ from math import radians, degrees
 from moveit_commander.move_group import MoveGroupCommander
 import rospy
 
-from backend_support.URDashboard import URDashboard
-from backend_support.RobotiqGripperController import Robotiq2FController
+# from backend_support.URDashboard import URDashboard
+# from backend_support.RobotiqGripperController import Robotiq2FController
+
+from ur_dashboard_wrapper.URDashboard import URDashboard
 
 import moveit_commander as mc
 
@@ -42,32 +44,32 @@ if __name__ == '__main__':
     
     # dashboard.load_installation(installation_name)
     # dashboard.cold_boot()
-    dashboard.load_program(program_name)
-    dashboard.start_program()
+    # dashboard.load_program(program_name)
+    # dashboard.start_program()
     
-    rospy.sleep(rospy.Duration(2))
-    controller = Robotiq2FController(autoconnect=True)
-    controller.reset_gripper()
-    controller.activate_gripper()
-    controller.autoopen()
+    # rospy.sleep(rospy.Duration(2))
+    # controller = Robotiq2FController(autoconnect=True)
+    # controller.reset_gripper()
+    # controller.activate_gripper()
+    # controller.autoopen()
     
-    input('Press any key to continue...')
+    # input('Press any key to continue...')
     
-    dc = DumbCommander()
+    # dc = DumbCommander()
     
-    while not rospy.is_shutdown():
-        dc.goto_joint_angle(locations['home'])
-        controller.autoopen()
-        input('Press any key to continue...')
-        dc.goto_joint_angle(locations['near_pick'])
-        input('Press any key to continue...')
-        dc.goto_joint_angle(locations['pick'])
-        rospy.sleep(rospy.Duration(2))
-        dashboard.unlock_protective_stop()
-        controller.autoclose(255)
-        rospy.sleep(rospy.Duration(2))
-        dc.goto_joint_angle(locations['near_pick'])
-        input('Press any key to continue...') 
+    # while not rospy.is_shutdown():
+    #     dc.goto_joint_angle(locations['home'])
+    #     controller.autoopen()
+    #     input('Press any key to continue...')
+    #     dc.goto_joint_angle(locations['near_pick'])
+    #     input('Press any key to continue...')
+    #     dc.goto_joint_angle(locations['pick'])
+    #     rospy.sleep(rospy.Duration(2))
+    #     dashboard.unlock_protective_stop()
+    #     controller.autoclose(255)
+    #     rospy.sleep(rospy.Duration(2))
+    #     dc.goto_joint_angle(locations['near_pick'])
+    #     input('Press any key to continue...') 
     
     # joint_goal = group.get_current_joint_values()
 
