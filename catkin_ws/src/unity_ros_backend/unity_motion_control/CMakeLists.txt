@@ -34,6 +34,7 @@ catkin_package()
 
 file(GLOB python_scripts_DIR
     "scripts/*.py"
+    "src/*/*.py"
 )
 
 catkin_install_python(PROGRAMS

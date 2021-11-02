@@ -6,11 +6,11 @@ from enum import Enum
 
 import rospy
 
-from backend_support.RobotiqModbusServer import RobotiqRTUClient
+from robotiq_controller.RobotiqModbusServer import RobotiqRTUClient
 
-from unity_planning_backend.msg import Robotiq2FInput, Robotiq2FOutput
+from unity_motion_control.msg import Robotiq2FInput, Robotiq2FOutput
 
-class Robotiq2FController:
+class Robotiq2FDriver:
     def __init__(self, device='/tmp/ttyUR', autoconnect=False):
         self.communicator = RobotiqRTUClient()
         self.device = device
@@ -148,6 +148,6 @@ class Robotiq2FController:
     def conv_raw_effor(self, raw):
         return interp(clip(raw, 0.0, 255.0), [0.0, 255.0], [20.0, 235.0])
     
-class Robotiq2FControllerNode:
+class Robotiq3FDriver:
     def __init__(self):
         raise NotImplementedError
