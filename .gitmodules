@@ -4,9 +4,3 @@
 [submodule "catkin_ws/src/ur_ros1_driver"]
 	path = catkin_ws/src/ur_ros1_driver
 	url = https://github.com/UniversalRobots/Universal_Robots_ROS_Driver
-[submodule "catkin_ws/src/moveit_msgs"]
-	path = catkin_ws/src/moveit_msgs
-	url = https://github.com/ros-planning/moveit_msgs
-[submodule "catkin_ws/src/ur_ros1_description"]
-	path = catkin_ws/src/ur_ros1_description
-	url = https://github.com/fmauch/universal_robot
