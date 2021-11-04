@@ -13,10 +13,13 @@ generate_messages(
   sensor_msgs
 )
 
+file(GLOB nodes_DIR "nodes/*.py")
+
+
 catkin_package()
 
 catkin_install_python(PROGRAMS 
-    src/robotiq_ros_node/RobotiqRosNode.py
+    ${nodes_DIR}
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
