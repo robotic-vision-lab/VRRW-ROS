@@ -8,7 +8,7 @@ import rospy
 # from backend_support.URDashboard import URDashboard
 # from backend_support.RobotiqGripperController import Robotiq2FController
 
-from ur_dashboard_wrapper.URDashboard import URDashboard
+from ur_remote_dashboard.URDashboard import URDashboard
 
 import moveit_commander as mc
 

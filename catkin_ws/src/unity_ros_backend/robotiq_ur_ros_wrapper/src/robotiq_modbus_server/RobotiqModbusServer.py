@@ -51,7 +51,7 @@ class RobotiqRTUClient:
         num_regs = int(ceil(num_bytes/2.0))
         
         #Get status from the device
-        while not isinstance(status, ReadHoldingRegistersResponse) and retries < rtlimit:
+        while not isinstance(status, ReadHoldingRegistersResponse) and retries < rtlimit and not rospy.is_shutdown():
             rtlimit += 1
             try:
                 status = self.client.read_holding_registers(self.output_register, num_regs, unit=self.slave_id, timeout=3)   
