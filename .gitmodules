@@ -7,9 +7,3 @@
 [submodule "catkin_ws/src/ur_ros1_description"]
 	path = catkin_ws/src/ur_ros1_description
 	url = https://github.com/fmauch/universal_robot
-[submodule "catkin_ws/src/robotiq_noetic"]
-	path = catkin_ws/src/robotiq_noetic
-	url = https://github.com/jr-robotics/robotiq
-[submodule "catkin_ws/src/moveit_msgs"]
-	path = catkin_ws/src/moveit_msgs
-	url = https://github.com/ros-planning/moveit_msgs
