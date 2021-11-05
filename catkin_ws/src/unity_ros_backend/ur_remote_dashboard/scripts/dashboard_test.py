@@ -41,12 +41,13 @@ if __name__ == '__main__':
     rospy.init_node('UR_ROS_dashboard_node', anonymous=True)
 
     dashboard = URDashboard()
-    dashboard.stop_program()
     
     # dashboard.load_installation(installation_name)
     # dashboard.cold_boot()
     # dashboard.load_program(program_name)
     # dashboard.start_program()
+    dashboard.stop_program()
+    dashboard.start_program()
     
     # rospy.sleep(rospy.Duration(2))
     # controller = Robotiq2FController(autoconnect=True)

@@ -23,6 +23,6 @@
   <!-- Add MoveGroup capabilities specific to this pipeline -->
   <!-- <param name="capabilities" value="" /> -->
 
-  <rosparam command="load" file="$(find ur5e_robotiq_2f_85_moveit_config)/config/ompl_planning.yaml"/>
+  <rosparam command="load" file="$(find ur5e_mobile_gripper_moveit_config)/config/ompl_planning.yaml"/>
 
 </launch>

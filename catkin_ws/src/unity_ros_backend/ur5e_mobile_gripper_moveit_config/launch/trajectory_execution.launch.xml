@@ -17,7 +17,7 @@
 
   <!-- Load the robot specific controller manager; this sets the moveit_controller_manager ROS parameter -->
   <arg name="moveit_controller_manager" default="ur5e_robotiq_85_gripper" />
-  <include file="$(find ur5e_robotiq_2f_85_moveit_config)/launch/$(arg moveit_controller_manager)_moveit_controller_manager.launch.xml">
+  <include file="$(find ur5e_mobile_gripper_moveit_config)/launch/$(arg moveit_controller_manager)_moveit_controller_manager.launch.xml">
   </include>
 
 </launch>
