@@ -10,27 +10,7 @@ from sensor_msgs.msg import JointState
 from numpy import interp, clip
 from math import radians, degrees
 
-class pcolor:
-    HEADER = '\033[95m'
-    
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    
-    BLACK = '\033[30m'
-    RED = '\033[31m'
-    GREEN = '\033[32m'
-    YELLOW = '\033[33m'
-    BLUE = '\033[34m'
-    MAGENTA = '\033[35m'
-    CYAN = '\033[36m'
-    WHITE = '\033[37m'
-    
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+from ur_remote_dashboard.URMisc import PrintColor as pcolor
     
 def print_stamping(msg):
     print(f'{pcolor.BOLD + pcolor.UNDERLINE + pcolor.YELLOW}[ROBOTIQ ROS NODE] {msg}{pcolor.ENDC}')
