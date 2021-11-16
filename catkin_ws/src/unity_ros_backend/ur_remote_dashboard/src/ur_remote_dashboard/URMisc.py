@@ -1,36 +1,90 @@
 #!/usr/bin/env python3
 
+from enum import Enum
+
 class PrintColor():
-    HEADER = '\033[95m'
+    def __init__(self):
+        self.effects = {
+            'RESET'     : self.gen_esc(0),
+            'BOLD'      : self.gen_esc(1),
+            'UNDERLINE' : self.gen_esc(4)
+        }
+        
+        self.default_colors = {
+            'RED'       : self.gen_esc_ansi_rgb(self.hex_to_rgb('#ff0000')),
+            'GREEN'     : self.gen_esc_ansi_rgb(self.hex_to_rgb('#00ff00')),
+            'BLUE'      : self.gen_esc_ansi_rgb(self.hex_to_rgb('#0000ff')),
+            'CYAN'      : self.gen_esc_ansi_rgb(self.hex_to_rgb('#00ffff')),
+            'MAGENTA'   : self.gen_esc_ansi_rgb(self.hex_to_rgb('#ff00ff')),
+            'YELLOW'    : self.gen_esc_ansi_rgb(self.hex_to_rgb('#ffff00')),
+            'WHITE'     : self.gen_esc_ansi_rgb(self.hex_to_rgb('#ffffff')),
+            'BLACK'     : self.gen_esc_ansi_rgb(self.hex_to_rgb('#000000')),
+        }
+        
+        self.dracula_colors = {
+            'CYAN'      : self.gen_esc_ansi_rgb(self.hex_to_rgb('#8be9fd')),
+            'GREEN'     : self.gen_esc_ansi_rgb(self.hex_to_rgb('#50fa7b')),
+            'ORANGE'    : self.gen_esc_ansi_rgb(self.hex_to_rgb('#ffb86c')),
+            'PINK'      : self.gen_esc_ansi_rgb(self.hex_to_rgb('#ff79c6')),
+            'PURPLE'    : self.gen_esc_ansi_rgb(self.hex_to_rgb('#bd93f9')),
+            'RED'       : self.gen_esc_ansi_rgb(self.hex_to_rgb('#ff5555')),
+            'YELLOW'    : self.gen_esc_ansi_rgb(self.hex_to_rgb('#f1fa8c'))
+        }
+        
+        self.flags = {
+            'ERROR'     : self.gen_esc(91),
+            'SUCCESS'   : self.gen_esc(92),
+            'WARNING'   : self.gen_esc(93),
+            'LOG'       : self.default_colors['WHITE']
+        }
     
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
+    def color_test(self):
+        for name, code in self.flags.items():
+            print(f'{name:<10}{code} test message{self.effects["RESET"]}')
+        
+    def gen_esc(self, code):
+        return f"\033[{code}m"
     
-    BLACK = '\033[30m'
-    RED = '\033[31m'
-    GREEN = '\033[32m'
-    YELLOW = '\033[33m'
-    BLUE = '\033[34m'
-    MAGENTA = '\033[35m'
-    CYAN = '\033[36m'
-    WHITE = '\033[37m'
+    def gen_esc_ansi_rgb(self, code):
+        return f"\033[38;2;{code}m"
     
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+    def hex_to_rgb(self, hex, ansi=True):
+        if hex[0] == '#': hex = hex[1:]
+        rgb = tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
+        if ansi:
+            return f'{rgb[0]};{rgb[1]};{rgb[2]}'
+        else:
+            return rgb
+        
+    def rgb_to_hex(self, rgb):
+        return f'#{rgb[0]:x}{rgb[1]:x}{rgb[2]:x}'.upper()
     
-    # dracula color palette (ANSI RGB)
-    # https://draculatheme.com/contribute
-    DCL_CYAN = '\033[38;2;139;233;253m'
-    DCL_GREEN = '\033[38;2;80;250;123m'
-    DCL_ORANGE = '\033[38;2;255;184;108m'
-    DCL_PINK = '\033[38;2;255;121;198m'
-    DCL_PURPLE = '\033[38;2;189;147;249m'
-    DCL_RED = '\033[38;2;255;85;85m'
-    DCL_YELLOW = '\033[38;2;241;250;140m'
-    
-    # tokyo night
-    # https://github.com/enkia/tokyo-night-vscode-theme
+# p = PrintColor()
+# p.color_test()
+
+class RobotModeMapping(Enum):
+    NO_CONTROLLER=-1
+    DISCONNECTED=0
+    CONFIRM_SAFETY=1
+    BOOTING=2
+    POWER_OFF=3
+    POWER_ON=4
+    IDLE=5
+    BACKDRIVE=6
+    RUNNING=7
+    UPDATING_FIRMWARE=8
+
+class SafetyModeMapping(Enum):
+    NORMAL=1
+    REDUCED=2
+    PROTECTIVE_STOP=3
+    RECOVERY=4
+    SAFEGUARD_STOP=5
+    SYSTEM_EMERGENCY_STOP=6
+    ROBOT_EMERGENCY_STOP=7
+    VIOLATION=8
+    FAULT=9
+    VALIDATE_JOINT_ID=10
+    UNDEFINED_SAFETY_MODE=11
+    AUTOMATIC_MODE_SAFEGUARD_STOP=12
+    SYSTEM_THREE_POSITION_ENABLING_STOP=13
