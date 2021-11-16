@@ -12,7 +12,7 @@ import moveit_commander as mc
 installation_name = 'jerry_remote.installation'
 program_name      = 'jerry_ext.urp'
 
-sequence = 1
+sequence = 2
 
 if __name__ == '__main__':
     rospy.init_node('UR_ROS_dashboard_node', anonymous=True)

@@ -88,3 +88,26 @@ class SafetyModeMapping(Enum):
     UNDEFINED_SAFETY_MODE=11
     AUTOMATIC_MODE_SAFEGUARD_STOP=12
     SYSTEM_THREE_POSITION_ENABLING_STOP=13
+    
+class SetIOFunction(Enum):
+    # FUN_SET_DIGITAL_OUT = 1
+    # FUN_SET_FLAG = 2
+    # FUN_SET_ANALOG_OUT = 3
+    # FUN_SET_TOOL_VOLTAGE = 4
+    
+    SET_DIGITAL_OUT = 1
+    SET_FLAG = 2
+    SET_ANALOG_OUT = 3
+    SET_TOOL_VOLTAGE = 4
+    
+class SetIOPinState(Enum):
+    OFF = 0
+    ON = 1
+    
+class SetIOToolState(Enum):
+    TOOL_VOLTAGE_0V = 0
+    TOOL_VOLTAGE_12V = 12
+    TOOL_VOLTAGE_24V = 24
+    
+class SetIOPinMapping(Enum):
+    raise NotImplementedError

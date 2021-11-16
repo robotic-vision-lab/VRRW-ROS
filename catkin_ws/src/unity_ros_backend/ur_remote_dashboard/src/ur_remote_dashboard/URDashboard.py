@@ -26,20 +26,35 @@ import rospy
 from rospy.service import ServiceException, ROSException
     
 class URDashboard():
-    def __init__(self, name='dashboard', using_gripper=False, using_urscript=False, service_timeout=5):
+    """Class to handle communication, control, and status monitoring of the UR Remote Control dashboard server."""
+    
+    def __init__(self, name:str = 'dashboard', using_gripper:bool = False, using_urscript:bool = False, service_timeout:int = 5) -> None:
+        """Class constructor.
+
+        Args:
+            name (str, optional): Readable name of the dashboard, not important. Defaults to 'dashboard'.
+            using_gripper (bool, optional): When True, the dashboard will try to connect to the gripper. Defaults to False.
+            using_urscript (bool, optional): When True, the dashboard will register a publisher to run urscripts. Defaults to False.
+            service_timeout (int, optional): Default timeout of waiting for messages or services. Defaults to 5.
+        """
+        
+        # pretty print colors
+        self.colors = PrintColor()
+        
+        # assigning instance variables
         self.name  = name
-        self.debug = False
         self.service_timeout = service_timeout
         self.subscriber_timeout = self.service_timeout
-        self.colors = PrintColor()
         self.robot_mode = -1
         self.safety_mode = -1
         self.last_known_installation = None
         self.last_known_program = None
         self.using_urscript = False
         
+        # register robot first state
         self.register_robot_status()
         
+        # register requested component from constructor
         if using_gripper:
             self.register_robotiq_gripper()
         
@@ -57,11 +72,23 @@ class URDashboard():
     # ------------------------- DASHBOARD SERVER CONTROL ------------------------- #
     # ---------------------------------------------------------------------------- #
     
-    def connect_dashboard(self):
+    def connect_dashboard(self) -> bool:
+        """[Re]connect to the dashboard server.
+
+        Raises:
+            ROSException: raised when ROS Trigger return success = False.
+            ServiceException: raised when service call failed.
+
+        Returns:
+            bool: True if connection is re-established, False otherwise.
+        
+        Note: 
+            Return value is success of trigger, not necessarily mean successful connection.
+            Success usually mean the action is completed, assuming proper ROS connection.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/connect', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/connect', Trigger)()
-            # NOTE: return value is success of trigger, not necessarily mean successful connection
             if response.success:
                 self.log_success('Connection to dashboard server successful')
                 return response.success
@@ -72,7 +99,20 @@ class URDashboard():
             self.log_error(error)
             return False
         
-    def disconnect_dashboard(self):
+    def disconnect_dashboard(self) -> bool:
+        """Disconnect from the dashboard server.
+
+        Raises:
+            ROSException: raised when ROS Trigger return success = False.
+            ServiceException: raised when service call failed.
+
+        Returns:
+            bool: True if connection is closed, False otherwise.
+            
+        Note: 
+            Return value is success of trigger, not necessarily mean successful connection.
+            Success usually mean the action is completed, assuming proper ROS connection.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/quit', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/quit', Trigger)()
@@ -86,7 +126,15 @@ class URDashboard():
             self.log_error(error)
             return False
         
-    def spam_reconnect(self, retries=10):
+    def spam_reconnect(self, retries:int = 10) -> bool:
+        """Multiple retries calling connect_dashboard() to re-establish dashboard server connection.
+
+        Args:
+            retries (int, optional): Number of retries. Defaults to 10.
+
+        Returns:
+            bool: True if reconnection is successful. False otherwise.
+        """
         for i in range(retries):
             self.log(f'    Connecting to dashboard server ({retries - i} attempts left)')
             if self.connect_dashboard():
@@ -95,7 +143,23 @@ class URDashboard():
         self.log_error('Reconnection attempts to dashboard server unsuccessful')
         return False
 
-    def log_to_pendant(self, message):
+    def log_to_pendant(self, message:str) -> bool:
+        """Send a message to the TeachPendant log
+
+        Args:
+            message (str): the message.
+
+        Raises:
+            ROSException: raised when ROS Trigger return success = False.
+            ServiceException: raised when service call failed.
+
+        Returns:
+            bool: True if message is registered to the pendant log.
+            
+        Note: 
+            Return value is success of trigger, not necessarily mean successful message logging.
+            Success usually mean the action is completed, assuming proper ROS connection.
+        """
         request = AddToLogRequest()
         request.message = message
         try:        
@@ -111,12 +175,26 @@ class URDashboard():
             self.log_error(error)
             return False
 
-    def system_shutdown(self):
+    def system_shutdown(self, close_rospy:bool = False) -> bool:
+        """Shutdown the enture system completely (arm, control box, dashboard server).
+        
+        Args:
+            close_rospy (bool, optional): shutdown rospy along with the system. Dafault to False.
+
+        Raises:
+            ROSException: [description]
+
+        Returns:
+            bool: [description]
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/shutdown', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/shutdown', Trigger)()
             if response.success:
                 self.warn('Full system shutdown initated. Goodbye.')
+                self.warn(f'Waiting for system to completely shutdown ({5} seconds).')
+                if close_rospy: rospy.signal_shutdown('System-wide shutdown initiated.')
+                rospy.sleep(5)
                 return response.success
             else:
                 raise ROSException('ROS Trigger was not successful (response.success = False)')  
@@ -136,29 +214,60 @@ class URDashboard():
     # ---------------------- ROBOT POWER AND MOTION CONTROL ---------------------- #
     # ---------------------------------------------------------------------------- #
 
-    def register_robot_status(self):
+    def register_robot_status(self) -> None:
+        """Register necessary subscribers and callbacks to monitor robot operational status."""
         try:
+            # wait for topics to show up
             rospy.wait_for_message('/ur_hardware_interface/robot_mode', RobotMode, timeout=self.service_timeout)
             rospy.wait_for_message('/ur_hardware_interface/safety_mode', SafetyMode, timeout=self.service_timeout)
+            
+            # register robot and safety state subscriber with appropriate callbacks
             self.robot_mode_sub = rospy.Subscriber('/ur_hardware_interface/robot_mode', RobotMode, self.robot_status_callback)
             self.robot_safety_sub = rospy.Subscriber('/ur_hardware_interface/safety', SafetyMode, self.robot_safety_callback)
+            
+            # get the name of the loaded program and its state at least once, surpressing the output
             self.get_program_state(suppressed=True)
             self.log_success('Registered robot_mode and safety_mode subscriber')
         except ROSException as error:
             self.log_error('Unable to register robot_mode and safety_mode subscriber')            
             self.log_error(error)
             
-    def robot_status_callback(self, msg):
+    def robot_status_callback(self, msg:RobotMode) -> None:
+        """Callback to robot mode subscriber, update last known robot mode.
+
+        Args:
+            msg (RobotMode): ROS message containing current robot mode.
+        """
         if self.robot_mode != msg.mode:
             self.warn(f'Robot mode is now {RobotModeMapping(msg.mode).name}')
         self.robot_mode = msg.mode
         
-    def robot_safety_callback(self, msg):
+    def robot_safety_callback(self, msg:SafetyMode) -> None:
+        """Callback to safety mode subscriber, update last known robot safety mode.
+
+        Args:
+            msg (SafetyMode): ROS message containing current robot safety mode.
+        """
         if self.safety_mode != msg.mode:
             self.warn(f'Robot mode is now {SafetyModeMapping(msg.mode).name}')
         self.safety_mode = msg.mode
 
-    def release_brake(self, abort=30):
+    def release_brake(self, abort:int = 30) -> bool:
+        """Release the brakes. If the arm is not powered, it will be powered on.
+        
+        Equivalent to setting robot state to 7.
+
+        Args:
+            abort (int, optional): Wait time for powering on and robot state to update. Defaults to 30.
+
+        Raises:
+            ROSException: When the wait time exceed abort time for robot to update its status to 7 (RUNNING).
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if the robot is powered on properly and brakes are released. False otherwise.
+        """
         elapsed = 0 # timer to abort
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/brake_release', timeout=self.service_timeout)
@@ -179,7 +288,15 @@ class URDashboard():
             self.log_error(error)            
             return False
 
-    def clear_operational_mode(self):
+    def clear_operational_mode(self) -> bool:
+        """If this service is called the operational mode can again be changed from PolyScope, and the user password is enabled.
+
+        Raises:
+            ROSException: When service call returned success = False
+
+        Returns:
+            bool: True if operational mode is cleared. False otherwise.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/clear_operational_mode', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/clear_operational_mode', Trigger)()
@@ -193,8 +310,16 @@ class URDashboard():
             self.log_error(error)            
             return False
 
-    #TODO: convert robot mode to readable string
-    def get_robot_mode(self):
+    def get_robot_mode(self) -> int:
+        """Request the current robot mode. May be redundant due to RobotState subscriber.
+        See URMisc.RobotModeMapping for more details.
+
+        Raises:
+            ROSException: Unable to request robot mode.
+
+        Returns:
+            int: Current robot mode.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/get_robot_mode', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/get_robot_mode', GetRobotMode)()
@@ -208,8 +333,16 @@ class URDashboard():
             self.log_error(error)
             return -1
 
-    #TODO: convert safety mode to readable string
-    def get_safety_mode(self):
+    def get_safety_mode(self) -> None:
+        """Request the current robot safety mode. May be redundant due to SafetyMode subscriber.
+        See URMisc.SafetyModeMapping for more details.
+
+        Raises:
+            ROSException: Unable to request robot safety mode.
+
+        Returns:
+            int: Current robot safety mode.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/get_safety_mode', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/get_safety_mode', GetSafetyMode)()
@@ -224,6 +357,19 @@ class URDashboard():
             return -1
         
     def power_off_arm(self, abort=30):
+        """Power off the arm. Equivalent to setting robot state to 3.
+
+        Args:
+            abort (int, optional): Wait time for powering off and robot state to update. Defaults to 30.
+
+        Raises:
+            ROSException: When the wait time exceed abort time for robot to update its status to 3 (POWER_OFF).
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if the robot is powered off properly. False otherwise.
+        """
         elapsed = 0 # timer to abort 
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/power_off', timeout=self.service_timeout)
@@ -245,6 +391,19 @@ class URDashboard():
             return False
 
     def power_on_arm(self, abort=30):
+        """Power on the arm. Equivalent to setting robot state to 4.
+
+        Args:
+            abort (int, optional): Wait time for powering off and robot state to update. Defaults to 30.
+
+        Raises:
+            ROSException: When the wait time exceed abort time for robot to update its status to 4 (POWER_ON).
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if the robot is powered off properly. False otherwise.
+        """
         elapsed = 0 # timer to abort 
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/power_on', timeout=self.service_timeout)
@@ -265,11 +424,27 @@ class URDashboard():
             self.log_error(error)            
             return False
         
-    def cold_boot(self):
+    def cold_boot(self) -> None:
+        """Wrapper function for release_brake(). Name made more sense from cold boot."""
         self.release_brake()
         
-    # TODO: Handle permanent disconnection, need reimplementation
-    def restart_safety(self):
+    def restart_safety(self) -> bool:
+        """Clear robot safety fault or violation to restart the safety. Robot will be in state 3 (POWER_OFF).
+        
+        TODO: Handle permanent disconnection, need reimplementation
+        
+        Note:
+            You should always ensure it is okay to restart the system. 
+            It is highly recommended to check the error log BEFORE 
+            using this command (either via PolyScope or e.g. ssh connection).
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if violations are cleared. False otherwise.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/restart_safety', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/restart_safety', Trigger)()
@@ -283,7 +458,22 @@ class URDashboard():
             self.log_error(error)            
             return False
 
-    def unlock_protective_stop(self, abort=30):
+    def unlock_protective_stop(self, abort:int = 30) -> bool:
+        """Dismiss a protective stop to continue robot movements.
+        
+        Equivalent to waiting for safety mode to be 1 (NORMAL).
+
+        Args:
+            abort (int, optional): Wait time for protective stop to clear. Defaults to 30.
+
+        Raises:
+            ROSException: When the wait time exceed abort time to unlock stop.
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if protective stop is cleared. False otherwise.
+        """
         elapsed = 0 # timer to abort 
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/unlock_protective_stop', timeout=self.service_timeout)
@@ -304,7 +494,17 @@ class URDashboard():
             self.log_error(error)            
             return False
 
-    def hand_back_control(self):
+    def hand_back_control(self) -> bool:
+        """Make the "External Control" program node on the UR-Program return.
+        Program may finish and stop at this point.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if external_control node is terminated. False otherwise.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/hand_back_control', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/hand_back_control', Trigger)()
@@ -318,7 +518,22 @@ class URDashboard():
             self.log_error(error)
             return False
         
-    def set_payload(self, mass, cx, cy, cz):
+    def set_payload(self, mass:float, cx:float, cy:float, cz:float) -> bool:
+        """Set the payload mass and centoer of mass.
+
+        Args:
+            mass (float): mass of the payload
+            cx (float): center of mass point along the x-axis
+            cy (float): center of mass point along the y-axis
+            cz (float): center of mass point along the z-axis
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if payload information is set. False otherwise.
+        """
         request = SetPayloadRequest()
         request.center_of_gravity = Vector3()
         request.center_of_gravity.x = cx
@@ -338,7 +553,21 @@ class URDashboard():
             self.log_error(error)
             return False
 
-    def set_motion_speed(self, speed):
+    def set_motion_speed(self, speed:float) -> bool:
+        """Set the speed slider on the TeachPendant. This controls the robot execution speed.
+        
+        TODO: Test if this respects MoveIt! configurations
+
+        Args:
+            speed (float): Speed factor of the arm. Will be clipped to range [0.0, 1.0].
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if speed slider (and execution speed) is set. False otherwise.
+        """
         request = SetSpeedSliderFractionRequest()
         request.speed_slider_fraction = clip(speed, 0.0, 1.0)
         try:
@@ -354,7 +583,16 @@ class URDashboard():
             self.log_error(error)
             return False
 
-    def zero_ft_sensor(self):
+    def zero_ft_sensor(self) -> bool:
+        """zero the robot's ftsensor.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if ftsensor is zeroed. False otherwise.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/zero_ftsensor', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/zero_ftsensor', Trigger)()
@@ -372,7 +610,21 @@ class URDashboard():
     # ------------------------------ PROGRAM CONTROL ----------------------------- #
     # ---------------------------------------------------------------------------- #
 
-    def load_installation(self, filename, wait=10, reconnect_retries=10):
+    def load_installation(self, filename:str, wait:int = 10, reconnect_retries:int = 10) -> bool:
+        """Load specified installation for the robot.
+
+        Note:
+            A known disconnection error will occur when swapping installation, which may be a part
+            of loading a program or installation. This function will attempt to reconnect automatically.
+
+        Args:
+            filename (str): The installation file name with extension e.g. default.installation
+            wait (int, optional): Wait time for installation to load properly. Defaults to 10.
+            reconnect_retries (int, optional): Number of dashboard reconnect attempts. Defaults to 10.
+
+        Returns:
+            bool: True if installation is loaded properly, False otherwise.
+        """
         request = LoadRequest()
         request.filename = filename
         try:
@@ -390,7 +642,21 @@ class URDashboard():
             rospy.sleep(1)
             return True
 
-    def load_program(self, filename, wait=10, reconnect_retries=10):
+    def load_program(self, filename:str, wait:int = 10, reconnect_retries:int = 10) -> bool:
+        """Load specified program for the robot.
+
+        Note:
+            A known disconnection error will occur when swapping installation, which may be a part
+            of loading a program or installation. This function will attempt to reconnect automatically.
+
+        Args:
+            filename (str): The program file name with extension e.g. default.program
+            wait (int, optional): Wait time for program to load properly. Defaults to 10.
+            reconnect_retries (int, optional): Number of dashboard reconnect attempts. Defaults to 10.
+
+        Returns:
+            bool: True if program is loaded properly, False otherwise.
+        """
         request = LoadRequest()
         request.filename = filename
         try:
@@ -408,7 +674,16 @@ class URDashboard():
             rospy.sleep(1)
             return True
             
-    def start_program(self):
+    def start_program(self) -> bool:
+        """Start the loaded program.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if program is now running. False otherwise.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/play', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/play', Trigger)()
@@ -423,7 +698,16 @@ class URDashboard():
             self.log_error(error)
             return False
         
-    def stop_program(self):
+    def stop_program(self) -> bool:
+        """Stop the loaded program.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if program is now stopped. False otherwise.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/stop', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/stop', Trigger)()
@@ -439,6 +723,15 @@ class URDashboard():
             return False
 
     def pause_program(self):
+        """Pause the loaded program.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if program is now paused. False otherwise.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/pause', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/pause', Trigger)()
@@ -453,7 +746,16 @@ class URDashboard():
             self.log_error(error)
             return False
         
-    def is_program_running(self):
+    def is_program_running(self) -> bool:
+        """Query if the loaded program is running.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if program is running. False otherwise.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/program_running', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/program_running', IsProgramRunning)()
@@ -467,7 +769,16 @@ class URDashboard():
             self.log_error(error)
             return False
 
-    def is_program_saved(self):
+    def is_program_saved(self) -> bool:
+        """Query if the loaded program is running.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if program is saved. False otherwise.
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/program_saved', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/program_saved', IsProgramRunning)()
@@ -481,7 +792,19 @@ class URDashboard():
             self.log_error(error)
             return False
 
-    def get_program_state(self, suppressed=False):
+    def get_program_state(self, suppressed:bool = False) -> tuple:
+        """Get current program name and execution status.
+
+        Args:
+            suppressed (bool, optional): Do not output program name and status. Defaults to False.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            tuple: (program name, program state) or (None, None)
+        """
         try:
             rospy.wait_for_service('/ur_hardware_interface/dashboard/program_state', timeout=self.service_timeout)
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/program_state', GetProgramState)()
@@ -504,7 +827,19 @@ class URDashboard():
     # ------------------------------- POPUP CONTROL ------------------------------ #
     # ---------------------------------------------------------------------------- #
     
-    def close_popup(self, safety=False):
+    def close_popup(self, safety:bool = False) -> bool:
+        """Close a popup on the TeachPendant.
+
+        Args:
+            safety (bool, optional): True when the targeted popup is a safety popup. Defaults to False.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed. 
+
+        Returns:
+            bool: True if the popup is closed. False otherwise.
+        """
         try:
             if safety:
                 rospy.wait_for_service('/ur_hardware_interface/dashboard/close_safety_popup', timeout=self.service_timeout)
@@ -522,7 +857,19 @@ class URDashboard():
             self.log_error(error)
             return False
 
-    def send_popup(self, message):
+    def send_popup(self, message:str) -> bool:
+        """Send a popup to the teach pendant.
+
+        Args:
+            message (str): Content of the popup.
+
+        Raises:
+            ROSException: When service call returned success = False.
+            ServiceException: When service call failed.
+
+        Returns:
+            bool: True if the popup is sent successfully. False otherwise.
+        """
         request = PopupRequest()
         request.message = message
         try:
@@ -543,7 +890,14 @@ class URDashboard():
     # ---------------------------------------------------------------------------- #
 
     #TODO: add strict control (if/else) of input to match configurations
-    def set_io(self, function, pin, state):
+    def set_io(self, function:int, pin:int, state:int) -> None:
+        """Set I/O state on the control box.
+
+        Args:
+            function (int): Type of operation to perform.
+            pin (int): Which pin to perform the operation on (may be ignored).
+            state (int): Resulting state of the pin.
+        """
         request = SetIORequest()
         request.fun = function
         request.pin = pin
