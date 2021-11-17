@@ -110,4 +110,4 @@ class SetIOToolState(Enum):
     TOOL_VOLTAGE_24V = 24
     
 class SetIOPinMapping(Enum):
-    raise NotImplementedError
+    pass
