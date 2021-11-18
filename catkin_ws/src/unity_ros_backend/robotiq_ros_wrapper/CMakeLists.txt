@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(robotiq_ur_ros_wrapper)
+project(robotiq_ros_wrapper)
 
 find_package(catkin REQUIRED COMPONENTS rospy roslaunch std_msgs sensor_msgs message_generation)
 

@@ -59,8 +59,23 @@ class PrintColor():
     def rgb_to_hex(self, rgb):
         return f'#{rgb[0]:x}{rgb[1]:x}{rgb[2]:x}'.upper()
     
-# p = PrintColor()
-# p.color_test()
+# ---------------------------------------------------------------------------- #
+# ------------------------------ READABLE OUTPUT ----------------------------- #
+# ---------------------------------------------------------------------------- #
+
+pcolor = PrintColor()
+    
+def ur_log_error(msg):
+    print(f'{pcolor.flags["ERROR"]}[REMOTE DASHBOARD] {msg}{pcolor.effects["RESET"]}')
+
+def ur_log_success(msg):
+    print(f'{pcolor.flags["SUCCESS"]}[REMOTE DASHBOARD] {msg}{pcolor.effects["RESET"]}')
+
+def ur_log(msg):
+    print(f'{pcolor.flags["LOG"]}[REMOTE DASHBOARD] {msg}{pcolor.effects["RESET"]}')
+
+def ur_log_warn(msg):
+    print(f'{pcolor.flags["WARNING"]}[REMOTE DASHBOARD] {msg}{pcolor.effects["RESET"]}')
 
 class RobotModeMapping(Enum):
     NO_CONTROLLER=-1

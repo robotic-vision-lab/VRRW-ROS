@@ -11,7 +11,7 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <exec_depend>unity_robot_description</exec_depend>
-  <exec_depend>robotiq_ur_ros_wrapper</exec_depend>
+  <exec_depend>robotiq_ros_wrapper</exec_depend>
   <exec_depend>ur_remote_dashboard</exec_depend>
   <exec_depend>ur5e_robotiq_2f_85_moveit_config</exec_depend>
 
