@@ -1,6 +1,9 @@
 # using stock Ubuntu 20.04
 FROM ubuntu:20.04
 
+# using NVIDIA CUDA GL NGC
+# FROM nvidia/cudagl:11.4.0-devel-ubuntu20.04
+
 # no prompts from apt-get
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -55,10 +58,15 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
 RUN apt-get -y purge gazebo* && \
     curl -sSL http://get.gazebosim.org | sh
 
-# install Ignition Fortress
-RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null && \
-    apt-get update && apt-get -y install --no-install-recommends ignition-fortress
+# install Ignition Fortress (doesn't have ros-ign yet)
+# RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg && \
+#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null && \
+#     apt-get update && apt-get -y install --no-install-recommends ignition-fortress
+
+# install Ignition Citadel
+RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
+    wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add - && \
+    apt-get update && apt-get -y install --no-install-recommends ignition-citadel ros-noetic-ros-ign
 
 # installing ROS Packages
 RUN apt-get update && apt-get -y --no-install-recommends install \
@@ -92,3 +100,6 @@ ENV NVIDIA_DRIVER_CAPABILITIES \
     ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 ENV QT_X11_NO_MITSHM 1
 ENV TERM xterm-256color
+
+# fixes https://github.com/ignitionrobotics/ign-gazebo/issues/38
+ENV IGN_IP=127.0.0.1
