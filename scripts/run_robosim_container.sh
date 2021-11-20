@@ -4,7 +4,7 @@
 
 # bash script folder; https://stackoverflow.com/a/3915420
 
-SCRIPT_PATH="$(dirname "$0")"
+SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 CONFIGS_PATH="${SCRIPT_PATH}/../configs"
 
