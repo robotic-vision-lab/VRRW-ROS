@@ -1,3 +1,0 @@
-robotiq_2f_controller:
-  status_topic: '/robotiq_2f/gripper_status'
-  command_topic: '/robotiq_2f/command_interface'

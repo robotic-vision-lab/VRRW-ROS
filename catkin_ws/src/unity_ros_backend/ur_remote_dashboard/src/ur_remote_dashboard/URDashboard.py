@@ -69,6 +69,7 @@ class URDashboard():
     # ---------------------------------------------------------------------------- #
     
     def register_robotiq_gripper(self):
+        self.power_on_arm()
         self.gripper = Robotiq2FCommander()
     
     # ---------------------------------------------------------------------------- #
@@ -772,6 +773,7 @@ class URDashboard():
             response = rospy.ServiceProxy('/ur_hardware_interface/dashboard/stop', Trigger)()
             if response.success: 
                 ur_log_success(f'Program {self.last_known_program} is now stopped')
+                ur_log_warn('Robot mode is now NORMAL')
                 rospy.sleep(1)
                 return response.success
             else:

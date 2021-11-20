@@ -19,13 +19,14 @@ def publish_gripper_joint_state(msg:Robotiq2FInput, publisher:rospy.Publisher):
     gripper_joint_state.header = Header()
     gripper_joint_state.header.stamp = rospy.Time.now()
     gripper_joint_state.name = ['finger_joint']
-    gripper_joint_state.position = [rbt_raw_to_rad(msg.current_position)]
+    gripper_joint_state.position = [binary_to_rad(msg.current_position)]
     gripper_joint_state.effort = [0.0]
     gripper_joint_state.velocity = [0.0]
     
     publisher.publish(gripper_joint_state)
 
 def start_robotiq_rs485_backend(device_name, refresh_rate=200):
+    # TODO: Make sure the arm powered on first before connecting to gripper
     gripper = RobotiqRTUClient()
     gripper.connect(device_name)
     limiter = rospy.Rate(refresh_rate)
@@ -35,10 +36,10 @@ def start_robotiq_rs485_backend(device_name, refresh_rate=200):
     
     joint_state_publisher = rospy.Publisher('joint_states', JointState, queue_size=1)
     
-    status_publisher = rospy.Publisher(status_topic, Robotiq2FInput, queue_size=1)
+    status_publisher = rospy.Publisher(status_topic, Robotiq2FInput, queue_size=200)
     status_monitor = rospy.Subscriber(status_topic, Robotiq2FInput, callback=lambda msg:publish_gripper_joint_state(msg, joint_state_publisher))
 
-    command_publisher = rospy.Publisher(command_topic, Robotiq2FOutput, queue_size=1)
+    command_publisher = rospy.Publisher(command_topic, Robotiq2FOutput, queue_size=10)
     command_monitor = rospy.Subscriber(command_topic, Robotiq2FOutput, callback=lambda msg: send_command_to_gripper(msg, gripper))
     
     rospy.logwarn(f'Waiting for {5} seconds so publishers and subscribers register correctly')

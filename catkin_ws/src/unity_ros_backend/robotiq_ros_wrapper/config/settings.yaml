@@ -1,0 +1,8 @@
+robotiq_2f_controller:
+  status_topic: '/robotiq_2f/gripper_status'
+  command_topic: '/robotiq_2f/command_interface'
+  default_speed: 100
+  default_force: 100
+  calibrated_lower_limit: 0
+  calibrated_upper_limit: 255
+  stroke: 85

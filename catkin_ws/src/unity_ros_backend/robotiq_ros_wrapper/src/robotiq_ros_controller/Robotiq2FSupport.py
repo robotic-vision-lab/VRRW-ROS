@@ -7,11 +7,11 @@ from math import radians, degrees
 
 from robotiq_ros_wrapper.msg import Robotiq2FInput, Robotiq2FOutput
 
-def rbt_raw_to_rad(raw):
-    return interp(clip(raw, 0.0, 255.0), [0.0, 255.0], [0.0, 0.8])
+def binary_to_rad(binary, lower = 0, upper = 255):
+    return interp(clip(binary, 0.0, float(upper)), [0.0, float(upper)], [0.0, 0.8])
 
-def rbt_rad_to_raw(rad):
-    return interp(clip(rad, 0.0, 0.8), [0.0, 0.8], [0.0, 255.0])
+def rad_to_binary(rad, lower = 0, upper = 255):
+    return interp(clip(rad, 0.0, 0.8), [0.0, 0.8], [0.0, float(upper)])
 
 def generate_input_message_from_binary(binary_msg:list) -> Robotiq2FInput:
     formatted = Robotiq2FInput()
