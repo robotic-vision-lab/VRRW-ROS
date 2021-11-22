@@ -20,20 +20,11 @@ PS1='\n\[\e[0;38;5;122m\]\u \[\e[0;38;5;147m\]\w\n\[\e[0m\]> \[\e[0m\]'
 
 alias src_ros='source ${CATKIN_WS}/devel/setup.bash'
 
-alias run_rosdep='cd ${CATKIN_WS} && rosdep update && rosdep install --from-paths src --ignore-src -r -y'
+alias run_rosdep='apt-get update -qq && cd ${CATKIN_WS} && rosdep update && rosdep install --from-paths src --ignore-src -r -y'
 
-alias run_catkin='catkin build -DCMAKE_BUILD_TYPE=Debug'
+alias run_catkin='catkin build -DCMAKE_BUILD_TYPE=Debug && src_ros'
 
-alias rebuild_catkin='catkin clean -y && catkin build --cmake-args -DCMAKE_BUILD_TYPE=Debug'
-
-alias connect_arm='roslaunch ur_robot_driver ur5e_bringup.launch \
-robot_ip:=192.168.1.147 \
-kinematics_config:=$(rospack find unity_robot_description)/configs/real_ur5e_calibration.yaml \
-use_tool_communication:=true'
-
-alias connect_robotiq_gripper='rosrun robotiq_2f_gripper_control Robotiq2FGripperRtuNode.py /tmp/ttyUR'
-
-alias robotiq_console='rosrun robotiq_2f_gripper_control Robotiq2FGripperSimpleController.py'
+alias rebuild_catkin='catkin clean -y && catkin build --cmake-args -DCMAKE_BUILD_TYPE=Debug && src_ros'
 
 # ------------------------------ DOCKER ALIASES ------------------------------ #
 
