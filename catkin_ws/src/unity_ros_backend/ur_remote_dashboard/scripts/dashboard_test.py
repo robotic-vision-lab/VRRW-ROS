@@ -32,3 +32,7 @@ if __name__ == '__main__':
         dashboard:URDashboard = URDashboard()
         dashboard.stop_program()
         dashboard.start_program()
+    elif sequence == 4:
+        dashboard:URDashboard = URDashboard(using_gripper=True)
+        dashboard.gripper.go_to_position(255, unit='bogus')
+

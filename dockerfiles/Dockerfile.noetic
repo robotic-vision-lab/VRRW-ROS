@@ -93,6 +93,11 @@ RUN rosdep init && \
     rosdep install --from-paths ./src --ignore-packages-from-source -y && \
     catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
+# final cleaning
+RUN apt-get -y autoremove && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # nvidia-container-runtime for nvidia-docker hosts
 ENV NVIDIA_VISIBLE_DEVICES \
     ${NVIDIA_VISIBLE_DEVICES:-all}

@@ -6,3 +6,4 @@ robotiq_2f_controller:
   calibrated_lower_limit: 0
   calibrated_upper_limit: 255
   stroke: 85
+  command_delay: 0.1

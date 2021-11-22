@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import rospy
+
 from enum import Enum
 
 from numpy import clip, interp

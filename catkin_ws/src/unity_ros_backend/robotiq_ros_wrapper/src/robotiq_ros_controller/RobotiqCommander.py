@@ -16,6 +16,7 @@ class Robotiq2FCommander():
         self.calibrated_lower = rospy.get_param('robotiq_2f_controller/calibrated_lower_limit', default=0)
         self.calibrated_upper = rospy.get_param('robotiq_2f_controller/calibrated_upper_limit', default=255)
         self.stroke = rospy.get_param('robotiq_2f_controller/stroke', default=85)
+        self.publisher_delay = rospy.get_param('robotiq_2f_controller/command_delay', default=0.1)
         
         # keep track of current status
         self.current_status = None
@@ -47,19 +48,19 @@ class Robotiq2FCommander():
         self.activate()
         rospy.sleep(wait)
     
-    def deactivate(self):
+    def deactivate(self, wait = 0.1):
         command = Robotiq2FOutput()
         command.activate = 0
         self.compensated_publish(command)
         while self.current_status.activated != 0:
-            pass
+            rospy.sleep(wait)
         
-    def activate(self):
+    def activate(self, wait = 0.1):
         command = Robotiq2FOutput()
         command.activate = 1
         self.compensated_publish(command)
         while self.current_status.gripper_status != 3 or self.current_status.activated != 1:
-            pass
+            rospy.sleep(wait)
         
     def status_monitor_callback(self, msg):
         self.current_status = msg
@@ -102,7 +103,6 @@ class Robotiq2FCommander():
         command.speed = (self.default_speed if speed is None else speed)
         command.force = (self.default_force if force is None else force)
         self.compensated_publish(command)
-        rospy.sleep(0.1)
         while self.is_moving():
             rospy.sleep(0.05)
         return (self.current_status.current_position == self.calibrated_lower)
@@ -115,11 +115,10 @@ class Robotiq2FCommander():
         command.speed = (self.default_speed if speed is None else speed)
         command.force = (self.default_force if force is None else force)
         self.compensated_publish(command)
-        rospy.sleep(0.1)
         while self.is_moving():
             rospy.sleep(0.05)
         return (self.current_status.current_position == self.calibrated_upper)
     
-    def compensated_publish(self, command, lag = 0.1):
+    def compensated_publish(self, command, lag = None):
         self.command_publisher.publish(command)
-        rospy.sleep(lag)
+        rospy.sleep(lag if lag else self.publisher_delay)
