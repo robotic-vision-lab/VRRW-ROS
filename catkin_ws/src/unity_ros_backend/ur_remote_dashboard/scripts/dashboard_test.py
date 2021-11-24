@@ -12,7 +12,7 @@ import moveit_commander as mc
 installation_name = 'jerry_remote.installation'
 program_name      = 'jerry_ext.urp'
 
-sequence = 3
+sequence = 4
 
 if __name__ == '__main__':
     rospy.init_node('UR_ROS_dashboard_node', anonymous=True)
@@ -34,5 +34,5 @@ if __name__ == '__main__':
         dashboard.start_program()
     elif sequence == 4:
         dashboard:URDashboard = URDashboard(using_gripper=True)
-        dashboard.gripper.go_to_position(255, unit='bogus')
-
+        dashboard.gripper.set_gripper_position(228, log_status=True)
+        

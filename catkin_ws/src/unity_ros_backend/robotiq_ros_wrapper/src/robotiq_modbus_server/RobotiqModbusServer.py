@@ -18,12 +18,11 @@ class RobotiqRTUClient:
         # https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/doc/ROS_INTERFACE.md#tool_device_name-default-tmpttyur-2
         # self.device = device
         
-    def connect(self, device):
+    def connect(self, device, lag = 1):
         self.client = ModbusSerialClient(method='rtu',port=device,stopbits=1, bytesize=8, baudrate=115200, timeout=0.2)
-        if not self.client.connect():
-            print("Unable to connect to {}".format(device))
-            return False
-        return True
+        while not self.client.connect() and not rospy.is_shutdown():
+            rospy.logwarn_once(f'Unable to connect to {device}, trying every {lag} seconds in background...')
+            rospy.sleep(lag)
     
     def disconnect(self):
         self.client.close()
