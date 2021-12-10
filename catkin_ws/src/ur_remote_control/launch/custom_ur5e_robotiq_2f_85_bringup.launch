@@ -23,8 +23,8 @@
     <!-- <arg name="robot_description_file" default="$(find ur_description)/launch/load_ur5e.launch" doc="Robot description launch file."/> -->
 
     <arg name="robot_ip" default="192.168.1.147" doc="IP address by which the robot can be reached."/>
-    <arg name="robot_description_file" default="$(find unity_robot_description)/launch/load_rvl_ur5e.launch" doc="Robot description launch file."/>
-    <arg name="kinematics_config" default="$(find unity_robot_description)/configs/real_ur5e_calibration.yaml" doc="Kinematics config file used for calibration correction. This will be used to verify the robot's calibration is matching the robot_description."/>
+    <arg name="robot_description_file" default="$(find ur_remote_control)/launch/load_rvl_ur5e.launch" doc="Robot description launch file."/>
+    <arg name="kinematics_config" default="$(find ur_remote_control)/configs/ur5e_calibration.yaml" doc="Kinematics config file used for calibration correction. This will be used to verify the robot's calibration is matching the robot_description."/>
     <arg name="use_tool_communication" default="true" doc="On e-Series robots tool communication can be enabled with this argument"/>
 
     <!-- robot model -->

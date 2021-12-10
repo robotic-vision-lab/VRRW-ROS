@@ -51,8 +51,8 @@
      - Muhammad Asif Rana
   -->
 
-  <xacro:include filename="$(find unity_robot_description)/xacro/macros/ur_transmissions.xacro" />
-  <xacro:include filename="$(find unity_robot_description)/xacro/macros/ur_common.xacro" />
+  <xacro:include filename="$(find ur_remote_control)/urdf/macros/ur_transmissions.xacro" />
+  <xacro:include filename="$(find ur_remote_control)/urdf/macros/ur_common.xacro" />
 
   <xacro:macro name="ur_robot" params="
     prefix

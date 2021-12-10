@@ -1,0 +1,9 @@
+robotiq_2f_controller:
+  status_topic: '/robotiq_2f/gripper_status'
+  command_topic: '/robotiq_2f/command_interface'
+  command_delay: 0.1 # second (0.1 = 100 ms)
+  stroke: 85  # mm
+  raw_range: [3, 228] # default [0, 255]
+  raw_speed: 100
+  raw_force: 100
+  finger_thickness: 7.65 # mm

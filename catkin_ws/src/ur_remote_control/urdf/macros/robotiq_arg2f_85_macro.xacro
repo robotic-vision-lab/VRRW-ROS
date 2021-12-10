@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find unity_robot_description)/xacro/macros/robotiq_arg2f_85_transmissions.xacro" />
+  <xacro:include filename="$(find ur_remote_control)/urdf/macros/robotiq_arg2f_85_transmissions.xacro" />
 
   <xacro:macro name="robotiq_arg2f_85" params="
     prefix 
@@ -21,7 +21,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/visual/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/visual/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
           </geometry>
           <material name="">
             <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
@@ -30,7 +30,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/collision/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/collision/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
           </geometry>
         </collision>
       </link>
@@ -46,7 +46,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/visual/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/visual/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
           </geometry>
           <material name="">
             <color rgba="0.1 0.1 0.1 1" />
@@ -55,7 +55,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/collision/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/collision/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
           </geometry>
         </collision>
       </link>
@@ -71,7 +71,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/visual/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/visual/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
           </geometry>
           <material name="">
             <color rgba="0.1 0.1 0.1 1" />
@@ -80,7 +80,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/collision/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/collision/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
           </geometry>
         </collision>
       </link>
@@ -96,7 +96,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/visual/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/visual/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
           </geometry>
           <material name="">
             <color rgba="0.1 0.1 0.1 1" />
@@ -105,7 +105,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/collision/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001" />
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/collision/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001" />
           </geometry>
         </collision>
       </link>
@@ -211,7 +211,7 @@
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/visual/robotiq_arg2f_base_link.stl" />
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/visual/robotiq_arg2f_base_link.stl" />
           </geometry>
           <material name="">
             <color rgba="0.1 0.1 0.1 1" />
@@ -220,7 +220,7 @@
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://unity_robot_description/models/robotiq/robotiq_2f_85/collision/robotiq_arg2f_base_link.stl" />
+            <mesh filename="package://ur_remote_control/models/robotiq_2f_85/collision/robotiq_arg2f_base_link.stl" />
           </geometry>
         </collision>
     </link>

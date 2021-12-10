@@ -22,9 +22,9 @@ alias src_ros='source ${CATKIN_WS}/devel/setup.bash'
 
 alias run_rosdep='apt-get update -qq && cd ${CATKIN_WS} && rosdep update && rosdep install --from-paths src --ignore-src -r -y'
 
-alias run_catkin='catkin build -DCMAKE_BUILD_TYPE=Debug && src_ros'
+alias run_catkin='catkin build --cmake-args -Wno-dev -DCMAKE_BUILD_TYPE=Debug && src_ros'
 
-alias rebuild_catkin='catkin clean -y && catkin build --cmake-args -DCMAKE_BUILD_TYPE=Debug && src_ros'
+alias rebuild_catkin='catkin clean -y && catkin build --cmake-args -Wno-dev -DCMAKE_BUILD_TYPE=Debug && src_ros'
 
 # ------------------------------ DOCKER ALIASES ------------------------------ #
 

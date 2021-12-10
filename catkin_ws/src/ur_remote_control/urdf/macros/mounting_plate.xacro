@@ -11,7 +11,7 @@
             <visual name="">
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
-                    <mesh filename="package://unity_robot_description/models/mounting_plate.stl" />
+                    <mesh filename="package://ur_remote_control/models/mounting_plate.stl" />
                 </geometry>
                 <material name="opague_plastic">
                     <color rgba="1.0 1.0 1.0 1.0"/>

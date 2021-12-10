@@ -59,7 +59,7 @@ catkin_install_python(PROGRAMS
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(DIRECTORY
-  config
+  configs
   launch
   models
   urdf

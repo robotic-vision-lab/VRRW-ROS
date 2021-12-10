@@ -23,7 +23,7 @@ aluminum peripherial evaluation case.
         <origin xyz="0. -0.022425 0." rpy="0 0 ${M_PI/2}"/>
         <geometry>
           <!--box size="0.044850 0.008 0.0185" /-->
-          <mesh filename="package://unity_robot_description/models/intel_realsense/plug.stl" />
+          <mesh filename="package://ur_remote_control/models/l515/plug.stl" />
         </geometry>
         <material name="plastic"/>
       </visual>
@@ -31,7 +31,7 @@ aluminum peripherial evaluation case.
         <origin xyz="0. -0.022425 0." rpy="0 0 ${M_PI/2}"/>
         <geometry>
           <!--box size="0.044850 0.008 0.0185" /-->
-          <mesh filename="package://unity_robot_description/models/intel_realsense/plug_collision.stl" />
+          <mesh filename="package://ur_remote_control/models/l515/plug_collision.stl" />
         </geometry>
       </collision>
     </link>
