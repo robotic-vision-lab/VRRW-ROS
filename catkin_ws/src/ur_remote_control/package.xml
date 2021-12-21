@@ -14,7 +14,7 @@
   <!-- Python 3 packages -->
   <depend>python3-pymodbus</depend>
   <depend>python3-numpy</depend>
-  <depend>python3-colorama</depend>
+  <!-- <depend>python3-colorama</depend> -->
 
   <!-- ROS standard packages -->
   <depend>rospy</depend>

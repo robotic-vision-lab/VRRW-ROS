@@ -7,11 +7,11 @@ project(ur_remote_control)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS 
-  rospy 
-  roslaunch 
-  std_msgs 
-  sensor_msgs 
+find_package(catkin REQUIRED COMPONENTS
+  rospy
+  roslaunch
+  std_msgs
+  sensor_msgs
   message_generation
 )
 
@@ -52,8 +52,11 @@ catkin_package()
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 file(GLOB python_scripts "scripts/*.py")
+file(GLOB python_nodes "nodes/*.py")
+
 catkin_install_python(PROGRAMS
   ${python_scripts}
+  ${python_nodes}
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
