@@ -7,16 +7,19 @@ from sensor_msgs.msg import JointState
 
 # Robotiq
 from robotiq_controller.RobotiqModbusServer import RobotiqRTUClient
+from robotiq_controller.Robotiq2FSupport import *
 from ur_remote_control.msg import Robotiq2FCommand, Robotiq2FStatus
 
-def start_robotiq_backend(device_name, refresh_rate=200):
-    pass
+def start_robotiq_backend(device, refresh_rate = 200, bypass = False):
+    gripper = RobotiqRTUClient()
+    gripper.connect(device)
+    limiter = rospy.Rate(hz = refresh_rate)
+
+    rospy.spin()
 
 if __name__ == '__main__':
     try:
         rospy.init_node('robotiq_interface_node', anonymous=True)
-        gripper_addr = rospy.get_param('/ur_tool_communication_bridge/device_name', default='/tmp/ttyUR')
-        start_robotiq_backend(device_name=gripper_addr)
+        start_robotiq_backend(device=rospy.get_param('/ur_tool_communication_bridge/device_name', default='/tmp/ttyUR'))
     except Exception as e:
-        print(e)
-        pass
+        rospy.logerr(e)
