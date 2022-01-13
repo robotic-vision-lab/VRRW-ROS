@@ -223,7 +223,7 @@ class URRemoteDashboard:
             self.logger.log_success(f'Program {self.loaded_program} is running')
             return True
         else:
-            self.logger.log_error(f'Unable to start {self.loaded_progran}')
+            self.logger.log_error(f'Unable to start {self.loaded_program}')
             return False
 
     def pause_loaded_program(self):
@@ -232,7 +232,7 @@ class URRemoteDashboard:
             self.logger.log_success(f'Program {self.loaded_program} is paused')
             return True
         else:
-            self.logger.log_error(f'Unable to pause {self.loaded_progran}')
+            self.logger.log_error(f'Unable to pause {self.loaded_program}')
 
             return False
 
@@ -242,7 +242,7 @@ class URRemoteDashboard:
             self.logger.log_success(f'Program {self.loaded_program} is stopped')
             return True
         else:
-            self.logger.log_error(f'Unable to stop {self.loaded_progran}')
+            self.logger.log_error(f'Unable to stop {self.loaded_program}')
             return False
 
     def is_program_running(self):
@@ -317,8 +317,9 @@ class URRemoteDashboard:
             self.logger.log_warn(f'Waiting for {wait} seconds for program/installation to load correctly')
             rospy.sleep(wait)
             self.logger.log_warn(f'Attempting to reconnect to dashboard server ({attempts} attempts)')
-            self.spam_reconnect(attempts = attempts)
+            self.spam_connect(attempts = attempts)
             self.close_popup()
+            self.cold_boot()
         except KeyError as e:
             self.logger.log_error(str(e))
             return False
