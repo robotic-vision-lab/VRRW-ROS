@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(rvl_robotiq_controller)
-
-## Compile as C++11, supported in ROS Kinetic and newer
-# to suppress warning, use --cmake-args -Wno-dev with catkin instead
-# add_compile_options(-std=c++11)
+project(rvl_ur_remote_dashboard)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -13,7 +9,9 @@ find_package(catkin REQUIRED COMPONENTS
   roslaunch
   std_msgs
   sensor_msgs
-  message_generation
+  geometry_msgs
+  moveit_msgs
+  trajectory_msgs
 )
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -21,24 +19,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 catkin_python_setup()
 
-################################################
-## Declare ROS messages, services and actions ##
-################################################
-
-## Generate messages in the 'msg' folder
-add_message_files(DIRECTORY msg)
-
-## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-  sensor_msgs
-)
-
 ###################################
 ## catkin specific configuration ##
 ###################################
-
 ## The catkin_package macro generates cmake config files for your package
 ## Declare things to be passed to dependent projects
 ## INCLUDE_DIRS: uncomment this if your package contains header files
@@ -56,9 +39,9 @@ catkin_package()
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-file(GLOB python_scripts "scripts/*.py")
+file(GLOB python_scripts_DIR "scripts/*.py")
 catkin_install_python(PROGRAMS
-  ${python_scripts}
+  ${python_scripts_DIR}
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
