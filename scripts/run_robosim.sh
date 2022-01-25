@@ -1,19 +1,16 @@
 #!/usr/bin/env sh
 
 # courtesy of https://github.com/NVlabs/Deep_Object_Pose/blob/master/docker/run_dope_docker.sh
+# script folder; https://stackoverflow.com/a/4774063
 
-# bash script folder; https://stackoverflow.com/a/3915420
-
-SCRIPT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-
-CONFIGS_PATH="${SCRIPT_PATH}/../configs"
+SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 if [ -z "${CONTAINER_NAME}" ]; then
     CONTAINER_NAME=robosim-container
 fi
 
 if [ -z "${HOST_CATKIN_WS}" ]; then
-    HOST_CATKIN_WS="${SCRIPT_PATH}/../catkin_ws/src"
+    HOST_CATKIN_WS=$(cd "$(dirname "$0")/../catkin_ws/src" >/dev/null 2>&1 ; pwd -P )
 fi
 
 # get docker container ID if exists
@@ -29,23 +26,20 @@ if [ -z "${ROBOSIM_ID}" ]; then
 
     # creating the docker container
     # see https://docs.docker.com/engine/reference/run/ for more details
-    docker run -t -d --name ${CONTAINER_NAME} --privileged --network=host --shm-size 16G --runtime nvidia -e "DISPLAY=${DISPLAY}" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v "${HOST_CATKIN_WS}:/root/catkin_ws/src:rw" robosim:latest bash
-
-    # copying catkin_ws/src into container
-    # docker cp ${HOST_CATKIN_WS} ${CONTAINER_NAME}:/root/catkin_ws/
+    docker run -t -d --name ${CONTAINER_NAME} --gpus=all --privileged --network=host --runtime nvidia --shm-size 16G -e "DISPLAY=${DISPLAY}" -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" -v "${HOST_CATKIN_WS}:/root/catkin_ws/src:rw" robosim:latest bash
 
     # add convenient aliases
-    docker cp ${CONFIGS_PATH}/.bash_aliases ${CONTAINER_NAME}:/root/.bash_aliases
+    docker cp ${SCRIPT_DIR}/.bash_aliases ${CONTAINER_NAME}:/root/.bash_aliases
 else
     echo "Found ROBOSIM container: ${CONTAINER_NAME}"
     # Check if the container is already running and start if necessary.
     if [ -z `docker ps -qf "name=^/${CONTAINER_NAME}$"` ]; then
-        xhost +local:${ROBOSIM_ID}
+        xhost +local:root
         echo "${CONTAINER_NAME} container not running. Starting container..."
         docker start ${ROBOSIM_ID}
         docker exec -it ${ROBOSIM_ID} bash
     else
-        xhost +local:${ROBOSIM_ID}
+        xhost +local:root
         echo "Attaching to running ${CONTAINER_NAME} container..."
         docker exec -it ${ROBOSIM_ID} bash
     fi

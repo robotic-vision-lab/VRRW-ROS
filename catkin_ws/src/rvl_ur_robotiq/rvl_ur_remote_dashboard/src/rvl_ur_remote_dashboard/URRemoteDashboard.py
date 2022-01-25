@@ -15,7 +15,17 @@ from rvl_ur_remote_dashboard.URInterfaceMapping import *
 from rvl_robotiq_controller.RobotiqController import Robotiq2FController
 
 class URRemoteDashboard:
-    def __init__(self, name = 'UR5e', using_gripper = False, using_urscript = False, service_timeout = 5) -> None:
+    def __init__(self, name: str = 'UR5e', using_gripper: bool = False, using_urscript: bool = False, service_timeout: int = 5) -> None:
+        """The UR Remote Dashboard class. This is the primary extension overlaying the existing
+        Universal Robot Driver code base to access mapped services.
+
+        Args:
+            name (str, optional): Readable name to identify controller. Defaults to 'UR5e'.
+            using_gripper (bool, optional): Initialized the attached Robotiq gripper. Defaults to False.
+            using_urscript (bool, optional): Register appropriate publisher to send UR Script. Defaults to False.
+            service_timeout (int, optional): Wait time for services to come on. Defaults to 5.
+        """
+
         # custom logger
         self.logger = ColorLogger(name + ' Remote Dashboard')
 
@@ -39,7 +49,19 @@ class URRemoteDashboard:
     #                                 POWER CONTROL                                #
     # ---------------------------------------------------------------------------- #
 
-    def power_on_arm(self, timeout = 30):
+    def power_on_arm(self, timeout: int = 30) -> bool:
+        """Power on the arm to idle state (arm cannot move, brakes engaged).
+
+        Args:
+            timeout (int, optional): Wait time for the arm to power on. Defaults to 30 seconds.
+
+        Raises:
+            ROSException: Elapsed time exceeded specified wait time, will raise exception but will
+            not terminate program.
+
+        Returns:
+            bool: True if arm is not powered, False otherwise
+        """
         success = self.trigger_service('power_on')
         if success:
             self.logger.log_warn(f'Waiting for arm to power on')
