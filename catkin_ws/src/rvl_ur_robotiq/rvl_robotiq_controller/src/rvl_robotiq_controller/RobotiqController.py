@@ -9,7 +9,7 @@ from rvl_utilities.CustomLogger import ColorLogger
 from ur_dashboard_msgs.msg import RobotMode
 
 class Robotiq2FController:
-    def __init__(self, stroke, default_force = 100, default_speed = 100, initialize = False, calibrate = False, bypass_power = False):
+    def __init__(self, stroke, default_force = 100, default_speed = 100, initialize = False, startup_reset = False, calibrate = False, bypass_power = False):
         # check definition
         if stroke != 85 and stroke != 140:
             raise ValueError('2F Gripper stroke must be 85 or 140 mm')
@@ -43,7 +43,8 @@ class Robotiq2FController:
 
         if initialize:
             self.register()
-            self.reset()
+            if startup_reset:
+                self.reset()
             if calibrate:
                 self.binary_range = self.calibrate()
 
