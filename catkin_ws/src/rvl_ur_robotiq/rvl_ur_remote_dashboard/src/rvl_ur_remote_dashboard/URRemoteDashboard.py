@@ -4,11 +4,15 @@ import rosservice
 from rospy import ServiceException, ROSException
 from rospy.exceptions import ROSInterruptException
 
+# typing and type hinting
+from typing import Union
+
 # pretty logging
 from rvl_utilities.CustomLogger import ColorLogger
 from pprint import pprint
 
 # Additional UR mappings
+# from ur_dashboard_msgs.msg import ProgramState
 from rvl_ur_remote_dashboard.URInterfaceMapping import *
 
 # Robotiq driver
@@ -44,24 +48,20 @@ class URRemoteDashboard:
 
         # publisher/subscriber
         self.register_robot_status()
+        
+        # extended features
+        if using_gripper:
+            raise NotImplementedError
+        
+        if using_urscript:
+            raise NotImplementedError
 
     # ---------------------------------------------------------------------------- #
     #                                 POWER CONTROL                                #
     # ---------------------------------------------------------------------------- #
 
     def power_on_arm(self, timeout: int = 30) -> bool:
-        """Power on the arm to idle state (arm cannot move, brakes engaged).
-
-        Args:
-            timeout (int, optional): Wait time for the arm to power on. Defaults to 30 seconds.
-
-        Raises:
-            ROSException: Elapsed time exceeded specified wait time, will raise exception but will
-            not terminate program.
-
-        Returns:
-            bool: True if arm is not powered, False otherwise
-        """
+        """Power on the arm to idle state (brakes engaged)."""
         success = self.trigger_service('power_on')
         if success:
             self.logger.log_warn(f'Waiting for arm to power on')
@@ -81,7 +81,8 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to power on robot arm')
             return False
 
-    def power_off_arm(self, timeout = 30):
+    def power_off_arm(self, timeout: int = 30) -> bool:
+        """Power off the arm."""
         success = self.trigger_service('power_off')
         if success:
             self.logger.log_warn(f'Waiting for arm to power off')
@@ -101,20 +102,22 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to power off robot arm')
             return False
 
-    def system_shutdown(self):
+    def system_shutdown(self) -> None:
+        """Fully power down the robot (including control box)."""
         _ = self.trigger_service('shutdown')
-        rospy.signal_shutdown('UR System shutdown requested. Shutting everything down.')
+        # rospy.signal_shutdown('UR System shutdown requested. Shutting everything down.')
         self.logger.log_success('Goodbye!')
-        exit(-1)
 
-    def cold_boot(self):
+    def cold_boot(self) -> bool:
+        """Go directly to operational state (power on, brakes released). See release_brakes()."""
         return self.release_brakes()
 
     # ---------------------------------------------------------------------------- #
     #                                SAFETY CONTROL                                #
     # ---------------------------------------------------------------------------- #
 
-    def release_brakes(self, timeout = 30):
+    def release_brakes(self, timeout: int = 30) -> bool:
+        """Fully power on the robot with brakes released."""
         success = self.trigger_service('brake_release')
         if success:
             self.logger.log_warn(f'Waiting for arm to power on and release brakes')
@@ -134,16 +137,20 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to fully initialized robot')
             return False
 
-    def restart_safety(self):
-        success = self.trigger_service('brake_release')
+    def restart_safety(self) -> bool:
+        """Clear a safety fault or violation. Arm will be powered off."""
+        success = self.trigger_service('restart_safety')
         if success:
             self.logger.log_warn(f'Safety fault/violation cleared')
+            self.logger.log_warn(f'Robot is now powered off')
+            self.logger.log_error(f'Check log for additional information before restarting!')
             return True
         else:
             self.logger.log_error('Unable to clear safety violation')
             return False
 
-    def clear_protective_stop(self, timeout = 30):
+    def clear_protective_stop(self, timeout: int = 30) -> bool:
+        """Clear a protective stop."""
         success = self.trigger_service('unlock_protective_stop')
         if success:
             self.logger.log_warn(f'Waiting for protective stop to clear')
@@ -163,7 +170,8 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to clear protective stop')
             return False
 
-    def clear_operational_mode(self):
+    def clear_operational_mode(self) -> bool:
+        """Allow PolyScope to change operational mode. User password will be enabled."""
         success = self.trigger_service('clear_operational_mode')
         if success:
             self.logger.log_warn(f'Operational mode cleared')
@@ -176,7 +184,15 @@ class URRemoteDashboard:
     #                                 POPUP CONTROL                                #
     # ---------------------------------------------------------------------------- #
 
-    def close_popup(self, safety = False):
+    def close_popup(self, safety: bool = False) -> bool:
+        """Close a popup on the Teach Pendant or PolyScope.
+
+        Args:
+            safety (bool, optional): Set to True if popup is a safety popup. Defaults to False.
+
+        Returns:
+            bool: True if the targeted popup is closed.
+        """
         if safety:
             success = self.trigger_service('close_safety_popup')
         else:
@@ -189,7 +205,8 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to close popup')
             return False
 
-    def send_popup(self, message):
+    def send_popup(self, message: str) -> bool:
+        """Send a message as a popup to Teach Pendant or PolyScope."""
         request = PopupRequest()
         request.message = message
         try:
@@ -207,7 +224,8 @@ class URRemoteDashboard:
     #                           DASHBOARD SERVER CONTROL                           #
     # ---------------------------------------------------------------------------- #
 
-    def connect_dashboard(self, quiet = False):
+    def connect_dashboard(self, quiet: bool = False) -> bool:
+        """Connect to the dashboard server. Need to be done before calling other services."""
         success = self.trigger_service('connect')
         if success:
             self.logger.log_success('Connection to dashboard established')
@@ -217,7 +235,8 @@ class URRemoteDashboard:
                 self.logger.log_error('Unable to disconnect from dashboard server')
             return False
 
-    def disconnect_dashboard(self):
+    def disconnect_dashboard(self) -> bool:
+        """Disconnect from the dashboard server."""
         success = self.trigger_service('quit')
         if success:
             self.logger.log_success('Connection to dashboard terminated')
@@ -226,7 +245,12 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to disconnect from dashboard server')
             return False
 
-    def spam_connect(self, attempts = 10):
+    def spam_connect(self, attempts: int = 10) -> bool:
+        """Repeatedly calling connect() due to error prone and asynchronous status of the server.
+        
+        Args:
+            attempts (int, optional): Number of times connect() is called internally. Defaults to 10.
+        """
         for i in range(attempts):
             self.logger.log_warn(f'Reconnecting attempted ({attempts - i} remaining)', indent = 1)
             if self.connect_dashboard(quiet = True):
@@ -239,7 +263,8 @@ class URRemoteDashboard:
     #                    POLYSCOPE PROGRAMS/INSTALLATION CONTROL                   #
     # ---------------------------------------------------------------------------- #
 
-    def start_loaded_program(self):
+    def start_loaded_program(self) -> bool:
+        """Start execution of default or loaded program."""
         success = self.trigger_service('play')
         if success:
             self.logger.log_success(f'Program {self.loaded_program} is running')
@@ -248,7 +273,8 @@ class URRemoteDashboard:
             self.logger.log_error(f'Unable to start {self.loaded_program}')
             return False
 
-    def pause_loaded_program(self):
+    def pause_loaded_program(self) -> bool:
+        """Pause PolyScope program execution."""
         success = self.trigger_service('pause')
         if success:
             self.logger.log_success(f'Program {self.loaded_program} is paused')
@@ -258,7 +284,8 @@ class URRemoteDashboard:
 
             return False
 
-    def stop_loaded_program(self):
+    def stop_loaded_program(self) -> bool:
+        """Stop PolyScope program execution."""
         success = self.trigger_service('stop')
         if success:
             self.logger.log_success(f'Program {self.loaded_program} is stopped')
@@ -267,7 +294,8 @@ class URRemoteDashboard:
             self.logger.log_error(f'Unable to stop {self.loaded_program}')
             return False
 
-    def is_program_running(self):
+    def is_program_running(self) -> bool:
+        """Returns true if the default or loaded program is running."""
         try:
             response = rospy.ServiceProxy(self.services['program_running'], IsProgramRunning)()
             if not response.success: raise ServiceException('response.success returned False')
@@ -278,7 +306,8 @@ class URRemoteDashboard:
             self.logger.log_error(e)
             return False
 
-    def is_program_saved(self):
+    def is_program_saved(self) -> bool:
+        """Returns true if the default or loaded program is saved."""
         try:
             response = rospy.ServiceProxy(self.services['program_saved'], IsProgramSaved)()
             self.logger.log_success(f'Program "{response.program_name}" is {"saved" if response.program_saved else "not saved"}')
@@ -289,7 +318,8 @@ class URRemoteDashboard:
             self.logger.log_error(e)
             return False
 
-    def query_program_state(self):
+    def query_program_state(self) -> None:
+        """Display the name and execution state of the current PolyScope program."""
         try:
             response = rospy.ServiceProxy(self.services['program_state'], GetProgramState)()
             if not response.success: raise ServiceException('response.success returned False')
@@ -297,9 +327,9 @@ class URRemoteDashboard:
         except (ROSException, ServiceException, KeyError) as e:
             self.logger.log_error('Unable to query if program is saved')
             self.logger.log_error(e)
-            return False
 
-    def terminate_external_control(self):
+    def terminate_external_control(self) -> bool:
+        """Make the external_control node on PolyScope returns."""
         success = self.trigger_service('hand_back_control')
         if success:
             self.logger.log_success('"External Control" program node terminated')
@@ -308,7 +338,8 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to terminate external control node')
             return False
 
-    def get_loaded_program(self):
+    def get_loaded_program(self) -> Union[str, None]:
+        """Returns the name of the loaded program."""
         try:
             serv = self.services['get_loaded_program']
             response = rospy.ServiceProxy(serv, GetLoadedProgram)()
@@ -319,7 +350,15 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to request loaded program name')
             self.logger.log_error(str(e))
 
-    def load_program(self, filename, ptype, wait = 10, attempts = 10):
+    def load_program(self, filename: str, ptype: str, wait: int = 10, attempts: int = 10) -> None:
+        """Load a program or installation file.
+
+        Args:
+            filename (str): Name of file with extension e.g., program.urp
+            ptype (str): Type of program. Accepting ['prog', 'p', 'program', 'urp'] or ['inst', 'i', 'installation'].
+            wait (int, optional): Wait time to handle known disconnection issue. Defaults to 10.
+            attempts (int, optional): Number of reconnection attempts. Defaults to 10.
+        """
         request = LoadRequest()
         request.filename = filename
         try:
@@ -344,7 +383,7 @@ class URRemoteDashboard:
             self.cold_boot()
         except KeyError as e:
             self.logger.log_error(str(e))
-            return False
+            return None
         self.last_known_installation = filename
         rospy.sleep(1)
 
@@ -361,7 +400,8 @@ class URRemoteDashboard:
     def robot_iostate_callback(self, msg):
         self.last_known_io_states = msg
 
-    def get_robot_mode(self):
+    def get_robot_mode(self) -> Union[int, None]:
+        """Returns the current robot mode."""
         try:
             serv = self.services['get_robot_mode']
             rospy.wait_for_service(serv, timeout = self.service_timeout)
@@ -373,8 +413,9 @@ class URRemoteDashboard:
         except (ROSException, ServiceException, KeyError) as e:
             self.logger.log_error('Unable to request robot mode')
             self.logger.log_error(e)
-
-    def get_safety_mode(self):
+        
+    def get_safety_mode(self) -> Union[int, None]:
+        """Returns the current safety mode."""
         try:
             serv = self.services['get_safety_mode']
             rospy.wait_for_service(serv, timeout = self.service_timeout)
@@ -391,7 +432,8 @@ class URRemoteDashboard:
     #                               ADVANCED FEATURES                              #
     # ---------------------------------------------------------------------------- #
 
-    def zero_force_torque_sensor(self):
+    def zero_force_torque_sensor(self) -> bool:
+        """Zero the ft-sensor. Only work on e-Series in remote-control mode."""
         success = self.trigger_service('zero_ftsensor')
         if success:
             self.logger.log_success('Force/Torque sensor zero-ed')
@@ -400,7 +442,8 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to zero force/torque sensor')
             return False
 
-    def log_to_pendant(self, message):
+    def log_to_pendant(self, message: str) -> None:
+        """Log a message to PolyScope logs."""
         request = AddToLogRequest()
         request.message = message
         try:
@@ -413,6 +456,7 @@ class URRemoteDashboard:
             self.logger.log_error(e)
 
     def raw_request(self, query):
+        """Send any arbitrary message or request to the dashboard server."""
         request = RawRequestRequest()
         request.query = query
         try:
@@ -424,7 +468,14 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to log message to Teach Pendant')
             self.logger.log_error(e)
 
-    def set_io(self, function, pin, state):
+    def set_io(self, function: int, pin: int, state: float) -> None:
+        """Set specific IO port on the robot. Currently not supporting specific domains (current/voltage).
+
+        Args:
+            function (int): See SetIOFunctionMapping.
+            pin (int): Which pin to execute the function on.
+            state (float): 0/1 for digital IOs and value for analog IO.
+        """
         request = SetIORequest()
         request.fun = function
         request.pin = pin
@@ -438,7 +489,13 @@ class URRemoteDashboard:
             self.logger.log_error(f'Unable to set pin {pin} to {state} using {SetIOFunctionMapping(function).name}')
             self.logger.log_error(e)
 
-    def set_payload(self, mass, cx, cy, cz):
+    def set_payload(self, mass: float, cx: float, cy: float, cz: float) -> None:
+        """Set the payload mass and center of gravity.
+
+        Args:
+            mass (float): Mass of the payload in kg.
+            cx, cy, cz (float): Center of gravity of the payload.
+        """
         request = SetPayloadRequest()
         request.center_of_gravity = Vector3()
         request.center_of_gravity.x = cx
@@ -455,7 +512,12 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to set payload')
             self.logger.log_error(e)
 
-    def set_speed_slider(self, fraction):
+    def set_speed_slider(self, fraction: float) -> None:
+        """Set robot execution speed as a fraction. Only set less than 1 on scaled controllers.
+
+        Args:
+            fraction (float): 0 to 1 if using scaled (default) controllers.
+        """
         request = SetSpeedSliderFractionRequest()
         request.speed_slider_fraction = clip(fraction, 0.0, 1.0)
         try:
@@ -468,14 +530,15 @@ class URRemoteDashboard:
             self.logger.log_error('Unable to set speed slider')
             self.logger.log_error(e)
 
-    def set_robot_mode(self):
-        raise NotImplementedError
+    # def set_robot_mode(self):
+    #     raise NotImplementedError
 
     # ---------------------------------------------------------------------------- #
     #                             SUPPORTING FUNCTIONS                             #
     # ---------------------------------------------------------------------------- #
 
     def trigger_service(self, serv_alias):
+        """Internal trigger service handling with exceptions"""
         if serv_alias in self.services:
             serv_name = self.services[serv_alias]
             try:

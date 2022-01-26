@@ -3,6 +3,8 @@ from rvl_utilities.CustomLogger import ColorLogger
 
 from numpy import poly1d, polyfit, clip
 
+from enum import Enum
+
 r2f85_conv  = poly1d(polyfit((0, 255), (0, 0.8), 1))
 r2f140_conv = poly1d(polyfit((0, 255), (0, 0.7), 1))
 
@@ -44,3 +46,17 @@ def generate_binary_command_from_2f_msg(message):
     command.append(message.force)
 
     return command
+
+fault_mapping = {
+    0: 'No fault',
+    5: 'Action delayed, the activation (re-activation) must be completed prior to performing the action.',
+    7: 'The activation bit must be set prior to performing the action.',
+    8: 'Maximum operating temperature exceeded (≥ 85 °C internally), let cool down (below 80 °C).',
+    9: 'No communication during at least 1 second.',
+    10: 'Under minimum operating voltage.',
+    11: 'Automatic release in progress.',
+    12: 'Internal fault; contact support@robotiq.com.',
+    13: 'Activation fault, verify that no interference or other error occurred.',
+    14: 'Overcurrent triggered.',
+    15: 'Automatic release completed.'
+}
