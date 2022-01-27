@@ -10,5 +10,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <exec_depend>python3-quantities</exec_depend>
+  <export>
+    <rosdoc config="rosdoc.yaml"/>    
+  </export>
 </package>

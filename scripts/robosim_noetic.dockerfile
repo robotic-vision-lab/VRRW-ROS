@@ -53,7 +53,12 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     ros-noetic-gazebo-ros-control \
     ros-noetic-moveit \
     ros-noetic-moveit-resources-prbt-moveit-config \
-    ros-noetic-pilz-industrial-motion
+    ros-noetic-pilz-industrial-motion 
+
+# installing documentation packages
+RUN python3 -m pip install --upgrade setuptools wheel pip testresources && \
+    python3 -m pip install --upgrade sphinx pdoc3 && \
+    apt-get -y --no-install-recommends install ros-noetic-rosdoc-lite
 
 # define catkin workspace
 ENV HOME /root

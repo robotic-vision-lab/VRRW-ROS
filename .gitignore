@@ -133,3 +133,14 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Ignore Sphinx builds
+documentation/_build/
+documentation/_source/
+documentation/_static/
+documentation/_templates/
+documentation/_themes/
+documentation/*.py
+documentation/*.rst
+documentation/*.bat
+documentation/Makefile
