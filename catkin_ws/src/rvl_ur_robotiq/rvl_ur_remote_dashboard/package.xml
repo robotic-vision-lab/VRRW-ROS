@@ -37,5 +37,9 @@
   <exec_depend>topic_tools</exec_depend>
   <exec_depend>moveit_msgs</exec_depend>
   <exec_depend>controller_manager</exec_depend>
-
+  
+  <!-- Sphinx docs -->
+  <export>
+    <rosdoc config="rosdoc.yaml"/>    
+  </export>
 </package>

@@ -23,4 +23,8 @@
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
 
+  <!-- Sphinx docs -->
+  <export>
+    <rosdoc config="rosdoc.yaml"/>    
+  </export>
 </package>

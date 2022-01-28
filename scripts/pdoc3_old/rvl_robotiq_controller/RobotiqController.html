@@ -1,0 +1,1872 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>rvl_robotiq_controller.RobotiqController API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>rvl_robotiq_controller.RobotiqController</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import rospy
+from rospy import ROSException
+
+from numpy import clip, polyfit, poly1d
+from typing import Union, Tuple
+from math import isclose
+
+from rvl_robotiq_controller.msg import Robotiq2FCommand, Robotiq2FStatus
+from Robotiq2FSupport import fault_mapping
+from rvl_utilities.CustomLogger import ColorLogger
+
+from ur_dashboard_msgs.msg import RobotMode
+
+class Robotiq2FController:
+    def __init__(self, stroke: int, default_force: int = 100, default_speed: int = 100, initialize: bool = False, startup_reset: bool = False, calibrate: bool = False, bypass_power: bool = False) -&gt; None:
+        &#34;&#34;&#34;Controller for basic Robotiq 2F Gripper operation.
+
+        Args:
+            stroke (int): Stroke of the gripper. 2F grippers must use either 85mm or 140mm.
+            default_force (int, optional): Default gripping force. Defaults to 100.
+            default_speed (int, optional): Default gripping speed. Defaults to 100.
+            initialize (bool, optional): Register ROS publisher and subscriber on object instantiation. Defaults to False.
+            startup_reset (bool, optional): Invoke internal reset on instantiation. Defaults to False.
+            calibrate (bool, optional): Adjust binary limits of gripper. Defaults to False.
+            bypass_power (bool, optional): Ignoring power state monitor. Useful when gripper not attached to UR tool port. Defaults to False.
+
+        Raises:
+            ValueError: Invalid stroke width, must be 85mm or 140mm
+        &#34;&#34;&#34;
+        
+        # check definition
+        if stroke != 85 and stroke != 140:
+            raise ValueError(&#39;2F Gripper stroke must be 85 or 140 mm&#39;)
+        else:
+            self.stroke = stroke
+            self.logger = ColorLogger(label = &#39;R2F&#39; + str(self.stroke) + &#39; Controller&#39;)
+
+        # factory preset (page 25 of user manual)
+        self.force = int(clip(default_force, 0, 255))
+        self.speed = int(clip(default_speed, 0, 255))
+
+        # NBR Finger (page 121 of user manual)
+        # self.finger_thickness = finger_thickness # mm
+
+        # mechanical specification (page 123 of user manual)
+        if self.stroke == 85:
+            self.force_range = (20.0, 235.0) # Newton
+            self.speed_range = (20.0, 150.0) # mm/s
+        else:
+            self.force_range = (10.0, 125.0) # Newton
+            self.speed_range = (30.0, 250.0) # mm/s
+
+        # recorded limit of gripper binary range
+        self.binary_range = tuple([int(rospy.get_param(&#39;/robotiq_2f_85_calibration/lower_binary&#39;, default =   0)),
+                                   int(rospy.get_param(&#39;/robotiq_2f_85_calibration/upper_binary&#39;, default = 255))])
+
+        # status keeping
+        self.status = None
+        self.power_status = -1
+        self.power_bypass = bypass_power
+
+        if initialize:
+            self.register()
+            if startup_reset:
+                self.reset()
+            if calibrate:
+                self.binary_range = self.calibrate()
+
+        # conversion ratio for force, speed, and distance (metrics to binary)
+        self.f_ratio = poly1d(polyfit(self.force_range, (0, 255), 1))
+        self.s_ratio = poly1d(polyfit(self.speed_range, (0, 255), 1))
+        self.d_ratio = poly1d(polyfit((self.stroke, 0), self.binary_range, 1))
+        self.inv_f   = poly1d(polyfit((0, 255), self.force_range, 1))
+        self.inv_s   = poly1d(polyfit((0, 255), self.speed_range, 1))
+        self.inv_d   = poly1d(polyfit(self.binary_range, (self.stroke, 0), 1))
+        
+    # ---------------------------------------------------------------------------- #
+    #                               GRIPPER ACTUATION                              #
+    # ---------------------------------------------------------------------------- #
+
+    def auto_close(self, alt_speed: int = None, alt_force: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Fully close the gripper or until obstructed.
+
+        Args:
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            alt_force (int, optional): Override internal force settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = self.force if alt_force is None else int(clip(alt_force, 0, 255))
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def auto_open(self, alt_speed: int = None, alt_force: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Fully open the gripper or until obstructed.
+
+        Args:
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            alt_force (int, optional): Override internal force settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = self.force if alt_force is None else int(clip(alt_force, 0, 255))
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def grasp_soft(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Soft grasp preset, grasping with force set to 1 (approximately 20 N).
+
+        Args:
+            opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 0
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = 0
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+    
+    def grasp_soft_regrasp(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Soft grasp preset, grasping with force set to 1 (approximately 20 N) with Re-Grasp enabled.
+
+        Args:
+            opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 0 if opening else 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = 1
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def grasp_medium(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Medium grasp preset, grasping with force set to 128 (approximately 128 N).
+
+        Args:
+            opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 0 if opening else 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = 128
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def grasp_hard(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Hard grasp preset, grasping with force set to maximum or 255 (approximately 235 N).
+
+        Args:
+            opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 0 if opening else 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = 255
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def open_gripper(self, value: Union[int, float], alt_speed: int = None, alt_force: int = None, unit: str = &#39;mm&#39;, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Open/Close the gripper to specified gap between the gripper pads.
+
+        Args:
+            value (Union[int, float]): Width of the jaw opening.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            alt_force (int, optional): Override internal force settings. Defaults to None.
+            unit (str, optional): Unit of measurement. Defaults to &#39;mm&#39;.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        acceptable_units = [&#39;mm&#39;, &#39;in&#39;, &#39;raw&#39;]
+        if unit not in acceptable_units:
+            self.logger.log_error(f&#39;{unit} is invalid unit&#39;)
+            self.logger.log_error(f&#39;Expecting {acceptable_units}&#39;)
+        else:
+            command = Robotiq2FCommand()
+            command.activate = 1
+            command.goto = 1
+            command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+            command.force = self.force if alt_force is None else int(clip(alt_force, 0, 255))
+
+            if unit == &#39;raw&#39;:
+                command.position = int(clip(value, *self.binary_range))
+            elif unit == &#39;mm&#39;:
+                command.position = self.open_mm_to_raw(value)
+            else:
+                command.position = self.open_in_to_raw(value)
+
+            self.compensated_publish(command)
+            if blocking:
+                self.block()
+
+    def set_gripper_speed(self, value: Union[int, float], unit: str = &#39;mm/s&#39;) -&gt; None:
+        &#34;&#34;&#34;Set the internal (default) speed setting of the gripper. 
+
+        Args:
+            value (Union[int, float]): New speed value.
+            unit (str, optional): Unit of measurement. Defaults to &#39;mm/s&#39;.
+        &#34;&#34;&#34;
+        acceptable_units = [&#39;raw&#39;, &#39;mm/s&#39;, &#39;in/s&#39;]
+        if unit not in acceptable_units:
+            self.logger.log_error(f&#39;{unit} is invalid unit&#39;)
+            self.logger.log_error(f&#39;Expecting {acceptable_units}&#39;)
+        else:
+            if unit == &#39;raw&#39;:
+                self.speed = int(clip(value, 0, 255))
+            elif unit == &#39;mm/s&#39;:
+                self.speed = self.mmps_to_raw_speed(value)
+            else:
+                self.speed = self.inps_to_raw_speed(value)
+
+    def set_gripper_force(self, value: Union[int, float], unit: str = &#39;N&#39;) -&gt; None:
+        &#34;&#34;&#34;Set the internal (default) force setting of the gripper. 
+
+        Args:
+            value (Union[int, float]): New force value.
+            unit (str, optional): Unit of measurement. Defaults to &#39;N&#39;.
+        &#34;&#34;&#34;
+        acceptable_units = [&#39;raw&#39;, &#39;newton&#39;, &#39;N&#39;, &#39;pound-force&#39;, &#39;lbf&#39;]
+        if unit not in acceptable_units:
+            self.logger.log_error(f&#39;{unit} is invalid unit&#39;)
+            self.logger.log_error(f&#39;Expecting {acceptable_units}&#39;)
+        else:
+            if unit == &#39;raw&#39;:
+                self.force = int(clip(value, 0, 255))
+            elif unit == &#39;newton&#39;:
+                self.force = self.newton_to_raw_force(value)
+            else:
+                self.force = self.lbf_to_raw_force(value)
+    
+    def send_raw_position_command(self, position: int, speed: int, force: int, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Send a position request command to the gripper ignoring internal settings.
+
+        Args:
+            position (int): Raw position value [0-255].
+            speed (int): Raw speed value [0-255].
+            force (int): Raw force value [0-255].
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = int(clip(position, 0, 255))
+        command.speed = int(clip(speed, 0, 255))
+        command.force = int(clip(force, 0, 255))
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+        
+    # ---------------------------------------------------------------------------- #
+    #                            GRIPPING/MOVING STATUS                            #
+    # ---------------------------------------------------------------------------- #
+
+    def is_moving(self) -&gt; bool:
+        &#34;&#34;&#34;Returns true when the gripper is in motion&#34;&#34;&#34;
+        return (self.status.object_status == 0)
+
+    def is_holding(self) -&gt; bool:
+        &#34;&#34;&#34;Returns true when the gripper is holding an object&#34;&#34;&#34;
+        status = self.status.object_status
+        if status == 1:
+            self.logger.log_info(&#39;Object detected/holding while opening&#39;)
+        elif status == 2:
+            self.logger.log_info(&#39;Object detected/holding while closing&#39;)
+        else:
+            self.logger.log_info(&#39;No object detected&#39;)
+        return (self.status.object_status == 1 or self.status.object_status == 2)
+    
+    # ---------------------------------------------------------------------------- #
+    #                              ACTIVATION CONTROL                              #
+    # ---------------------------------------------------------------------------- #
+
+    def reset(self) -&gt; None:
+        &#34;&#34;&#34;Reset the gripper to default state (may or may not be obstructed).&#34;&#34;&#34;
+        self.logger.log_warn(f&#39;Gripper reset&#39;)
+        self.deactivate()
+        self.activate()
+        rospy.sleep(3)
+
+    def deactivate(self) -&gt; None:
+        &#34;&#34;&#34;Deactivate the gripper. Can also be used to clear the &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 0
+        self.compensated_publish(command)
+        rospy.sleep(1)
+
+    def activate(self) -&gt; None:
+        &#34;&#34;&#34;[summary]&#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        self.compensated_publish(command)
+        rospy.sleep(1)
+            
+    # ---------------------------------------------------------------------------- #
+    #                             SUPPORTING FUNCTIONS                             #
+    # ---------------------------------------------------------------------------- #
+
+    def report_status(self, verbose: bool = False) -&gt; None:
+        &#34;&#34;&#34;Output the current state of the gripper.
+
+        Args:
+            verbose (bool, optional): Display additional raw status message. Defaults to False.
+        &#34;&#34;&#34;
+        pos = self.status.current_position
+        pos_mm = self.raw_to_open_mm(pos)
+        pos_in = self.raw_to_open_in(pos)
+        speed_mm = self.raw_speed_to_mmps(self.speed)
+        speed_in = self.raw_speed_to_inps(self.speed)
+        force_N = self.raw_force_to_newton(self.force)
+        force_lbf = self.raw_force_to_lbf(self.force)
+        fault_status = self.status.fault_status
+        self.logger.log_info(f&#39;==== Current status ====&#39;)
+        self.logger.log_info(f&#39;Opening  = {pos} [{pos_mm} mm ~ {pos_in} in]&#39;)
+        self.logger.log_info(f&#39;Speed    = {self.speed} [{speed_mm} mm/s ~ {speed_in} in/s]&#39;)
+        self.logger.log_info(f&#39;Force    = {self.force} [{force_N} N ~ {force_lbf} lbf]&#39;)
+        self.logger.log_info(f&#39;Fault    = {fault_mapping[fault_status] if fault_status in fault_mapping else &#34;N/A&#34;}&#39;)
+        if verbose:
+            self.logger.log_info(&#39;Raw Robotiq2FStatus message:&#39;)
+            for s in str(self.status).split(&#39;\n&#39;):
+                self.logger.log_info(s)
+
+    def register(self, timeout: int = 10) -&gt; None:
+        &#34;&#34;&#34;Register necessary ROS publishers and subscribers.
+
+        Args:
+            timeout (int, optional): Wait time for topics to start publishing. Defaults to 10.
+        &#34;&#34;&#34;
+        try:
+            self.logger.log_warn(f&#39;Registering publisher and subscriber&#39;)
+            rospy.wait_for_message(&#39;/Robotiq2F/gripper_status&#39;, Robotiq2FStatus, timeout = timeout)
+            self.status_monitor = rospy.Subscriber(&#39;/Robotiq2F/gripper_status&#39;, Robotiq2FStatus, callback = self.status_monitor_callback)
+            self.power_monitor = rospy.Subscriber(&#39;/ur_hardware_interface/robot_mode&#39;, RobotMode, callback = self.power_monitor_callback)
+            self.command_publisher = rospy.Publisher(&#39;/Robotiq2F/command_interface&#39;, Robotiq2FCommand, queue_size = 1)
+            self.logger.log_warn(f&#39;Waiting for {5} seconds so publishers and subscribers register correctly&#39;)
+            rospy.sleep(5)
+            self.logger.log_success(f&#39;Controller registered successfully and ready to send commands&#39;)
+        except (ROSException, KeyboardInterrupt) as error:
+            self.logger.log_error(&#39;Unable to assign controller to gripper. Did you start Robotiq Node and powered the arm?&#39;)
+            self.logger.log_error(error)
+            raise ROSException
+
+    def calibrate(self) -&gt; Tuple[int, int]:
+        &#34;&#34;&#34;Fully open and closes the gripper to record internal binary. Must be executed without any obstructions as this can dramatically influence gripper operations!
+
+        Returns:
+            (int, int): lower and upper binary limit (default 0x00 to 0xFF or 0 to 255)
+        &#34;&#34;&#34;
+        self.logger.log_warn(&#39;Calibrating binary limits&#39;)
+        self.auto_open()
+        rospy.sleep(3)
+        upper = self.status.current_position
+        rospy.sleep(1)
+        self.auto_close()
+        rospy.sleep(3)
+        lower = self.status.current_position
+        rospy.sleep(1)
+        self.auto_open()
+        self.logger.log_success(&#39;Calibration completed&#39;)
+        self.logger.log_success(f&#39;Position binary range limit is {(lower, upper)}&#39;)
+        return tuple(lower, upper)
+    
+    def compensated_publish(self, command: Robotiq2FCommand, lag: float = 0.1):
+        &#34;&#34;&#34;Publish with a small wait between message for ROS topics to cope with the refresh rate of the gripper.&#34;&#34;&#34;
+        self.command_publisher.publish(command)
+        rospy.sleep(lag)
+
+    def status_monitor_callback(self, msg):
+        &#34;&#34;&#34;Callback for status subsciber&#34;&#34;&#34;
+        self.status = msg
+
+    def power_monitor_callback(self, msg):
+        &#34;&#34;&#34;Callback for power subsciber&#34;&#34;&#34;
+        self.power_status = msg.mode
+
+    def block(self) -&gt; None:
+        &#34;&#34;&#34;Convenient snippet for idle looping until gripper finishes motion.&#34;&#34;&#34;
+        while self.is_moving():
+            rospy.sleep(0.1)
+            
+    # ---------------------------------------------------------------------------- #
+    #                              CONVERSION HELPERS                              #
+    # ---------------------------------------------------------------------------- #
+
+    def raw_speed_to_mmps(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to mm/s&#34;&#34;&#34;
+        return round(self.inv_s(clip(raw, 0, 255)), 3)
+    
+    def raw_speed_to_inps(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to in/s&#34;&#34;&#34;
+        return round(self.raw_speed_to_mmps(raw) / 25.4, 3)
+    
+    def mmps_to_raw_speed(self, mmps: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert mm/s to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.s_ratio(clip(mmps, *self.speed_range))))
+    
+    def inps_to_raw_speed(self, inps: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert inches/s to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.s_ratio(clip(inps * 25.4, *self.speed_range))))
+    
+    def raw_force_to_newton(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to N&#34;&#34;&#34;
+        return round(self.inv_f(clip(raw, 0, 255)), 3)
+    
+    def raw_force_to_lbf(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to lbf&#34;&#34;&#34;
+        return round(self.raw_force_to_newton(raw) * 0.224809, 3)
+
+    def newton_to_raw_force(self, newton: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert N to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.f_ratio(clip(newton, *self.force_range))))
+    
+    def lbf_to_raw_force(self, lbf: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert lbf to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.f_ratio(clip(lbf * 4.44822, *self.force_range))))
+    
+    def raw_to_open_mm(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to mm of opening&#34;&#34;&#34;
+        return round(self.inv_d(clip(raw, 0, 255)), 3)
+    
+    def raw_to_open_in(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to in of opening&#34;&#34;&#34;
+        return round(self.raw_to_open_mm(raw) / 25.4, 3)
+    
+    def open_mm_to_raw(self, mm: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert opening in mm to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.d_ratio(clip(mm, 0, self.stroke))))
+    
+    def open_in_to_raw(self, inches: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert opening in inches to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.d_ratio(clip(inches * 25.4, 0, self.stroke))))
+        
+class Robotiq3FController:
+    def __init__(self):
+        raise NotImplementedError</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController"><code class="flex name class">
+<span>class <span class="ident">Robotiq2FController</span></span>
+<span>(</span><span>stroke: int, default_force: int = 100, default_speed: int = 100, initialize: bool = False, startup_reset: bool = False, calibrate: bool = False, bypass_power: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Controller for basic Robotiq 2F Gripper operation.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>stroke</code></strong> :&ensp;<code>int</code></dt>
+<dd>Stroke of the gripper. 2F grippers must use either 85mm or 140mm.</dd>
+<dt><strong><code>default_force</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Default gripping force. Defaults to 100.</dd>
+<dt><strong><code>default_speed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Default gripping speed. Defaults to 100.</dd>
+<dt><strong><code>initialize</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Register ROS publisher and subscriber on object instantiation. Defaults to False.</dd>
+<dt><strong><code>startup_reset</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Invoke internal reset on instantiation. Defaults to False.</dd>
+<dt><strong><code>calibrate</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Adjust binary limits of gripper. Defaults to False.</dd>
+<dt><strong><code>bypass_power</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Ignoring power state monitor. Useful when gripper not attached to UR tool port. Defaults to False.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Invalid stroke width, must be 85mm or 140mm</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Robotiq2FController:
+    def __init__(self, stroke: int, default_force: int = 100, default_speed: int = 100, initialize: bool = False, startup_reset: bool = False, calibrate: bool = False, bypass_power: bool = False) -&gt; None:
+        &#34;&#34;&#34;Controller for basic Robotiq 2F Gripper operation.
+
+        Args:
+            stroke (int): Stroke of the gripper. 2F grippers must use either 85mm or 140mm.
+            default_force (int, optional): Default gripping force. Defaults to 100.
+            default_speed (int, optional): Default gripping speed. Defaults to 100.
+            initialize (bool, optional): Register ROS publisher and subscriber on object instantiation. Defaults to False.
+            startup_reset (bool, optional): Invoke internal reset on instantiation. Defaults to False.
+            calibrate (bool, optional): Adjust binary limits of gripper. Defaults to False.
+            bypass_power (bool, optional): Ignoring power state monitor. Useful when gripper not attached to UR tool port. Defaults to False.
+
+        Raises:
+            ValueError: Invalid stroke width, must be 85mm or 140mm
+        &#34;&#34;&#34;
+        
+        # check definition
+        if stroke != 85 and stroke != 140:
+            raise ValueError(&#39;2F Gripper stroke must be 85 or 140 mm&#39;)
+        else:
+            self.stroke = stroke
+            self.logger = ColorLogger(label = &#39;R2F&#39; + str(self.stroke) + &#39; Controller&#39;)
+
+        # factory preset (page 25 of user manual)
+        self.force = int(clip(default_force, 0, 255))
+        self.speed = int(clip(default_speed, 0, 255))
+
+        # NBR Finger (page 121 of user manual)
+        # self.finger_thickness = finger_thickness # mm
+
+        # mechanical specification (page 123 of user manual)
+        if self.stroke == 85:
+            self.force_range = (20.0, 235.0) # Newton
+            self.speed_range = (20.0, 150.0) # mm/s
+        else:
+            self.force_range = (10.0, 125.0) # Newton
+            self.speed_range = (30.0, 250.0) # mm/s
+
+        # recorded limit of gripper binary range
+        self.binary_range = tuple([int(rospy.get_param(&#39;/robotiq_2f_85_calibration/lower_binary&#39;, default =   0)),
+                                   int(rospy.get_param(&#39;/robotiq_2f_85_calibration/upper_binary&#39;, default = 255))])
+
+        # status keeping
+        self.status = None
+        self.power_status = -1
+        self.power_bypass = bypass_power
+
+        if initialize:
+            self.register()
+            if startup_reset:
+                self.reset()
+            if calibrate:
+                self.binary_range = self.calibrate()
+
+        # conversion ratio for force, speed, and distance (metrics to binary)
+        self.f_ratio = poly1d(polyfit(self.force_range, (0, 255), 1))
+        self.s_ratio = poly1d(polyfit(self.speed_range, (0, 255), 1))
+        self.d_ratio = poly1d(polyfit((self.stroke, 0), self.binary_range, 1))
+        self.inv_f   = poly1d(polyfit((0, 255), self.force_range, 1))
+        self.inv_s   = poly1d(polyfit((0, 255), self.speed_range, 1))
+        self.inv_d   = poly1d(polyfit(self.binary_range, (self.stroke, 0), 1))
+        
+    # ---------------------------------------------------------------------------- #
+    #                               GRIPPER ACTUATION                              #
+    # ---------------------------------------------------------------------------- #
+
+    def auto_close(self, alt_speed: int = None, alt_force: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Fully close the gripper or until obstructed.
+
+        Args:
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            alt_force (int, optional): Override internal force settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = self.force if alt_force is None else int(clip(alt_force, 0, 255))
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def auto_open(self, alt_speed: int = None, alt_force: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Fully open the gripper or until obstructed.
+
+        Args:
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            alt_force (int, optional): Override internal force settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = self.force if alt_force is None else int(clip(alt_force, 0, 255))
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def grasp_soft(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Soft grasp preset, grasping with force set to 1 (approximately 20 N).
+
+        Args:
+            opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 0
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = 0
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+    
+    def grasp_soft_regrasp(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Soft grasp preset, grasping with force set to 1 (approximately 20 N) with Re-Grasp enabled.
+
+        Args:
+            opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 0 if opening else 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = 1
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def grasp_medium(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Medium grasp preset, grasping with force set to 128 (approximately 128 N).
+
+        Args:
+            opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 0 if opening else 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = 128
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def grasp_hard(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Hard grasp preset, grasping with force set to maximum or 255 (approximately 235 N).
+
+        Args:
+            opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = 0 if opening else 255
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = 255
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+
+    def open_gripper(self, value: Union[int, float], alt_speed: int = None, alt_force: int = None, unit: str = &#39;mm&#39;, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Open/Close the gripper to specified gap between the gripper pads.
+
+        Args:
+            value (Union[int, float]): Width of the jaw opening.
+            alt_speed (int, optional): Override internal speed settings. Defaults to None.
+            alt_force (int, optional): Override internal force settings. Defaults to None.
+            unit (str, optional): Unit of measurement. Defaults to &#39;mm&#39;.
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        acceptable_units = [&#39;mm&#39;, &#39;in&#39;, &#39;raw&#39;]
+        if unit not in acceptable_units:
+            self.logger.log_error(f&#39;{unit} is invalid unit&#39;)
+            self.logger.log_error(f&#39;Expecting {acceptable_units}&#39;)
+        else:
+            command = Robotiq2FCommand()
+            command.activate = 1
+            command.goto = 1
+            command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+            command.force = self.force if alt_force is None else int(clip(alt_force, 0, 255))
+
+            if unit == &#39;raw&#39;:
+                command.position = int(clip(value, *self.binary_range))
+            elif unit == &#39;mm&#39;:
+                command.position = self.open_mm_to_raw(value)
+            else:
+                command.position = self.open_in_to_raw(value)
+
+            self.compensated_publish(command)
+            if blocking:
+                self.block()
+
+    def set_gripper_speed(self, value: Union[int, float], unit: str = &#39;mm/s&#39;) -&gt; None:
+        &#34;&#34;&#34;Set the internal (default) speed setting of the gripper. 
+
+        Args:
+            value (Union[int, float]): New speed value.
+            unit (str, optional): Unit of measurement. Defaults to &#39;mm/s&#39;.
+        &#34;&#34;&#34;
+        acceptable_units = [&#39;raw&#39;, &#39;mm/s&#39;, &#39;in/s&#39;]
+        if unit not in acceptable_units:
+            self.logger.log_error(f&#39;{unit} is invalid unit&#39;)
+            self.logger.log_error(f&#39;Expecting {acceptable_units}&#39;)
+        else:
+            if unit == &#39;raw&#39;:
+                self.speed = int(clip(value, 0, 255))
+            elif unit == &#39;mm/s&#39;:
+                self.speed = self.mmps_to_raw_speed(value)
+            else:
+                self.speed = self.inps_to_raw_speed(value)
+
+    def set_gripper_force(self, value: Union[int, float], unit: str = &#39;N&#39;) -&gt; None:
+        &#34;&#34;&#34;Set the internal (default) force setting of the gripper. 
+
+        Args:
+            value (Union[int, float]): New force value.
+            unit (str, optional): Unit of measurement. Defaults to &#39;N&#39;.
+        &#34;&#34;&#34;
+        acceptable_units = [&#39;raw&#39;, &#39;newton&#39;, &#39;N&#39;, &#39;pound-force&#39;, &#39;lbf&#39;]
+        if unit not in acceptable_units:
+            self.logger.log_error(f&#39;{unit} is invalid unit&#39;)
+            self.logger.log_error(f&#39;Expecting {acceptable_units}&#39;)
+        else:
+            if unit == &#39;raw&#39;:
+                self.force = int(clip(value, 0, 255))
+            elif unit == &#39;newton&#39;:
+                self.force = self.newton_to_raw_force(value)
+            else:
+                self.force = self.lbf_to_raw_force(value)
+    
+    def send_raw_position_command(self, position: int, speed: int, force: int, blocking: bool = True) -&gt; None:
+        &#34;&#34;&#34;Send a position request command to the gripper ignoring internal settings.
+
+        Args:
+            position (int): Raw position value [0-255].
+            speed (int): Raw speed value [0-255].
+            force (int): Raw force value [0-255].
+            blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+        &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.position = int(clip(position, 0, 255))
+        command.speed = int(clip(speed, 0, 255))
+        command.force = int(clip(force, 0, 255))
+        self.compensated_publish(command)
+        if blocking:
+            self.block()
+        
+    # ---------------------------------------------------------------------------- #
+    #                            GRIPPING/MOVING STATUS                            #
+    # ---------------------------------------------------------------------------- #
+
+    def is_moving(self) -&gt; bool:
+        &#34;&#34;&#34;Returns true when the gripper is in motion&#34;&#34;&#34;
+        return (self.status.object_status == 0)
+
+    def is_holding(self) -&gt; bool:
+        &#34;&#34;&#34;Returns true when the gripper is holding an object&#34;&#34;&#34;
+        status = self.status.object_status
+        if status == 1:
+            self.logger.log_info(&#39;Object detected/holding while opening&#39;)
+        elif status == 2:
+            self.logger.log_info(&#39;Object detected/holding while closing&#39;)
+        else:
+            self.logger.log_info(&#39;No object detected&#39;)
+        return (self.status.object_status == 1 or self.status.object_status == 2)
+    
+    # ---------------------------------------------------------------------------- #
+    #                              ACTIVATION CONTROL                              #
+    # ---------------------------------------------------------------------------- #
+
+    def reset(self) -&gt; None:
+        &#34;&#34;&#34;Reset the gripper to default state (may or may not be obstructed).&#34;&#34;&#34;
+        self.logger.log_warn(f&#39;Gripper reset&#39;)
+        self.deactivate()
+        self.activate()
+        rospy.sleep(3)
+
+    def deactivate(self) -&gt; None:
+        &#34;&#34;&#34;Deactivate the gripper. Can also be used to clear the &#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 0
+        self.compensated_publish(command)
+        rospy.sleep(1)
+
+    def activate(self) -&gt; None:
+        &#34;&#34;&#34;[summary]&#34;&#34;&#34;
+        command = Robotiq2FCommand()
+        command.activate = 1
+        self.compensated_publish(command)
+        rospy.sleep(1)
+            
+    # ---------------------------------------------------------------------------- #
+    #                             SUPPORTING FUNCTIONS                             #
+    # ---------------------------------------------------------------------------- #
+
+    def report_status(self, verbose: bool = False) -&gt; None:
+        &#34;&#34;&#34;Output the current state of the gripper.
+
+        Args:
+            verbose (bool, optional): Display additional raw status message. Defaults to False.
+        &#34;&#34;&#34;
+        pos = self.status.current_position
+        pos_mm = self.raw_to_open_mm(pos)
+        pos_in = self.raw_to_open_in(pos)
+        speed_mm = self.raw_speed_to_mmps(self.speed)
+        speed_in = self.raw_speed_to_inps(self.speed)
+        force_N = self.raw_force_to_newton(self.force)
+        force_lbf = self.raw_force_to_lbf(self.force)
+        fault_status = self.status.fault_status
+        self.logger.log_info(f&#39;==== Current status ====&#39;)
+        self.logger.log_info(f&#39;Opening  = {pos} [{pos_mm} mm ~ {pos_in} in]&#39;)
+        self.logger.log_info(f&#39;Speed    = {self.speed} [{speed_mm} mm/s ~ {speed_in} in/s]&#39;)
+        self.logger.log_info(f&#39;Force    = {self.force} [{force_N} N ~ {force_lbf} lbf]&#39;)
+        self.logger.log_info(f&#39;Fault    = {fault_mapping[fault_status] if fault_status in fault_mapping else &#34;N/A&#34;}&#39;)
+        if verbose:
+            self.logger.log_info(&#39;Raw Robotiq2FStatus message:&#39;)
+            for s in str(self.status).split(&#39;\n&#39;):
+                self.logger.log_info(s)
+
+    def register(self, timeout: int = 10) -&gt; None:
+        &#34;&#34;&#34;Register necessary ROS publishers and subscribers.
+
+        Args:
+            timeout (int, optional): Wait time for topics to start publishing. Defaults to 10.
+        &#34;&#34;&#34;
+        try:
+            self.logger.log_warn(f&#39;Registering publisher and subscriber&#39;)
+            rospy.wait_for_message(&#39;/Robotiq2F/gripper_status&#39;, Robotiq2FStatus, timeout = timeout)
+            self.status_monitor = rospy.Subscriber(&#39;/Robotiq2F/gripper_status&#39;, Robotiq2FStatus, callback = self.status_monitor_callback)
+            self.power_monitor = rospy.Subscriber(&#39;/ur_hardware_interface/robot_mode&#39;, RobotMode, callback = self.power_monitor_callback)
+            self.command_publisher = rospy.Publisher(&#39;/Robotiq2F/command_interface&#39;, Robotiq2FCommand, queue_size = 1)
+            self.logger.log_warn(f&#39;Waiting for {5} seconds so publishers and subscribers register correctly&#39;)
+            rospy.sleep(5)
+            self.logger.log_success(f&#39;Controller registered successfully and ready to send commands&#39;)
+        except (ROSException, KeyboardInterrupt) as error:
+            self.logger.log_error(&#39;Unable to assign controller to gripper. Did you start Robotiq Node and powered the arm?&#39;)
+            self.logger.log_error(error)
+            raise ROSException
+
+    def calibrate(self) -&gt; Tuple[int, int]:
+        &#34;&#34;&#34;Fully open and closes the gripper to record internal binary. Must be executed without any obstructions as this can dramatically influence gripper operations!
+
+        Returns:
+            (int, int): lower and upper binary limit (default 0x00 to 0xFF or 0 to 255)
+        &#34;&#34;&#34;
+        self.logger.log_warn(&#39;Calibrating binary limits&#39;)
+        self.auto_open()
+        rospy.sleep(3)
+        upper = self.status.current_position
+        rospy.sleep(1)
+        self.auto_close()
+        rospy.sleep(3)
+        lower = self.status.current_position
+        rospy.sleep(1)
+        self.auto_open()
+        self.logger.log_success(&#39;Calibration completed&#39;)
+        self.logger.log_success(f&#39;Position binary range limit is {(lower, upper)}&#39;)
+        return tuple(lower, upper)
+    
+    def compensated_publish(self, command: Robotiq2FCommand, lag: float = 0.1):
+        &#34;&#34;&#34;Publish with a small wait between message for ROS topics to cope with the refresh rate of the gripper.&#34;&#34;&#34;
+        self.command_publisher.publish(command)
+        rospy.sleep(lag)
+
+    def status_monitor_callback(self, msg):
+        &#34;&#34;&#34;Callback for status subsciber&#34;&#34;&#34;
+        self.status = msg
+
+    def power_monitor_callback(self, msg):
+        &#34;&#34;&#34;Callback for power subsciber&#34;&#34;&#34;
+        self.power_status = msg.mode
+
+    def block(self) -&gt; None:
+        &#34;&#34;&#34;Convenient snippet for idle looping until gripper finishes motion.&#34;&#34;&#34;
+        while self.is_moving():
+            rospy.sleep(0.1)
+            
+    # ---------------------------------------------------------------------------- #
+    #                              CONVERSION HELPERS                              #
+    # ---------------------------------------------------------------------------- #
+
+    def raw_speed_to_mmps(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to mm/s&#34;&#34;&#34;
+        return round(self.inv_s(clip(raw, 0, 255)), 3)
+    
+    def raw_speed_to_inps(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to in/s&#34;&#34;&#34;
+        return round(self.raw_speed_to_mmps(raw) / 25.4, 3)
+    
+    def mmps_to_raw_speed(self, mmps: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert mm/s to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.s_ratio(clip(mmps, *self.speed_range))))
+    
+    def inps_to_raw_speed(self, inps: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert inches/s to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.s_ratio(clip(inps * 25.4, *self.speed_range))))
+    
+    def raw_force_to_newton(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to N&#34;&#34;&#34;
+        return round(self.inv_f(clip(raw, 0, 255)), 3)
+    
+    def raw_force_to_lbf(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to lbf&#34;&#34;&#34;
+        return round(self.raw_force_to_newton(raw) * 0.224809, 3)
+
+    def newton_to_raw_force(self, newton: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert N to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.f_ratio(clip(newton, *self.force_range))))
+    
+    def lbf_to_raw_force(self, lbf: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert lbf to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.f_ratio(clip(lbf * 4.44822, *self.force_range))))
+    
+    def raw_to_open_mm(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to mm of opening&#34;&#34;&#34;
+        return round(self.inv_d(clip(raw, 0, 255)), 3)
+    
+    def raw_to_open_in(self, raw: int) -&gt; float:
+        &#34;&#34;&#34;Convert raw value [0-255] to in of opening&#34;&#34;&#34;
+        return round(self.raw_to_open_mm(raw) / 25.4, 3)
+    
+    def open_mm_to_raw(self, mm: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert opening in mm to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.d_ratio(clip(mm, 0, self.stroke))))
+    
+    def open_in_to_raw(self, inches: Union[int, float]) -&gt; int:
+        &#34;&#34;&#34;Convert opening in inches to raw binary value [0-255]&#34;&#34;&#34;
+        return int(round(self.d_ratio(clip(inches * 25.4, 0, self.stroke))))</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.activate"><code class="name flex">
+<span>def <span class="ident">activate</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>[summary]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def activate(self) -&gt; None:
+    &#34;&#34;&#34;[summary]&#34;&#34;&#34;
+    command = Robotiq2FCommand()
+    command.activate = 1
+    self.compensated_publish(command)
+    rospy.sleep(1)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.auto_close"><code class="name flex">
+<span>def <span class="ident">auto_close</span></span>(<span>self, alt_speed: int = None, alt_force: int = None, blocking: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fully close the gripper or until obstructed.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>alt_speed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal speed settings. Defaults to None.</dd>
+<dt><strong><code>alt_force</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal force settings. Defaults to None.</dd>
+<dt><strong><code>blocking</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Wait until gripper motion is completed. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def auto_close(self, alt_speed: int = None, alt_force: int = None, blocking: bool = True) -&gt; None:
+    &#34;&#34;&#34;Fully close the gripper or until obstructed.
+
+    Args:
+        alt_speed (int, optional): Override internal speed settings. Defaults to None.
+        alt_force (int, optional): Override internal force settings. Defaults to None.
+        blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+    &#34;&#34;&#34;
+    command = Robotiq2FCommand()
+    command.activate = 1
+    command.goto = 1
+    command.position = 255
+    command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+    command.force = self.force if alt_force is None else int(clip(alt_force, 0, 255))
+    self.compensated_publish(command)
+    if blocking:
+        self.block()</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.auto_open"><code class="name flex">
+<span>def <span class="ident">auto_open</span></span>(<span>self, alt_speed: int = None, alt_force: int = None, blocking: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fully open the gripper or until obstructed.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>alt_speed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal speed settings. Defaults to None.</dd>
+<dt><strong><code>alt_force</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal force settings. Defaults to None.</dd>
+<dt><strong><code>blocking</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Wait until gripper motion is completed. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def auto_open(self, alt_speed: int = None, alt_force: int = None, blocking: bool = True) -&gt; None:
+    &#34;&#34;&#34;Fully open the gripper or until obstructed.
+
+    Args:
+        alt_speed (int, optional): Override internal speed settings. Defaults to None.
+        alt_force (int, optional): Override internal force settings. Defaults to None.
+        blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+    &#34;&#34;&#34;
+    command = Robotiq2FCommand()
+    command.activate = 1
+    command.goto = 1
+    command.position = 255
+    command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+    command.force = self.force if alt_force is None else int(clip(alt_force, 0, 255))
+    self.compensated_publish(command)
+    if blocking:
+        self.block()</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.block"><code class="name flex">
+<span>def <span class="ident">block</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convenient snippet for idle looping until gripper finishes motion.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def block(self) -&gt; None:
+    &#34;&#34;&#34;Convenient snippet for idle looping until gripper finishes motion.&#34;&#34;&#34;
+    while self.is_moving():
+        rospy.sleep(0.1)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.calibrate"><code class="name flex">
+<span>def <span class="ident">calibrate</span></span>(<span>self) ‑> Tuple[int, int]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Fully open and closes the gripper to record internal binary. Must be executed without any obstructions as this can dramatically influence gripper operations!</p>
+<h2 id="returns">Returns</h2>
+<p>(int, int): lower and upper binary limit (default 0x00 to 0xFF or 0 to 255)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calibrate(self) -&gt; Tuple[int, int]:
+    &#34;&#34;&#34;Fully open and closes the gripper to record internal binary. Must be executed without any obstructions as this can dramatically influence gripper operations!
+
+    Returns:
+        (int, int): lower and upper binary limit (default 0x00 to 0xFF or 0 to 255)
+    &#34;&#34;&#34;
+    self.logger.log_warn(&#39;Calibrating binary limits&#39;)
+    self.auto_open()
+    rospy.sleep(3)
+    upper = self.status.current_position
+    rospy.sleep(1)
+    self.auto_close()
+    rospy.sleep(3)
+    lower = self.status.current_position
+    rospy.sleep(1)
+    self.auto_open()
+    self.logger.log_success(&#39;Calibration completed&#39;)
+    self.logger.log_success(f&#39;Position binary range limit is {(lower, upper)}&#39;)
+    return tuple(lower, upper)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.compensated_publish"><code class="name flex">
+<span>def <span class="ident">compensated_publish</span></span>(<span>self, command: rvl_robotiq_controller.msg._Robotiq2FCommand.Robotiq2FCommand, lag: float = 0.1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Publish with a small wait between message for ROS topics to cope with the refresh rate of the gripper.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def compensated_publish(self, command: Robotiq2FCommand, lag: float = 0.1):
+    &#34;&#34;&#34;Publish with a small wait between message for ROS topics to cope with the refresh rate of the gripper.&#34;&#34;&#34;
+    self.command_publisher.publish(command)
+    rospy.sleep(lag)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.deactivate"><code class="name flex">
+<span>def <span class="ident">deactivate</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Deactivate the gripper. Can also be used to clear the</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def deactivate(self) -&gt; None:
+    &#34;&#34;&#34;Deactivate the gripper. Can also be used to clear the &#34;&#34;&#34;
+    command = Robotiq2FCommand()
+    command.activate = 0
+    self.compensated_publish(command)
+    rospy.sleep(1)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_hard"><code class="name flex">
+<span>def <span class="ident">grasp_hard</span></span>(<span>self, opening: bool = False, alt_speed: int = None, blocking: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hard grasp preset, grasping with force set to maximum or 255 (approximately 235 N).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>opening</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Grasp in the opening direction i.e. internal grasp. Defaults to False.</dd>
+<dt><strong><code>alt_speed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal speed settings. Defaults to None.</dd>
+<dt><strong><code>blocking</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Wait until gripper motion is completed. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def grasp_hard(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+    &#34;&#34;&#34;Hard grasp preset, grasping with force set to maximum or 255 (approximately 235 N).
+
+    Args:
+        opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+        alt_speed (int, optional): Override internal speed settings. Defaults to None.
+        blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+    &#34;&#34;&#34;
+    command = Robotiq2FCommand()
+    command.activate = 1
+    command.goto = 1
+    command.position = 0 if opening else 255
+    command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+    command.force = 255
+    self.compensated_publish(command)
+    if blocking:
+        self.block()</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_medium"><code class="name flex">
+<span>def <span class="ident">grasp_medium</span></span>(<span>self, opening: bool = False, alt_speed: int = None, blocking: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Medium grasp preset, grasping with force set to 128 (approximately 128 N).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>opening</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Grasp in the opening direction i.e. internal grasp. Defaults to False.</dd>
+<dt><strong><code>alt_speed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal speed settings. Defaults to None.</dd>
+<dt><strong><code>blocking</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Wait until gripper motion is completed. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def grasp_medium(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+    &#34;&#34;&#34;Medium grasp preset, grasping with force set to 128 (approximately 128 N).
+
+    Args:
+        opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+        alt_speed (int, optional): Override internal speed settings. Defaults to None.
+        blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+    &#34;&#34;&#34;
+    command = Robotiq2FCommand()
+    command.activate = 1
+    command.goto = 1
+    command.position = 0 if opening else 255
+    command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+    command.force = 128
+    self.compensated_publish(command)
+    if blocking:
+        self.block()</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_soft"><code class="name flex">
+<span>def <span class="ident">grasp_soft</span></span>(<span>self, opening: bool = False, alt_speed: int = None, blocking: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Soft grasp preset, grasping with force set to 1 (approximately 20 N).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>opening</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Grasp in the opening direction i.e. internal grasp. Defaults to False.</dd>
+<dt><strong><code>alt_speed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal speed settings. Defaults to None.</dd>
+<dt><strong><code>blocking</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Wait until gripper motion is completed. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def grasp_soft(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+    &#34;&#34;&#34;Soft grasp preset, grasping with force set to 1 (approximately 20 N).
+
+    Args:
+        opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+        alt_speed (int, optional): Override internal speed settings. Defaults to None.
+        blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+    &#34;&#34;&#34;
+    command = Robotiq2FCommand()
+    command.activate = 1
+    command.goto = 1
+    command.position = 0
+    command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+    command.force = 0
+    self.compensated_publish(command)
+    if blocking:
+        self.block()</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_soft_regrasp"><code class="name flex">
+<span>def <span class="ident">grasp_soft_regrasp</span></span>(<span>self, opening: bool = False, alt_speed: int = None, blocking: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Soft grasp preset, grasping with force set to 1 (approximately 20 N) with Re-Grasp enabled.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>opening</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Grasp in the opening direction i.e. internal grasp. Defaults to False.</dd>
+<dt><strong><code>alt_speed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal speed settings. Defaults to None.</dd>
+<dt><strong><code>blocking</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Wait until gripper motion is completed. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def grasp_soft_regrasp(self, opening: bool = False, alt_speed: int = None, blocking: bool = True) -&gt; None:
+    &#34;&#34;&#34;Soft grasp preset, grasping with force set to 1 (approximately 20 N) with Re-Grasp enabled.
+
+    Args:
+        opening (bool, optional): Grasp in the opening direction i.e. internal grasp. Defaults to False.
+        alt_speed (int, optional): Override internal speed settings. Defaults to None.
+        blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+    &#34;&#34;&#34;
+    command = Robotiq2FCommand()
+    command.activate = 1
+    command.goto = 1
+    command.position = 0 if opening else 255
+    command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+    command.force = 1
+    self.compensated_publish(command)
+    if blocking:
+        self.block()</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.inps_to_raw_speed"><code class="name flex">
+<span>def <span class="ident">inps_to_raw_speed</span></span>(<span>self, inps: Union[int, float]) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert inches/s to raw binary value [0-255]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def inps_to_raw_speed(self, inps: Union[int, float]) -&gt; int:
+    &#34;&#34;&#34;Convert inches/s to raw binary value [0-255]&#34;&#34;&#34;
+    return int(round(self.s_ratio(clip(inps * 25.4, *self.speed_range))))</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.is_holding"><code class="name flex">
+<span>def <span class="ident">is_holding</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns true when the gripper is holding an object</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_holding(self) -&gt; bool:
+    &#34;&#34;&#34;Returns true when the gripper is holding an object&#34;&#34;&#34;
+    status = self.status.object_status
+    if status == 1:
+        self.logger.log_info(&#39;Object detected/holding while opening&#39;)
+    elif status == 2:
+        self.logger.log_info(&#39;Object detected/holding while closing&#39;)
+    else:
+        self.logger.log_info(&#39;No object detected&#39;)
+    return (self.status.object_status == 1 or self.status.object_status == 2)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.is_moving"><code class="name flex">
+<span>def <span class="ident">is_moving</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns true when the gripper is in motion</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_moving(self) -&gt; bool:
+    &#34;&#34;&#34;Returns true when the gripper is in motion&#34;&#34;&#34;
+    return (self.status.object_status == 0)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.lbf_to_raw_force"><code class="name flex">
+<span>def <span class="ident">lbf_to_raw_force</span></span>(<span>self, lbf: Union[int, float]) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert lbf to raw binary value [0-255]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def lbf_to_raw_force(self, lbf: Union[int, float]) -&gt; int:
+    &#34;&#34;&#34;Convert lbf to raw binary value [0-255]&#34;&#34;&#34;
+    return int(round(self.f_ratio(clip(lbf * 4.44822, *self.force_range))))</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.mmps_to_raw_speed"><code class="name flex">
+<span>def <span class="ident">mmps_to_raw_speed</span></span>(<span>self, mmps: Union[int, float]) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert mm/s to raw binary value [0-255]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mmps_to_raw_speed(self, mmps: Union[int, float]) -&gt; int:
+    &#34;&#34;&#34;Convert mm/s to raw binary value [0-255]&#34;&#34;&#34;
+    return int(round(self.s_ratio(clip(mmps, *self.speed_range))))</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.newton_to_raw_force"><code class="name flex">
+<span>def <span class="ident">newton_to_raw_force</span></span>(<span>self, newton: Union[int, float]) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert N to raw binary value [0-255]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def newton_to_raw_force(self, newton: Union[int, float]) -&gt; int:
+    &#34;&#34;&#34;Convert N to raw binary value [0-255]&#34;&#34;&#34;
+    return int(round(self.f_ratio(clip(newton, *self.force_range))))</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.open_gripper"><code class="name flex">
+<span>def <span class="ident">open_gripper</span></span>(<span>self, value: Union[int, float], alt_speed: int = None, alt_force: int = None, unit: str = 'mm', blocking: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Open/Close the gripper to specified gap between the gripper pads.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>value</code></strong> :&ensp;<code>Union[int, float]</code></dt>
+<dd>Width of the jaw opening.</dd>
+<dt><strong><code>alt_speed</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal speed settings. Defaults to None.</dd>
+<dt><strong><code>alt_force</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Override internal force settings. Defaults to None.</dd>
+<dt><strong><code>unit</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Unit of measurement. Defaults to 'mm'.</dd>
+<dt><strong><code>blocking</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Wait until gripper motion is completed. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def open_gripper(self, value: Union[int, float], alt_speed: int = None, alt_force: int = None, unit: str = &#39;mm&#39;, blocking: bool = True) -&gt; None:
+    &#34;&#34;&#34;Open/Close the gripper to specified gap between the gripper pads.
+
+    Args:
+        value (Union[int, float]): Width of the jaw opening.
+        alt_speed (int, optional): Override internal speed settings. Defaults to None.
+        alt_force (int, optional): Override internal force settings. Defaults to None.
+        unit (str, optional): Unit of measurement. Defaults to &#39;mm&#39;.
+        blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+    &#34;&#34;&#34;
+    acceptable_units = [&#39;mm&#39;, &#39;in&#39;, &#39;raw&#39;]
+    if unit not in acceptable_units:
+        self.logger.log_error(f&#39;{unit} is invalid unit&#39;)
+        self.logger.log_error(f&#39;Expecting {acceptable_units}&#39;)
+    else:
+        command = Robotiq2FCommand()
+        command.activate = 1
+        command.goto = 1
+        command.speed = self.speed if alt_speed is None else int(clip(alt_speed, 0, 255))
+        command.force = self.force if alt_force is None else int(clip(alt_force, 0, 255))
+
+        if unit == &#39;raw&#39;:
+            command.position = int(clip(value, *self.binary_range))
+        elif unit == &#39;mm&#39;:
+            command.position = self.open_mm_to_raw(value)
+        else:
+            command.position = self.open_in_to_raw(value)
+
+        self.compensated_publish(command)
+        if blocking:
+            self.block()</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.open_in_to_raw"><code class="name flex">
+<span>def <span class="ident">open_in_to_raw</span></span>(<span>self, inches: Union[int, float]) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert opening in inches to raw binary value [0-255]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def open_in_to_raw(self, inches: Union[int, float]) -&gt; int:
+    &#34;&#34;&#34;Convert opening in inches to raw binary value [0-255]&#34;&#34;&#34;
+    return int(round(self.d_ratio(clip(inches * 25.4, 0, self.stroke))))</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.open_mm_to_raw"><code class="name flex">
+<span>def <span class="ident">open_mm_to_raw</span></span>(<span>self, mm: Union[int, float]) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert opening in mm to raw binary value [0-255]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def open_mm_to_raw(self, mm: Union[int, float]) -&gt; int:
+    &#34;&#34;&#34;Convert opening in mm to raw binary value [0-255]&#34;&#34;&#34;
+    return int(round(self.d_ratio(clip(mm, 0, self.stroke))))</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.power_monitor_callback"><code class="name flex">
+<span>def <span class="ident">power_monitor_callback</span></span>(<span>self, msg)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Callback for power subsciber</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def power_monitor_callback(self, msg):
+    &#34;&#34;&#34;Callback for power subsciber&#34;&#34;&#34;
+    self.power_status = msg.mode</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_force_to_lbf"><code class="name flex">
+<span>def <span class="ident">raw_force_to_lbf</span></span>(<span>self, raw: int) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert raw value [0-255] to lbf</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def raw_force_to_lbf(self, raw: int) -&gt; float:
+    &#34;&#34;&#34;Convert raw value [0-255] to lbf&#34;&#34;&#34;
+    return round(self.raw_force_to_newton(raw) * 0.224809, 3)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_force_to_newton"><code class="name flex">
+<span>def <span class="ident">raw_force_to_newton</span></span>(<span>self, raw: int) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert raw value [0-255] to N</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def raw_force_to_newton(self, raw: int) -&gt; float:
+    &#34;&#34;&#34;Convert raw value [0-255] to N&#34;&#34;&#34;
+    return round(self.inv_f(clip(raw, 0, 255)), 3)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_speed_to_inps"><code class="name flex">
+<span>def <span class="ident">raw_speed_to_inps</span></span>(<span>self, raw: int) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert raw value [0-255] to in/s</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def raw_speed_to_inps(self, raw: int) -&gt; float:
+    &#34;&#34;&#34;Convert raw value [0-255] to in/s&#34;&#34;&#34;
+    return round(self.raw_speed_to_mmps(raw) / 25.4, 3)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_speed_to_mmps"><code class="name flex">
+<span>def <span class="ident">raw_speed_to_mmps</span></span>(<span>self, raw: int) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert raw value [0-255] to mm/s</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def raw_speed_to_mmps(self, raw: int) -&gt; float:
+    &#34;&#34;&#34;Convert raw value [0-255] to mm/s&#34;&#34;&#34;
+    return round(self.inv_s(clip(raw, 0, 255)), 3)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_to_open_in"><code class="name flex">
+<span>def <span class="ident">raw_to_open_in</span></span>(<span>self, raw: int) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert raw value [0-255] to in of opening</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def raw_to_open_in(self, raw: int) -&gt; float:
+    &#34;&#34;&#34;Convert raw value [0-255] to in of opening&#34;&#34;&#34;
+    return round(self.raw_to_open_mm(raw) / 25.4, 3)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_to_open_mm"><code class="name flex">
+<span>def <span class="ident">raw_to_open_mm</span></span>(<span>self, raw: int) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert raw value [0-255] to mm of opening</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def raw_to_open_mm(self, raw: int) -&gt; float:
+    &#34;&#34;&#34;Convert raw value [0-255] to mm of opening&#34;&#34;&#34;
+    return round(self.inv_d(clip(raw, 0, 255)), 3)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.register"><code class="name flex">
+<span>def <span class="ident">register</span></span>(<span>self, timeout: int = 10) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Register necessary ROS publishers and subscribers.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Wait time for topics to start publishing. Defaults to 10.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def register(self, timeout: int = 10) -&gt; None:
+    &#34;&#34;&#34;Register necessary ROS publishers and subscribers.
+
+    Args:
+        timeout (int, optional): Wait time for topics to start publishing. Defaults to 10.
+    &#34;&#34;&#34;
+    try:
+        self.logger.log_warn(f&#39;Registering publisher and subscriber&#39;)
+        rospy.wait_for_message(&#39;/Robotiq2F/gripper_status&#39;, Robotiq2FStatus, timeout = timeout)
+        self.status_monitor = rospy.Subscriber(&#39;/Robotiq2F/gripper_status&#39;, Robotiq2FStatus, callback = self.status_monitor_callback)
+        self.power_monitor = rospy.Subscriber(&#39;/ur_hardware_interface/robot_mode&#39;, RobotMode, callback = self.power_monitor_callback)
+        self.command_publisher = rospy.Publisher(&#39;/Robotiq2F/command_interface&#39;, Robotiq2FCommand, queue_size = 1)
+        self.logger.log_warn(f&#39;Waiting for {5} seconds so publishers and subscribers register correctly&#39;)
+        rospy.sleep(5)
+        self.logger.log_success(f&#39;Controller registered successfully and ready to send commands&#39;)
+    except (ROSException, KeyboardInterrupt) as error:
+        self.logger.log_error(&#39;Unable to assign controller to gripper. Did you start Robotiq Node and powered the arm?&#39;)
+        self.logger.log_error(error)
+        raise ROSException</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.report_status"><code class="name flex">
+<span>def <span class="ident">report_status</span></span>(<span>self, verbose: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Output the current state of the gripper.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>verbose</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Display additional raw status message. Defaults to False.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def report_status(self, verbose: bool = False) -&gt; None:
+    &#34;&#34;&#34;Output the current state of the gripper.
+
+    Args:
+        verbose (bool, optional): Display additional raw status message. Defaults to False.
+    &#34;&#34;&#34;
+    pos = self.status.current_position
+    pos_mm = self.raw_to_open_mm(pos)
+    pos_in = self.raw_to_open_in(pos)
+    speed_mm = self.raw_speed_to_mmps(self.speed)
+    speed_in = self.raw_speed_to_inps(self.speed)
+    force_N = self.raw_force_to_newton(self.force)
+    force_lbf = self.raw_force_to_lbf(self.force)
+    fault_status = self.status.fault_status
+    self.logger.log_info(f&#39;==== Current status ====&#39;)
+    self.logger.log_info(f&#39;Opening  = {pos} [{pos_mm} mm ~ {pos_in} in]&#39;)
+    self.logger.log_info(f&#39;Speed    = {self.speed} [{speed_mm} mm/s ~ {speed_in} in/s]&#39;)
+    self.logger.log_info(f&#39;Force    = {self.force} [{force_N} N ~ {force_lbf} lbf]&#39;)
+    self.logger.log_info(f&#39;Fault    = {fault_mapping[fault_status] if fault_status in fault_mapping else &#34;N/A&#34;}&#39;)
+    if verbose:
+        self.logger.log_info(&#39;Raw Robotiq2FStatus message:&#39;)
+        for s in str(self.status).split(&#39;\n&#39;):
+            self.logger.log_info(s)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.reset"><code class="name flex">
+<span>def <span class="ident">reset</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reset the gripper to default state (may or may not be obstructed).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset(self) -&gt; None:
+    &#34;&#34;&#34;Reset the gripper to default state (may or may not be obstructed).&#34;&#34;&#34;
+    self.logger.log_warn(f&#39;Gripper reset&#39;)
+    self.deactivate()
+    self.activate()
+    rospy.sleep(3)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.send_raw_position_command"><code class="name flex">
+<span>def <span class="ident">send_raw_position_command</span></span>(<span>self, position: int, speed: int, force: int, blocking: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Send a position request command to the gripper ignoring internal settings.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>position</code></strong> :&ensp;<code>int</code></dt>
+<dd>Raw position value [0-255].</dd>
+<dt><strong><code>speed</code></strong> :&ensp;<code>int</code></dt>
+<dd>Raw speed value [0-255].</dd>
+<dt><strong><code>force</code></strong> :&ensp;<code>int</code></dt>
+<dd>Raw force value [0-255].</dd>
+<dt><strong><code>blocking</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Wait until gripper motion is completed. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_raw_position_command(self, position: int, speed: int, force: int, blocking: bool = True) -&gt; None:
+    &#34;&#34;&#34;Send a position request command to the gripper ignoring internal settings.
+
+    Args:
+        position (int): Raw position value [0-255].
+        speed (int): Raw speed value [0-255].
+        force (int): Raw force value [0-255].
+        blocking (bool, optional): Wait until gripper motion is completed. Defaults to True.
+    &#34;&#34;&#34;
+    command = Robotiq2FCommand()
+    command.activate = 1
+    command.goto = 1
+    command.position = int(clip(position, 0, 255))
+    command.speed = int(clip(speed, 0, 255))
+    command.force = int(clip(force, 0, 255))
+    self.compensated_publish(command)
+    if blocking:
+        self.block()</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.set_gripper_force"><code class="name flex">
+<span>def <span class="ident">set_gripper_force</span></span>(<span>self, value: Union[int, float], unit: str = 'N') ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the internal (default) force setting of the gripper. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>value</code></strong> :&ensp;<code>Union[int, float]</code></dt>
+<dd>New force value.</dd>
+<dt><strong><code>unit</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Unit of measurement. Defaults to 'N'.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_gripper_force(self, value: Union[int, float], unit: str = &#39;N&#39;) -&gt; None:
+    &#34;&#34;&#34;Set the internal (default) force setting of the gripper. 
+
+    Args:
+        value (Union[int, float]): New force value.
+        unit (str, optional): Unit of measurement. Defaults to &#39;N&#39;.
+    &#34;&#34;&#34;
+    acceptable_units = [&#39;raw&#39;, &#39;newton&#39;, &#39;N&#39;, &#39;pound-force&#39;, &#39;lbf&#39;]
+    if unit not in acceptable_units:
+        self.logger.log_error(f&#39;{unit} is invalid unit&#39;)
+        self.logger.log_error(f&#39;Expecting {acceptable_units}&#39;)
+    else:
+        if unit == &#39;raw&#39;:
+            self.force = int(clip(value, 0, 255))
+        elif unit == &#39;newton&#39;:
+            self.force = self.newton_to_raw_force(value)
+        else:
+            self.force = self.lbf_to_raw_force(value)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.set_gripper_speed"><code class="name flex">
+<span>def <span class="ident">set_gripper_speed</span></span>(<span>self, value: Union[int, float], unit: str = 'mm/s') ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the internal (default) speed setting of the gripper. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>value</code></strong> :&ensp;<code>Union[int, float]</code></dt>
+<dd>New speed value.</dd>
+<dt><strong><code>unit</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Unit of measurement. Defaults to 'mm/s'.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_gripper_speed(self, value: Union[int, float], unit: str = &#39;mm/s&#39;) -&gt; None:
+    &#34;&#34;&#34;Set the internal (default) speed setting of the gripper. 
+
+    Args:
+        value (Union[int, float]): New speed value.
+        unit (str, optional): Unit of measurement. Defaults to &#39;mm/s&#39;.
+    &#34;&#34;&#34;
+    acceptable_units = [&#39;raw&#39;, &#39;mm/s&#39;, &#39;in/s&#39;]
+    if unit not in acceptable_units:
+        self.logger.log_error(f&#39;{unit} is invalid unit&#39;)
+        self.logger.log_error(f&#39;Expecting {acceptable_units}&#39;)
+    else:
+        if unit == &#39;raw&#39;:
+            self.speed = int(clip(value, 0, 255))
+        elif unit == &#39;mm/s&#39;:
+            self.speed = self.mmps_to_raw_speed(value)
+        else:
+            self.speed = self.inps_to_raw_speed(value)</code></pre>
+</details>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq2FController.status_monitor_callback"><code class="name flex">
+<span>def <span class="ident">status_monitor_callback</span></span>(<span>self, msg)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Callback for status subsciber</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def status_monitor_callback(self, msg):
+    &#34;&#34;&#34;Callback for status subsciber&#34;&#34;&#34;
+    self.status = msg</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="rvl_robotiq_controller.RobotiqController.Robotiq3FController"><code class="flex name class">
+<span>class <span class="ident">Robotiq3FController</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Robotiq3FController:
+    def __init__(self):
+        raise NotImplementedError</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="rvl_robotiq_controller" href="index.html">rvl_robotiq_controller</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController">Robotiq2FController</a></code></h4>
+<ul class="">
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.activate" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.activate">activate</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.auto_close" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.auto_close">auto_close</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.auto_open" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.auto_open">auto_open</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.block" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.block">block</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.calibrate" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.calibrate">calibrate</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.compensated_publish" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.compensated_publish">compensated_publish</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.deactivate" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.deactivate">deactivate</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_hard" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_hard">grasp_hard</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_medium" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_medium">grasp_medium</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_soft" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_soft">grasp_soft</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_soft_regrasp" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.grasp_soft_regrasp">grasp_soft_regrasp</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.inps_to_raw_speed" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.inps_to_raw_speed">inps_to_raw_speed</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.is_holding" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.is_holding">is_holding</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.is_moving" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.is_moving">is_moving</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.lbf_to_raw_force" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.lbf_to_raw_force">lbf_to_raw_force</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.mmps_to_raw_speed" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.mmps_to_raw_speed">mmps_to_raw_speed</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.newton_to_raw_force" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.newton_to_raw_force">newton_to_raw_force</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.open_gripper" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.open_gripper">open_gripper</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.open_in_to_raw" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.open_in_to_raw">open_in_to_raw</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.open_mm_to_raw" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.open_mm_to_raw">open_mm_to_raw</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.power_monitor_callback" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.power_monitor_callback">power_monitor_callback</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_force_to_lbf" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_force_to_lbf">raw_force_to_lbf</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_force_to_newton" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_force_to_newton">raw_force_to_newton</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_speed_to_inps" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_speed_to_inps">raw_speed_to_inps</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_speed_to_mmps" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_speed_to_mmps">raw_speed_to_mmps</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_to_open_in" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_to_open_in">raw_to_open_in</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_to_open_mm" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.raw_to_open_mm">raw_to_open_mm</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.register" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.register">register</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.report_status" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.report_status">report_status</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.reset" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.reset">reset</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.send_raw_position_command" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.send_raw_position_command">send_raw_position_command</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.set_gripper_force" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.set_gripper_force">set_gripper_force</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.set_gripper_speed" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.set_gripper_speed">set_gripper_speed</a></code></li>
+<li><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq2FController.status_monitor_callback" href="#rvl_robotiq_controller.RobotiqController.Robotiq2FController.status_monitor_callback">status_monitor_callback</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="rvl_robotiq_controller.RobotiqController.Robotiq3FController" href="#rvl_robotiq_controller.RobotiqController.Robotiq3FController">Robotiq3FController</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
