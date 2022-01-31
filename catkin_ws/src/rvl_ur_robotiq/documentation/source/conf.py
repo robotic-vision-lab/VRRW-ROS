@@ -61,6 +61,10 @@ exclude_patterns = []
 # hide annoying duplicated label warning
 # suppress_warnings = ['autosectionlabel.*']
 
+# TODOS
+todo_include_todos = True
+todo_emit_warnings = True
+
 # include constructors
 def skip(app, what, name, obj, would_skip, options):
     if name == "__init__":
@@ -94,6 +98,15 @@ html_theme_options = {
     'includehidden': True,
     'titles_only': False
 }
+
+# GIF support for HTML?
+from sphinx.builders.html import StandaloneHTMLBuilder
+StandaloneHTMLBuilder.supported_image_types = [
+    'image/svg+xml',
+    'image/gif',
+    'image/png',
+    'image/jpeg'
+]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
