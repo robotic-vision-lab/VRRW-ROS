@@ -306,7 +306,7 @@ class Robotiq2FController:
         rospy.sleep(3)
 
     def deactivate(self) -> None:
-        """Deactivate the gripper. Can also be used to clear the """
+        """Deactivate the gripper. Can also be used to clear the reset bit."""
         command = Robotiq2FCommand()
         command.activate = 0
         self.compensated_publish(command)

@@ -57,7 +57,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 
 # installing documentation packages
 RUN python3 -m pip install --upgrade setuptools wheel pip testresources && \
-    python3 -m pip install --upgrade sphinx pdoc3 && \
+    python3 -m pip install --upgrade sphinx sphinx-theme pdoc3 && \
     apt-get -y --no-install-recommends install ros-noetic-rosdoc-lite
 
 # define catkin workspace
