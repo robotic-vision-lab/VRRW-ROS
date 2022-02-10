@@ -1,4 +1,6 @@
-# Unity Robotics Workcell
+# RVL Public Release Driver
+
+This branch is a direct backend mirror of [UR Robotiq Integrated Driver](https://github.com/robotic-vision-lab/UR-Robotiq-Integrated-Driver). All other development will be directed to the `development` branch.
 
 ## Documentation
 
