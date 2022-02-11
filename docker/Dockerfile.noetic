@@ -45,6 +45,11 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
     && apt-get -y autoremove \
     && apt-get clean
 
+# installing Gazebo 11
+RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
+    wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add - \
+    apt-get update && apt-get -y install gazebo11 libgazebo11-dev
+
 # installing ROS Packages
 RUN apt-get update && apt-get -y --no-install-recommends install \
     ros-noetic-ros-control \

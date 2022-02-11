@@ -6,7 +6,7 @@
 SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 if [ -z "${CONTAINER_NAME}" ]; then
-    CONTAINER_NAME=rvl-driver-container
+    CONTAINER_NAME=unity-robosim-container
 fi
 
 if [ -z "${HOST_CATKIN_WS}" ]; then
@@ -33,13 +33,13 @@ if [ -z "${CONTAINER_ID}" ]; then
     -e "DISPLAY=${DISPLAY}" \
     -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     -v "${HOST_CATKIN_WS}:/root/catkin_ws/src:rw" \
-    rvl-ur-robotiq-driver:latest \
+    unity-robosim:latest \
     bash
 
     # add convenient aliases
     docker cp ${SCRIPT_DIR}/.bash_aliases ${CONTAINER_NAME}:/root/.bash_aliases
 else
-    echo "Found RVL Driver container: ${CONTAINER_NAME}"
+    echo "Found Unity Robosim container: ${CONTAINER_NAME}"
     # Check if the container is already running and start if necessary.
     if [ -z `docker ps -qf "name=^/${CONTAINER_NAME}$"` ]; then
         echo "${CONTAINER_NAME} container not running. Starting container..."
