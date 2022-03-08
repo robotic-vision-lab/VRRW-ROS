@@ -48,10 +48,10 @@ windows:
   - internal:
       layout: b1bc,116x45,0,0{62x45,0,0[62x22,0,0,0,62x22,0,23,6],53x45,63,0[53x8,63,0,1,53x8,63,9,4,53x8,63,18,5,53x8,63,27,2,53x9,63,36,3]}
       panes:
-        - sh /mnt/c/Users/jmtus/Desktop/Workspace/Robosim-Docker/scripts/windows_launch_docker_container.sh
-        - sh /mnt/c/Users/jmtus/Desktop/Workspace/Robosim-Docker/scripts/windows_launch_docker_container.sh
-        - sh /mnt/c/Users/jmtus/Desktop/Workspace/Robosim-Docker/scripts/windows_launch_docker_container.sh
-        - sh /mnt/c/Users/jmtus/Desktop/Workspace/Robosim-Docker/scripts/windows_launch_docker_container.sh
-        - sh /mnt/c/Users/jmtus/Desktop/Workspace/Robosim-Docker/scripts/windows_launch_docker_container.sh
-        - sh /mnt/c/Users/jmtus/Desktop/Workspace/Robosim-Docker/scripts/windows_launch_docker_container.sh
-        - sh /mnt/c/Users/jmtus/Desktop/Workspace/Robosim-Docker/scripts/windows_launch_docker_container.sh
+        - bash /home/jmtus/Workspace/Unity-Robosim/docker/run_container.sh
+        - bash /home/jmtus/Workspace/Unity-Robosim/docker/run_container.sh
+        - bash /home/jmtus/Workspace/Unity-Robosim/docker/run_container.sh
+        - bash /home/jmtus/Workspace/Unity-Robosim/docker/run_container.sh
+        - bash /home/jmtus/Workspace/Unity-Robosim/docker/run_container.sh
+        - bash /home/jmtus/Workspace/Unity-Robosim/docker/run_container.sh
+        - bash /home/jmtus/Workspace/Unity-Robosim/docker/run_container.sh

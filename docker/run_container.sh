@@ -1,52 +1,54 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # courtesy of https://github.com/NVlabs/Deep_Object_Pose/blob/master/docker/run_dope_docker.sh
-# script folder; https://stackoverflow.com/a/4774063
 
-SCRIPT_DIR="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+# get the script parent directory
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-if [ -z "${CONTAINER_NAME}" ]; then
-    CONTAINER_NAME=unity-robosim-container
-fi
+# location of catkin_ws on host machine in relation to script
+HOST_CATKIN_WS=$( cd "$( dirname -- "${BASH_SOURCE[0]}" )/../catkin_ws/src" >/dev/null 2>&1 ; pwd -P )
 
-if [ -z "${HOST_CATKIN_WS}" ]; then
-    HOST_CATKIN_WS=$(cd "$(dirname "$0")/../catkin_ws/src" >/dev/null 2>&1 ; pwd -P )
-fi
+# name of the container to be created
+CONTAINER_NAME=unity-robosim-container
+
+# Docker image and tag to use
+IMAGE_NAME=unity-robosim
+IMAGE_TAG=gazebo_cudagl
 
 # get docker container ID if exists
 CONTAINER_ID=`docker ps -aqf "name=^/${CONTAINER_NAME}$"`
 
+# if container with name not found
 if [ -z "${CONTAINER_ID}" ]; then
-    # container DNE, creating one with either given name or default name (rvl-container)
-    echo "Creating new RVL Integrated Driver container in background named ${CONTAINER_NAME}"
-    sleep 1
-
     # creating the docker container
-    # see https://docs.docker.com/engine/reference/run/ for more details
     docker run -t -d \
     --name ${CONTAINER_NAME} \
     --privileged \
     --shm-size 16G \
-    -p 50000-50003:50000-50003 \
-    -p 54321:54321 \
-    -p 10000:10000 \
+    --network host \
+    --gpus all \
+    --runtime nvidia \
     -e "DISPLAY=${DISPLAY}" \
     -v "/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     -v "${HOST_CATKIN_WS}:/root/catkin_ws/src:rw" \
-    unity-robosim:latest \
+    ${IMAGE_NAME}:${IMAGE_TAG} \
     bash
 
     # add convenient aliases
     docker cp ${SCRIPT_DIR}/.bash_aliases ${CONTAINER_NAME}:/root/.bash_aliases
 else
-    echo "Found Unity Robosim container: ${CONTAINER_NAME}"
+    # allow X Server access
+    xhost +local:`docker inspect --format='{{ .Config.Hostname }}' ${CONTAINER_ID}`
+
     # Check if the container is already running and start if necessary.
     if [ -z `docker ps -qf "name=^/${CONTAINER_NAME}$"` ]; then
         echo "${CONTAINER_NAME} container not running. Starting container..."
         docker start ${CONTAINER_ID}
-        docker exec -it ${CONTAINER_ID} bash
     else
         echo "Attaching to running ${CONTAINER_NAME} container..."
-        docker exec -it ${CONTAINER_ID} bash
     fi
+    docker exec -it ${CONTAINER_ID} bash
+
+    # remove previous access
+    xhost -local:`docker inspect --format='{{ .Config.Hostname }}' ${CONTAINER_ID}`
 fi
