@@ -2,7 +2,7 @@
 <package format="2">
   <name>rvl_robot_description</name>
   <version>1.0.0</version>
-  <description>Robot Xacro/URDF for available robots in Robotic Vision Laboratory.</description>
+  <description>Robot Xacro/URDF for robots available in Robotic Vision Laboratory.</description>
 
   <maintainer email="minh.tram@mavs.uta.edu">Minh Tram</maintainer>
 

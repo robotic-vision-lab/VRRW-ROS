@@ -59,6 +59,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     ros-noetic-gazebo-ros-control \
     ros-noetic-ros-control \
     ros-noetic-ros-controllers \
+    ros-noetic-roboticsgroup-upatras-gazebo-plugins \
     && apt-get -y autoremove \
     && apt-get clean
 
