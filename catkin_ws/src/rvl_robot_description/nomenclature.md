@@ -1,6 +1,6 @@
 # Component name remapping
 
-Per [instruction manual](../../../../official_docs/Robotiq_2F_Documentation.pdf) of Robotiq 2F Gripper, joint/link names are renamed as follow:
+Per [instruction manual](/official_docs/Robotiq_2F_Documentation.pdf) of Robotiq 2F Gripper, joint/link names are renamed as follow:
 
 `base_link` is renamed to `palm`
 
