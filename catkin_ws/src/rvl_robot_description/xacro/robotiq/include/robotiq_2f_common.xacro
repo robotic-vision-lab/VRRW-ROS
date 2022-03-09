@@ -1,4 +1,11 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    
+
+    <xacro:macro name="load_robotiq_config" params="joint_config_parameters_file physical_parameters_file visual_parameters_file">
+        <!-- Read .yaml files from disk, load content into properties -->
+        <xacro:property name="config_joint_config_parameters" value="${xacro.load_yaml(joint_config_parameters_file)}" />
+        <xacro:property name="config_physical_parameters" value="${xacro.load_yaml(physical_parameters_file)}" />
+        <xacro:property name="config_visual_parameters" value="${xacro.load_yaml(visual_parameters_file)}" />
+    </xacro:macro>
+
 </robot>
