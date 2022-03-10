@@ -1,0 +1,14 @@
+# base_link = palm
+# outer_knuckle = knuckle
+# outer_finger = bar
+# inner_knuckle = proximal_phalanx
+# inner_finger = distal_phalanx
+# finger_pad = finger_tip
+
+link_names:
+  palm: "robotiq_2f_palm_link"
+  knuckle: "robotiq_2f_knuckle_link"
+  bar: "robotiq_2f_bar_link"
+  proximal_phalanx: "robotiq_2f_proximal_phalanx_link"
+  distal_phalanx: "robotiq_2f_distal_phalanx_link"
+  finger_tip: "robotiq_2f_finger_tip_link"
