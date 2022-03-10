@@ -14,4 +14,4 @@ Per [instruction manual](/official_docs/Robotiq_2F_Documentation.pdf) of Robotiq
 
 `finger_pad` is renamed to `finger_tip`
 
-All link/joint names will be prepended with `robotiq_2f` instead of the previous `robotiq_arg2f`.
+All prefix `robotiq_2f` is renamed to `robotiq_arg2f`
