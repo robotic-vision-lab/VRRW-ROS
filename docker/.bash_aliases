@@ -25,4 +25,6 @@ alias run_catkin='catkin build --cmake-args -Wno-dev -DCMAKE_BUILD_TYPE=Debug &&
 
 alias rebuild_catkin='catkin clean -y && catkin build --cmake-args -Wno-dev -DCMAKE_BUILD_TYPE=Debug && src_ros'
 
+alias kill_gazebo="ps -aux | grep gazebo | egrep -v color | awk '{print \$2}' | xargs kill -9"
+
 echo "predefined aliases: src_ros, run_rosdep, run_catkin, rebuild_catkin"

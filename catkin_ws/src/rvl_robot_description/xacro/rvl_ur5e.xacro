@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rvl_ur5e">
+
+    <!-- Universal Robots 5e arm -->
+    <xacro:include filename="$(find rvl_robot_description)/xacro/universal_robots/include/ur5e_macro.xacro" />
+    <xacro:ur5e_robot prefix="" />
+
+    <!-- Robotiq 2F-85 gripper -->
+    <xacro:include filename="$(find rvl_robot_description)/xacro/robotiq/include/robotiq_2f_macro.xacro" />
+    <xacro:robotiq_2f_gripper prefix="" stroke="85" />
+
+    <!-- Connect gripper to tool0 -->
+    <joint name="tool0-gripper_base" type="fixed">
+        <parent link="tool0" />
+        <child link="robotiq_2f_base_palm" />
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    </joint>
+
+</robot>
