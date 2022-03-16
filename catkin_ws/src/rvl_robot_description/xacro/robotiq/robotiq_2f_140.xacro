@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robotiq_2f_85">
+    <!-- import main macro -->
+    <xacro:include filename="$(find rvl_robot_description)/xacro/robotiq/include/robotiq_2f_macro.xacro" />
+
+    <!-- gripper -->
+    <xacro:robotiq_2f_gripper prefix="" stroke="140" />
+</robot>

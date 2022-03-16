@@ -178,7 +178,12 @@
 
         <xacro:macro name="proximal_phalanx_joint" params="prefix fingerprefix reflect">
             <joint name="${prefix}${fingerprefix}${proximal_phalanx_joint_name}" type="${proximal_phalanx_joint_type}">
-                <origin xyz="0 ${reflect * -0.0127} 0.06142" rpy="0 0 ${(1 + reflect) * pi / 2}" />
+                <xacro:if value="${stroke == 85}">
+                    <origin xyz="0 ${reflect * -0.0127} 0.06142" rpy="0 0 ${(1 + reflect) * pi / 2}" />
+                </xacro:if>
+                <xacro:if value="${stroke == 140}">
+                    <origin xyz="0 ${reflect * -0.0127} 0.06142" rpy="${pi / 2 + .725} 0 ${(reflect - 1) * pi / 2}" />
+                </xacro:if>
                 <parent link="${prefix}${proximal_phalanx_joint_parent_link}" />
                 <child link="${prefix}${fingerprefix}${proximal_phalanx_joint_child_link}" />
                 <axis xyz="${proximal_phalanx_joint_axis}" />
