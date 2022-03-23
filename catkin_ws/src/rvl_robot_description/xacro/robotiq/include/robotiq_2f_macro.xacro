@@ -4,7 +4,18 @@
     <xacro:include filename="$(find rvl_robot_description)/xacro/robotiq/include/robotiq_2f_transmissions.xacro" />
     <xacro:include filename="$(find rvl_robot_description)/xacro/robotiq/include/robotiq_2f_common.xacro" />
 
-    <xacro:macro name="robotiq_2f_gripper" params="prefix stroke transmission_hw_interface:=hardware_interface/EffortJointInterface">
+    <xacro:macro name="robotiq_2f_gripper" params="
+        prefix
+        stroke
+        transmission_hw_interface:=hardware_interface/EffortJointInterface
+        parent_link:=''
+        attachment_x:=0.0
+        attachment_y:=0.0
+        attachment_z:=0.0
+        attachment_roll:=0.0
+        attachment_pitch:=0.0
+        attachment_yaw:=0.0">
+
         <!-- load stroke-specified configurations -->
         <xacro:load_robotiq_config joint_parameters_file="$(find rvl_robot_description)/config/robotiq/2f_${stroke}/joint_parameters.yaml" physical_parameters_file="$(find rvl_robot_description)/config/robotiq/2f_${stroke}/physical_parameters.yaml" visual_parameters_file="$(find rvl_robot_description)/config/robotiq/2f_${stroke}/visual_parameters.yaml" />
 
@@ -248,6 +259,24 @@
             <limit lower="${mimic_knuckle_joint_lower_limit}" upper="${mimic_knuckle_joint_upper_limit}" velocity="${mimic_knuckle_joint_velocity}" effort="${mimic_knuckle_joint_effort}" />
             <mimic joint="${prefix}${mimic_knuckle_joint_mimic_joint}" multiplier="${mimic_knuckle_joint_mimic_multiplier}" offset="${mimic_knuckle_joint_mimic_offset}" />
         </joint>
+
+        <!-- ATTACHMENT WHEN REQUIRED -->
+        <xacro:if value="${parent_link != ''}">
+            <joint name="robotiq_2f_to_parent" type="fixed">
+                <parent link="${parent_link}"/>
+                <child link="${prefix}${palm_link_name}"/>
+                <origin xyz="${attachment_x} ${attachment_y} ${attachment_z}" rpy="${attachment_roll} ${attachment_pitch} ${attachment_yaw}"/>
+            </joint>
+        </xacro:if>
+
+        <xacro:if value="${parent_link == ''}">
+            <link name="base_link"/>
+            <joint name="robotiq_2f_to_parent" type="fixed">
+                <parent link="base_link"/>
+                <child link="${prefix}${palm_link_name}"/>
+                <origin xyz="${attachment_x} ${attachment_y} ${attachment_z}" rpy="${attachment_roll} ${attachment_pitch} ${attachment_yaw}"/>
+            </joint>
+        </xacro:if>
 
     </xacro:macro>
 </robot>

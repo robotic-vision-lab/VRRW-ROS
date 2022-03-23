@@ -62,12 +62,56 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        left_knuckle_link:
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        leftbar_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_knuckle_link:
+        leftdistal_phalanx_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        leftfinger_tip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        leftknuckle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        leftproximal_phalanx_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rightbar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rightdistal_phalanx_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rightfinger_tip_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rightknuckle_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rightproximal_phalanx_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -87,7 +131,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: robotiq_2f_base_palm
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -127,9 +171,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: -0.03960184380412102
+      Pitch: -0.004601842723786831
       Target Frame: <Fixed Frame>
-      Yaw: 0.5653971433639526
+      Yaw: 6.033581256866455
     Saved: ~
 Window Geometry:
   Displays:
