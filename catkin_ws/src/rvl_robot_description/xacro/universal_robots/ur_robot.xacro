@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur_robot">
+  <!--
+    This is unified Universal Robot macro example instead of individual loading files
+    like official ur_description repository.
+
+    Available variants are ur3(e), ur5(e), ur10(e), and ur16e
+  -->
+  <xacro:include filename="$(find rvl_robot_description)/xacro/universal_robots/include/ur_macro.xacro"/>
+
+  <!-- default parameters as before -->
+  <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+  <xacro:arg name="safety_limits" default="false"/>
+  <xacro:arg name="safety_pos_margin" default="0.15"/>
+  <xacro:arg name="safety_k_position" default="20"/>
+
+  <!-- robot model must be specified -->
+  <xacro:arg name="ur_variant" default="ur5e"/>
+
+  <xacro:ur_robot
+    prefix=""
+    variant="$(arg ur_variant)"
+    transmission_hw_interface="$(arg transmission_hw_interface)"
+    safety_limits="$(arg safety_limits)"
+    safety_pos_margin="$(arg safety_pos_margin)"
+    safety_k_position="$(arg safety_k_position)"/>
+</robot>
