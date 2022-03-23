@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rvl_arm">
+    <xacro:include filename="$(find rvl_robot_description)/xacro/custom/rvl_ur_robotiq_macro.xacro" />
+    <xacro:rvl_arm prefix="" ur_variant="ur5e" robotiq_variant="2f_140"/>
+</robot>

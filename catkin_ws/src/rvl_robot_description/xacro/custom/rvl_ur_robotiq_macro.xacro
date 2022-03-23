@@ -12,7 +12,6 @@
         safety_k_position:=20">
 
         <xacro:property name="coupling_offset" value="0.0053" />
-        <xacro:property name="gripper_height" value="0.1628" />
         <xacro:property name="tool_rotation" value="${pi/2}" />
         <xacro:property name="camera_placement_offset" value="0.12439" />
         <xacro:property name="camera_origin_offset" value="0.0061"/>
@@ -39,6 +38,7 @@
         <!-- Robotiq gripper -->
         <xacro:if value="${robotiq_variant.startswith('2f')}">
             <xacro:include filename="$(find rvl_robot_description)/xacro/robotiq/include/robotiq_2f_macro.xacro" />
+            <xacro:property name="gripper_height" value="${0.1628 if robotiq_variant[3:] == '85' else 0.2328}" scope="parent"/>
             <xacro:robotiq_2f_gripper
                 prefix="${prefix}"
                 stroke="${robotiq_variant[3:]}"
@@ -52,6 +52,14 @@
         </xacro:if>
 
         <!-- Intel RealSense Camera - TBD -->
+
+        <!-- Additional link for planning (center of gripper tips when fully closed) -->
+        <link name="${prefix}gripper_center_tip" />
+        <joint name="${prefix}gripper_center_tip_joint" type="fixed">
+            <parent link="${prefix}tool0"/>
+            <child link="${prefix}gripper_center_tip"/>
+            <origin xyz="0.0 0.0 ${coupling_offset + gripper_height}" rpy="0.0 0.0 0.0"/>
+        </joint>
 
     </xacro:macro>
 
