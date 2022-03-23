@@ -27,6 +27,6 @@
     </xacro:macro>
 
     <!-- testing -->
-    <xacro:L515_mounting_plate prefix="" />
+    <!-- <xacro:L515_mounting_plate prefix="" /> -->
 
 </robot>
