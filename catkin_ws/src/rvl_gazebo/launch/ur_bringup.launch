@@ -1,23 +1,10 @@
 <?xml version="1.0"?>
 <launch>
 
-    <!-- specify which robot to spawn into Gazebo -->
-    <arg name="ur_variant" default="ur5e" />
-    <arg name="gazebo_name" default="robot" doc="The name to give to the model in Gazebo (after spawning it)." />
-
-    <!-- robot_state_publisher configuration -->
-    <arg name="tf_prefix" default="" doc="tf_prefix used for the robot." />
-    <arg name="tf_pub_rate" default="500" doc="Rate at which robot_state_publisher should publish transforms." />
-
     <!-- Load controller settings -->
     <arg name="controller_config_file" default="$(eval find('rvl_gazebo') + '/config/universal_robots/' + ur_variant + '_controllers.yaml')" doc="Config file used for defining the ROS-Control controllers." />
     <arg name="controllers" default="joint_state_controller arm_controller" doc="Controllers that are activated by default." />
-
-    <!-- Load specified controllers -->
     <rosparam file="$(arg controller_config_file)" command="load" />
-
-    <!-- fix for https://github.com/ros-simulation/gazebo_ros_pkgs/issues/93 -->
-    <!-- <arg name="unpause_gazebo" default="false"/> -->
 
     <!-- robot configuration on spawn -->
     <arg name="start_x" default="0.0"/>
@@ -30,53 +17,29 @@
     <arg name="start_wrist_2_joint" default ="0.0" />
     <arg name="start_wrist_3_joint" default ="0.0" />
 
-    <!-- using rqt_joint_trajectory_controller -->
-    <!-- <arg name="using_rqt_trajectory_controller" default="false"/> -->
-
     <!-- robot description with Gazebo xacro instead of default robot xacro -->
-    <arg name="joint_limit_params" default="$(eval find('rvl_robot_description') + '/config/universal_robots/' + ur_variant + '/joint_limits.yaml')" />
-    <arg name="kinematics_params" default="$(eval find('rvl_robot_description') + '/config/universal_robots/' + ur_variant + '/default_kinematics.yaml')" />
-    <arg name="physical_params" default="$(eval find('rvl_robot_description') + '/config/universal_robots/' + ur_variant + '/physical_parameters.yaml')" />
-    <arg name="visual_params" default="$(eval find('rvl_robot_description') + '/config/universal_robots/' + ur_variant + '/visual_parameters.yaml')" />
+    <arg name="ur_variant" default="ur5e" />
     <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
     <arg name="safety_limits" default="false" doc="If True, enable the safety limits controller" />
     <arg name="safety_pos_margin" default="0.15" doc="The lower/upper limits in the safety controller" />
     <arg name="safety_k_position" default="20" doc="Used to set k position in the safety controller" />
     <param name="robot_description" command="$(find xacro)/xacro '$(find rvl_gazebo)/xacro/ur.xacro'
-        joint_limit_params:=$(arg joint_limit_params)
-        kinematics_params:=$(arg kinematics_params)
-        physical_params:=$(arg physical_params)
-        visual_params:=$(arg visual_params)
+        variant:=$(arg ur_variant)
         transmission_hw_interface:=$(arg transmission_hw_interface)
         safety_limits:=$(arg safety_limits)
         safety_pos_margin:=$(arg safety_pos_margin)
         safety_k_position:=$(arg safety_k_position)" />
 
     <!-- Robot state publisher -->
+    <arg name="tf_prefix" default="" doc="tf_prefix used for the robot." />
+    <arg name="tf_pub_rate" default="500" doc="Rate at which robot_state_publisher should publish transforms." />
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
         <param name="publish_frequency" type="double" value="$(arg tf_pub_rate)" />
         <param name="tf_prefix" value="$(arg tf_prefix)" />
     </node>
 
-    <!-- spawn GUI controller when requested -->
-    <!-- <node pkg="rqt_joint_trajectory_controller" type="rqt_joint_trajectory_controller" name="$(arg gazebo_name)_rqt_gui_controller" if="$(eval arg('using_rqt_trajectory_controller') == True)"/> -->
-
-    <!-- Spawn the model loaded earlier in the simulation just started -->
-    <!-- <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="
-        -urdf
-        -param robot_description
-        -model universal_robot_$(arg ur_variant)
-        -x $(arg start_x)
-        -y $(arg start_y)
-        -z $(arg start_z)
-        -J universal_robot_$(arg ur_variant)::shoulder_pan_joint $(arg start_shoulder_pan_joint)
-        -J universal_robot_$(arg ur_variant)::shoulder_lift_joint $(arg start_shoulder_lift_joint)
-        -J universal_robot_$(arg ur_variant)::elbow_joint $(arg start_elbow_joint)
-        -J universal_robot_$(arg ur_variant)::wrist_1_joint $(arg start_wrist_1_joint)
-        -J universal_robot_$(arg ur_variant)::wrist_2_joint $(arg start_wrist_2_joint)
-        -J universal_robot_$(arg ur_variant)::wrist_3_joint $(arg start_wrist_3_joint)
-        -unpause" output="screen" respawn="false" if="$(eval arg('unpause_gazebo') == True)"/> -->
-
+    <!-- specify what to call the robot when spawn into Gazebo -->
+    <arg name="gazebo_name" default="robot" doc="The name to give to the model in Gazebo (after spawning it)." />
     <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="
         -urdf
         -param robot_description
@@ -94,4 +57,5 @@
 
     <!-- Load and start the controllers listed in the 'controllers' arg. -->
     <node name="ros_control_controller_spawner" pkg="controller_manager" type="spawner" args="$(arg controllers)" output="screen" respawn="false" />
+
 </launch>

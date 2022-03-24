@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!--Common parameters for Robot Description  -->
+    <arg name="ur_transmission_hw_interface" default="hardware_interface/PositionJointInterface" doc="The hardware_interface to expose for each joint in the simulated Universal Robot arm (one of: [PositionJointInterface, VelocityJointInterface, EffortJointInterface])" />
+    <arg name="robotiq_transmission_hw_interface" default="hardware_interface/EffortJointInterface" doc="The hardware_interface to expose for driven joint in the simulated Robotiq gripper (one of: [PositionJointInterface, VelocityJointInterface, EffortJointInterface])" />
+    <arg name="prefix" default="''" doc="Prefix appended before robot names. Used to differentiate multiple similar robots." />
+    <arg name="ur_variant" default="ur5e" doc="Valid models are ur3[e], ur5[e], ur10[e], and ur16e." />
+    <arg name="robotiq_variant" default="2f_85" doc="Valid models are 2f_85 and 2f_140." />
+    <arg name="safety_limits" default="false" doc="If True, enable the safety limits controller." />
+    <arg name="safety_pos_margin" default="0.15" doc="The lower/upper limits in the safety controller." />
+    <arg name="safety_k_position" default="20" doc="Used to set k position in the safety controller." />
+
+    <param name="robot_description" command="$(find xacro)/xacro '$(find rvl_gazebo)/xacro/rvl_gazebo.xacro'
+        prefix:=$(arg prefix)
+        ur_variant:=$(arg ur_variant)
+        ur_transmission_hw_interface:=$(arg ur_transmission_hw_interface)
+        robotiq_variant:=$(arg robotiq_variant)
+        robotiq_transmission_hw_interface:=$(arg robotiq_transmission_hw_interface)
+        safety_limits:=$(arg safety_limits)
+        safety_pos_margin:=$(arg safety_pos_margin)
+        safety_k_position:=$(arg safety_k_position)" />
+
+    <!-- Robot state publisher -->
+    <arg name="tf_prefix" default="" doc="tf_prefix used for the robot." />
+    <arg name="tf_pub_rate" default="500" doc="Rate at which robot_state_publisher should publish transforms." />
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="$(arg tf_pub_rate)" />
+        <param name="tf_prefix" value="$(arg tf_prefix)" />
+    </node>
+
+    <!-- Controller configuration -->
+    <arg name="controller_config_file" default="$(find rvl_gazebo)/config/rvl_controllers.yaml" doc="Config file used for defining the ROS-Control controllers." />
+    <!-- <arg name="controllers" default="joint_state_controller arm_controller gripper_controller_position" doc="Controllers that are activated by default." /> -->
+    <arg name="controllers" default="joint_state_controller arm_controller gripper_controller" doc="Controllers that are activated by default." />
+    <!-- <arg name="stopped_controllers" default="joint_group_pos_controller" doc="Controllers that are initally loaded, but not started." /> -->
+    <rosparam file="$(arg controller_config_file)" command="load" />
+
+    <!-- Gazebo parameters -->
+    <arg name="gazebo_world" default="worlds/empty.world" doc="The '.world' file to load in Gazebo." />
+    <arg name="gui" default="true" doc="If true, Gazebo UI is started. If false, only start Gazebo server." />
+    <arg name="paused" default="true" doc="If true, start Gazebo in paused mode. If false, start simulation as soon as Gazebo has loaded." />
+    <arg name="robot_description_param_name" default="robot_description" doc="Name of the parameter which contains the robot description (ie: URDF) which should be spawned into Gazebo." />
+    <arg name="start_gazebo" default="true" doc="If true, Gazebo will be started. If false, Gazebo will be assumed to have been started elsewhere." />
+    <arg name="start_x" default="0.0" doc="Starting X location of the UR Arm (meters)" />
+    <arg name="start_y" default="0.0" doc="Starting Y location of the UR Arm (meters)" />
+    <arg name="start_z" default="0.5" doc="Starting Z location of the UR Arm (meters)" />
+    <arg name="initial_shoulder_pan_joint" default="0.0" />
+    <arg name="initial_shoulder_lift_joint" default="-1.57" />
+    <arg name="initial_elbow_joint" default="0.0" />
+    <arg name="initial_wrist_1_joint" default="-1.57" />
+    <arg name="initial_wrist_2_joint" default="0.0" />
+    <arg name="initial_wrist_3_joint" default="0.0" />
+    <arg name="initial_gripper_joint" default="0.05" />
+    <arg name="gazebo_name" default="rvl_robot" doc="The name to give to the model in Gazebo (after spawning it)." />
+
+    <!-- Start Gazebo and load the empty world if requested to do so -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch" if="$(arg start_gazebo)">
+        <arg name="world_name" value="$(arg gazebo_world)" />
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="gui" value="$(arg gui)" />
+    </include>
+
+    <!-- Spawn the Robot -->
+    <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="
+        -urdf
+        -param $(arg robot_description_param_name)
+        -model $(arg gazebo_name)
+        -x $(arg start_x)
+        -y $(arg start_y)
+        -z $(arg start_z)
+        -J $(arg gazebo_name)::shoulder_pan_joint $(arg initial_shoulder_pan_joint)
+        -J $(arg gazebo_name)::shoulder_lift_joint $(arg initial_shoulder_lift_joint)
+        -J $(arg gazebo_name)::elbow_joint $(arg initial_elbow_joint)
+        -J $(arg gazebo_name)::wrist_1_joint $(arg initial_wrist_1_joint)
+        -J $(arg gazebo_name)::wrist_2_joint $(arg initial_wrist_2_joint)
+        -J $(arg gazebo_name)::wrist_2_joint $(arg initial_wrist_3_joint)
+        -J $(arg gazebo_name)::knuckle_joint $(arg initial_gripper_joint)
+        -unpause" output="screen" respawn="false" />
+
+    <!-- Gazebo Issue #93 - https://github.com/ros-simulation/gazebo_ros_pkgs/issues/93 -->
+
+
+    <!-- Load and start the controllers listed in the 'controllers' arg. -->
+    <node name="ros_control_controller_spawner" pkg="controller_manager" type="spawner" args="$(arg controllers)" output="screen" respawn="false" />
+</launch>

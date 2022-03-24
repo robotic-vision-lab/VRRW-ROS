@@ -161,8 +161,8 @@
         <!-- INDIVIDUAL JOINT NAMES -->
 
         <xacro:property name="knuckle_joint_name" value="${sec_joint_names['base_to_knuckle']}" scope="parent" />
-        <xacro:property name="bar_joint_name" value="${sec_joint_names['base_to_proximal']}" scope="parent" />
-        <xacro:property name="proximal_phalanx_joint_name" value="${sec_joint_names['knuckle_to_bar']}" scope="parent" />
+        <xacro:property name="bar_joint_name" value="${sec_joint_names['knuckle_to_bar']}" scope="parent" />
+        <xacro:property name="proximal_phalanx_joint_name" value="${sec_joint_names['base_to_proximal']}" scope="parent" />
         <xacro:property name="distal_phalanx_joint_name" value="${sec_joint_names['bar_to_distal']}" scope="parent" />
         <xacro:property name="finger_tip_joint_name" value="${sec_joint_names['distal_to_tip']}" scope="parent" />
 

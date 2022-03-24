@@ -241,23 +241,23 @@
         </link>
 
         <!-- LEFT FINGER -->
-        <xacro:finger_links prefix="${prefix}" fingerprefix="left" />
-        <xacro:finger_joints prefix="${prefix}" fingerprefix="left" reflect="1.0" />
+        <xacro:finger_links prefix="${prefix}" fingerprefix="left_" />
+        <xacro:finger_joints prefix="${prefix}" fingerprefix="left_" reflect="1.0" />
         <joint name="${prefix}${knuckle_joint_name}" type="${knuckle_joint_type}">
             <origin xyz="${knuckle_joint_origin_xyz}" rpy="${knuckle_joint_origin_rpy}" />
             <parent link="${prefix}${knuckle_joint_parent_link}" />
-            <child link="${prefix}left${knuckle_joint_child_link}" />
+            <child link="${prefix}left_${knuckle_joint_child_link}" />
             <axis xyz="${knuckle_joint_axis}" />
             <limit lower="${knuckle_joint_lower_limit}" upper="${knuckle_joint_upper_limit}" velocity="${knuckle_joint_velocity}" effort="${knuckle_joint_effort}" />
         </joint>
 
         <!-- RIGHT FINGER -->
-        <xacro:finger_links prefix="${prefix}" fingerprefix="right" />
-        <xacro:finger_joints prefix="${prefix}" fingerprefix="right" reflect="-1.0" />
-        <joint name="${prefix}right${knuckle_joint_name}" type="${mimic_knuckle_joint_type}">
+        <xacro:finger_links prefix="${prefix}" fingerprefix="right_" />
+        <xacro:finger_joints prefix="${prefix}" fingerprefix="right_" reflect="-1.0" />
+        <joint name="${prefix}right_${knuckle_joint_name}" type="${mimic_knuckle_joint_type}">
             <origin xyz="${mimic_knuckle_joint_origin_xyz}" rpy="${mimic_knuckle_joint_origin_rpy}" />
             <parent link="${prefix}${mimic_knuckle_joint_parent_link}" />
-            <child link="${prefix}right${mimic_knuckle_joint_child_link}" />
+            <child link="${prefix}right_${mimic_knuckle_joint_child_link}" />
             <axis xyz="${mimic_knuckle_joint_axis}" />
             <limit lower="${mimic_knuckle_joint_lower_limit}" upper="${mimic_knuckle_joint_upper_limit}" velocity="${mimic_knuckle_joint_velocity}" effort="${mimic_knuckle_joint_effort}" />
             <mimic joint="${prefix}${mimic_knuckle_joint_mimic_joint}" multiplier="${mimic_knuckle_joint_mimic_multiplier}" offset="${mimic_knuckle_joint_mimic_offset}" />

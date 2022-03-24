@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="ur_variant" default="ur5e"/>
-    <include file="$(find rvl_robot_description)/launch/universal_robots/unified_ur_loader.launch">
+    <include file="$(find rvl_robot_description)/launch/universal_robots/ur_loader.launch">
         <arg name="ur_variant" value="$(arg ur_variant)" />
     </include>
     <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />

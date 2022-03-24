@@ -4,12 +4,11 @@
     <!-- Definition of the main macro -->
     <xacro:macro name="ur_robot_gazebo" params="
         prefix
-        joint_limits_parameters_file
-        kinematics_parameters_file
-        physical_parameters_file
-        visual_parameters_file
+        variant
         transmission_hw_interface:=hardware_interface/PositionJointInterface
-        safety_limits:=false safety_pos_margin:=0.15 safety_k_position:=20">
+        safety_limits:=false
+        safety_pos_margin:=0.15
+        safety_k_position:=20">
 
         <!--
             Import the xacro macro for the REAL robot (which we'll augment with Gazebo
@@ -21,7 +20,13 @@
         <xacro:include filename="$(find rvl_robot_description)/xacro/universal_robots/include/ur_macro.xacro" />
 
         <!-- Instantiate model for the REAL robot. -->
-        <xacro:ur_robot prefix="${prefix}" joint_limits_parameters_file="${joint_limits_parameters_file}" kinematics_parameters_file="${kinematics_parameters_file}" physical_parameters_file="${physical_parameters_file}" visual_parameters_file="${visual_parameters_file}" transmission_hw_interface="${transmission_hw_interface}" safety_limits="${safety_limits}" safety_pos_margin="${safety_pos_margin}" safety_k_position="${safety_k_position}" />
+        <xacro:ur_robot
+            prefix="${prefix}"
+            variant="${variant}"
+            transmission_hw_interface="${transmission_hw_interface}"
+            safety_limits="${safety_limits}"
+            safety_pos_margin="${safety_pos_margin}"
+            safety_k_position="${safety_k_position}" />
 
         <!-- Configure self collision properties per link -->
         <gazebo reference="${prefix}shoulder_link">
