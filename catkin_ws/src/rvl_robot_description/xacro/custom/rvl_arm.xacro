@@ -1,5 +1,24 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rvl_arm">
     <xacro:include filename="$(find rvl_robot_description)/xacro/custom/rvl_ur_robotiq_macro.xacro" />
-    <xacro:rvl_arm prefix="" ur_variant="ur5e" robotiq_variant="2f_140"/>
+
+    <xacro:arg name="prefix" default="" />
+    <xacro:arg name="ur_variant" default="ur5e" />
+    <xacro:arg name="ur_transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+    <xacro:arg name="robotiq_variant" default="2f_85" />
+    <xacro:arg name="robotiq_transmission_hw_interface" default="hardware_interface/EffortJointInterface" />
+    <xacro:arg name="safety_limits" default="false" />
+    <xacro:arg name="safety_pos_margin" default="0.15" />
+    <xacro:arg name="safety_k_position" default="20" />
+
+    <xacro:rvl_arm
+        prefix="$(arg prefix)"
+        ur_variant="$(arg ur_variant)"
+        ur_transmission_hw_interface="$(arg ur_transmission_hw_interface)"
+        robotiq_variant="$(arg robotiq_variant)"
+        robotiq_transmission_hw_interface="$(arg robotiq_transmission_hw_interface)"
+        safety_limits="$(arg safety_limits)"
+        safety_pos_margin="$(arg safety_pos_margin)"
+        safety_k_position="$(arg safety_k_position)"
+    />
 </robot>

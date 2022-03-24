@@ -49,9 +49,11 @@
         </xacro:if>
 
         <xacro:if value="${robotiq_variant == '3f'}">
+            <!-- TODO: Add 3-Finger Robotiq model and xacro -->
         </xacro:if>
 
         <!-- Intel RealSense Camera - TBD -->
+        <!-- TODO: Add Intel RealSense L515 (or other variant) support -->
 
         <!-- Additional link for planning (center of gripper tips when fully closed) -->
         <link name="${prefix}gripper_center_tip" />
