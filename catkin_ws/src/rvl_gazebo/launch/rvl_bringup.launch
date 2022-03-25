@@ -4,6 +4,8 @@
     <!--Common parameters for Robot Description  -->
     <arg name="ur_transmission_hw_interface" default="hardware_interface/PositionJointInterface" doc="The hardware_interface to expose for each joint in the simulated Universal Robot arm (one of: [PositionJointInterface, VelocityJointInterface, EffortJointInterface])" />
     <arg name="robotiq_transmission_hw_interface" default="hardware_interface/EffortJointInterface" doc="The hardware_interface to expose for driven joint in the simulated Robotiq gripper (one of: [PositionJointInterface, VelocityJointInterface, EffortJointInterface])" />
+
+    <!-- TODO: Document python style string syntax -->
     <arg name="prefix" default="''" doc="Prefix appended before robot names. Used to differentiate multiple similar robots." />
     <arg name="ur_variant" default="ur5e" doc="Valid models are ur3[e], ur5[e], ur10[e], and ur16e." />
     <arg name="robotiq_variant" default="2f_85" doc="Valid models are 2f_85 and 2f_140." />
@@ -51,8 +53,11 @@
     <arg name="initial_wrist_1_joint" default="-1.57" />
     <arg name="initial_wrist_2_joint" default="0.0" />
     <arg name="initial_wrist_3_joint" default="0.0" />
-    <arg name="initial_gripper_joint" default="0.05" />
     <arg name="gazebo_name" default="rvl_robot" doc="The name to give to the model in Gazebo (after spawning it)." />
+
+    <!-- weird collision/jittering happens when set joint goal to 0, not sure why. -->
+    <!-- TODO: fix? issue? Setting starting joint to some small number so it won't happen again. -->
+    <arg name="initial_gripper_joint" default="0.05" />
 
     <!-- Start Gazebo and load the empty world if requested to do so -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch" if="$(arg start_gazebo)">
@@ -61,6 +66,7 @@
         <arg name="gui" value="$(arg gui)" />
     </include>
 
+    <!-- Gazebo Issue #93 - https://github.com/ros-simulation/gazebo_ros_pkgs/issues/93 -->
     <!-- Spawn the Robot -->
     <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="
         -urdf
@@ -77,9 +83,6 @@
         -J $(arg gazebo_name)::wrist_2_joint $(arg initial_wrist_3_joint)
         -J $(arg gazebo_name)::knuckle_joint $(arg initial_gripper_joint)
         -unpause" output="screen" respawn="false" />
-
-    <!-- Gazebo Issue #93 - https://github.com/ros-simulation/gazebo_ros_pkgs/issues/93 -->
-
 
     <!-- Load and start the controllers listed in the 'controllers' arg. -->
     <node name="ros_control_controller_spawner" pkg="controller_manager" type="spawner" args="$(arg controllers)" output="screen" respawn="false" />

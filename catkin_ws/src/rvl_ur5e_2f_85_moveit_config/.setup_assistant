@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: rvl_gazebo
+    relative_path: urdf/rvl_gazebo.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/rvl_arm_gazebo.srdf
+  CONFIG:
+    author_name: Minh Tram
+    author_email: minh.tram@mavs.uta.edu
+    generated_timestamp: 1648168811

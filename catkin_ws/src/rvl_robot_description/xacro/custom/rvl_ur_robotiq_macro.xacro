@@ -43,7 +43,7 @@
                 prefix="${prefix}"
                 stroke="${robotiq_variant[3:]}"
                 transmission_hw_interface="${robotiq_transmission_hw_interface}"
-                parent_link="${prefix}L515_mounting_plate"
+                parent_link="${prefix}tool0"
                 attachment_z="${coupling_offset}"
                 attachment_yaw="${tool_rotation}" />
         </xacro:if>
