@@ -1,0 +1,3 @@
+[submodule "catkin_ws/src/realsense_gazebo_plugin"]
+	path = catkin_ws/src/realsense_gazebo_plugin
+	url = https://github.com/pal-robotics/realsense_gazebo_plugin
