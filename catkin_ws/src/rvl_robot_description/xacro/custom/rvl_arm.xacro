@@ -8,6 +8,7 @@
     <xacro:arg name="ur_transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
     <xacro:arg name="robotiq_variant" default="2f_85" />
     <xacro:arg name="robotiq_transmission_hw_interface" default="hardware_interface/EffortJointInterface" />
+    <xacro:arg name="realsense_variant" default="l515" />
     <xacro:arg name="safety_limits" default="false" />
     <xacro:arg name="safety_pos_margin" default="0.15" />
     <xacro:arg name="safety_k_position" default="20" />
@@ -18,6 +19,7 @@
         ur_transmission_hw_interface="$(arg ur_transmission_hw_interface)"
         robotiq_variant="$(arg robotiq_variant)"
         robotiq_transmission_hw_interface="$(arg robotiq_transmission_hw_interface)"
+        realsense_variant="$(arg realsense_variant)"
         safety_limits="$(arg safety_limits)"
         safety_pos_margin="$(arg safety_pos_margin)"
         safety_k_position="$(arg safety_k_position)"

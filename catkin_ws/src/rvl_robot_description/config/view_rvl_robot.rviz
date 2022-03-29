@@ -64,7 +64,29 @@ Visualization Manager:
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
+        L515_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        L515_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        L515_lower_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         L515_mounting_plate:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        L515_upper_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        L515_usb_plug_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -96,52 +118,52 @@ Visualization Manager:
           Alpha: 1
           Show Axes: true
           Show Trail: false
-        leftbar_link:
+        left_bar_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        leftdistal_phalanx_link:
+        left_distal_phalanx_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        leftfinger_tip_link:
+        left_finger_tip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        leftknuckle_link:
+        left_knuckle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        leftproximal_phalanx_link:
+        left_proximal_phalanx_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rightbar_link:
+        right_bar_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rightdistal_phalanx_link:
+        right_distal_phalanx_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rightfinger_tip_link:
+        right_finger_tip_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rightknuckle_link:
+        right_knuckle_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        rightproximal_phalanx_link:
+        right_proximal_phalanx_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -214,7 +236,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.777475595474243
+      Distance: 1.6656392812728882
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -222,17 +244,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.46346515417099
-        Y: 0.15022674202919006
-        Z: -0.23067837953567505
+        X: 0.43773120641708374
+        Y: 0.16914387047290802
+        Z: -0.19887498021125793
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.9853976964950562
+      Pitch: 0.4603978097438812
       Target Frame: <Fixed Frame>
-      Yaw: 1.590397834777832
+      Yaw: 0.4203987121582031
     Saved: ~
 Window Geometry:
   Displays:

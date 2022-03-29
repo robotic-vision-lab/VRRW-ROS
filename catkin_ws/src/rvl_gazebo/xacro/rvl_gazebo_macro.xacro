@@ -7,6 +7,7 @@
         ur_transmission_hw_interface:=hardware_interface/PositionJointInterface
         robotiq_variant
         robotiq_transmission_hw_interface:=hardware_interface/EffortJointInterface
+        realsense_variant
         safety_limits:=false
         safety_pos_margin:=0.15
         safety_k_position:=20">
@@ -18,6 +19,7 @@
         <xacro:arg name="ur_transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
         <xacro:arg name="robotiq_variant" default="2f_85" />
         <xacro:arg name="robotiq_transmission_hw_interface" default="hardware_interface/EffortJointInterface" />
+        <xacro:arg name="realsense_variant" default="l515" />
         <xacro:arg name="safety_limits" default="false" />
         <xacro:arg name="safety_pos_margin" default="0.15" />
         <xacro:arg name="safety_k_position" default="20" />
@@ -28,6 +30,7 @@
             ur_transmission_hw_interface="${ur_transmission_hw_interface}"
             robotiq_variant="${robotiq_variant}"
             robotiq_transmission_hw_interface="${robotiq_transmission_hw_interface}"
+            realsense_variant="${realsense_variant}"
             safety_limits="${safety_limits}"
             safety_pos_margin="${safety_pos_margin}"
             safety_k_position="${safety_k_position}" />
@@ -165,6 +168,12 @@
             <gazebo reference="${prefix}right_${distal_phalanx_link_name}">
                 <material>Gazebo/Black</material>
             </gazebo>
+        </xacro:if>
+
+        <xacro:if value="${robotiq_variant == '3f'}">
+        </xacro:if>
+
+        <xacro:if value="${realsense_variant != ''}">
         </xacro:if>
 
         <!--

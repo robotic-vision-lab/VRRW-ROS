@@ -538,3 +538,5 @@ catkin_ws/src/o2ac-ur
 catkin_ws/src/ros_industrial_robotiq
 catkin_ws/src/jr_robotics_robotiq
 catkin_ws/src/beta_robotics_robotiq
+catkin_ws/src/realsense-ros
+catkin_ws/src/gazebo_ros_l515

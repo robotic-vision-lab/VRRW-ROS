@@ -7,64 +7,77 @@
         ur_transmission_hw_interface:=hardware_interface/PositionJointInterface
         robotiq_variant
         robotiq_transmission_hw_interface:=hardware_interface/EffortJointInterface
+        realsense_variant
         safety_limits:=false
         safety_pos_margin:=0.15
         safety_k_position:=20">
 
-        <xacro:property name="coupling_offset" value="0.0053" />
         <xacro:property name="tool_rotation" value="${pi/2}" />
-        <xacro:property name="camera_placement_offset" value="0.12439" />
-        <xacro:property name="camera_origin_offset" value="0.0061"/>
+        <xacro:property name="coupling_offset" value="0.0053" />
+        <xacro:property name="plate_offset" value="0.1175" />
+
+        <!-- TODO: Save dimensions in yaml and load as property -->
+        <xacro:property name="camera_thickness" value="0.061" />
+
+        <!-- y offset = camera_width / 2 - plate_offset -->
+        <!-- z offset = camera_thickness + mounting_plate_thickness -->
+        <!-- TODO: Make formula adaptive to the rest of RealSense cameras? -->
+        <xacro:property name="camera_placement_xyz" value="0.0 ${camera_thickness/2.0 - plate_offset} ${0.013 + coupling_offset}" />
+        <xacro:property name="camera_placement_rpy" value="${pi/2} ${-pi/2} 0.0" />
 
         <!-- Universal Robots arm -->
         <xacro:include filename="$(find rvl_robot_description)/xacro/universal_robots/include/ur_macro.xacro" />
-        <xacro:ur_robot
-            prefix="${prefix}"
-            variant="${ur_variant}"
-            transmission_hw_interface="${ur_transmission_hw_interface}"
-            safety_limits="${safety_limits}"
-            safety_pos_margin="${safety_pos_margin}"
-            safety_k_position="${safety_k_position}" />
+        <xacro:ur_robot prefix="${prefix}" variant="${ur_variant}" transmission_hw_interface="${ur_transmission_hw_interface}" safety_limits="${safety_limits}" safety_pos_margin="${safety_pos_margin}" safety_k_position="${safety_k_position}" />
 
         <!-- Custom L515 mounting plate -->
-        <xacro:include filename="$(find rvl_robot_description)/xacro/custom/mounting_plate.xacro"/>
-        <xacro:L515_mounting_plate prefix="${prefix}"/>
+        <xacro:include filename="$(find rvl_robot_description)/xacro/custom/mounting_plate.xacro" />
+        <xacro:L515_mounting_plate prefix="${prefix}" />
         <joint name="tool0-mounting_plate" type="fixed">
-            <parent link= "${prefix}tool0" />
-            <child link = "${prefix}L515_mounting_plate" />
+            <parent link="${prefix}tool0" />
+            <child link="${prefix}L515_mounting_plate" />
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 ${pi}" />
         </joint>
 
         <!-- Robotiq gripper -->
         <xacro:if value="${robotiq_variant.startswith('2f')}">
             <xacro:include filename="$(find rvl_robot_description)/xacro/robotiq/include/robotiq_2f_macro.xacro" />
-            <xacro:property name="gripper_height" value="${0.1628 if robotiq_variant[3:] == '85' else 0.2328}" scope="parent"/>
-            <xacro:robotiq_2f_gripper
-                prefix="${prefix}"
-                stroke="${robotiq_variant[3:]}"
-                transmission_hw_interface="${robotiq_transmission_hw_interface}"
-                parent_link="${prefix}tool0"
-                attachment_z="${coupling_offset}"
-                attachment_yaw="${tool_rotation}" />
+            <xacro:property name="gripper_height" value="${0.1628 if robotiq_variant[3:] == '85' else 0.2328}" scope="parent" />
+            <xacro:robotiq_2f_gripper prefix="${prefix}" stroke="${robotiq_variant[3:]}" transmission_hw_interface="${robotiq_transmission_hw_interface}" parent_link="${prefix}tool0" attachment_z="${coupling_offset}" attachment_yaw="${tool_rotation}" />
         </xacro:if>
 
         <xacro:if value="${robotiq_variant == '3f'}">
             <!-- TODO: Add 3-Finger Robotiq model and xacro -->
         </xacro:if>
 
-        <!-- Intel RealSense Camera - TBD -->
-        <!-- TODO: Add Intel RealSense L515 (or other variant) support -->
+        <!-- Intel RealSense Camera, only load when needed -->
+        <xacro:if value="${realsense_variant != ''}">
+
+            <xacro:property name="use_nominal_extrinsics" default="false" />
+            <xacro:property name="add_plug" default="true" />
+            <xacro:property name="use_mesh" default="true" />
+
+            <!-- RealSense L515 -->
+            <xacro:if value="${realsense_variant == 'l515'}">
+                <xacro:include filename="$(find rvl_robot_description)/xacro/realsense/l515.xacro" />
+                <xacro:sensor_l515 name="L515" parent="${prefix}tool0" use_nominal_extrinsics="${use_nominal_extrinsics}" add_plug="${add_plug}" use_mesh="${use_mesh}">
+                    <origin xyz="${camera_placement_xyz}" rpy="${camera_placement_rpy}" />
+                </xacro:sensor_l515>
+            </xacro:if>
+
+            <!-- TODO: Add other Intel RealSense camera support -->
+
+        </xacro:if>
 
         <!-- Additional link for planning (center of gripper tips when fully closed) -->
         <link name="${prefix}gripper_center_tip" />
         <joint name="${prefix}gripper_center_tip_joint" type="fixed">
-            <parent link="${prefix}tool0"/>
-            <child link="${prefix}gripper_center_tip"/>
-            <origin xyz="0.0 0.0 ${coupling_offset + gripper_height}" rpy="0.0 0.0 0.0"/>
+            <parent link="${prefix}tool0" />
+            <child link="${prefix}gripper_center_tip" />
+            <origin xyz="0.0 0.0 ${coupling_offset + gripper_height}" rpy="0.0 0.0 0.0" />
         </joint>
 
     </xacro:macro>
 
     <!-- testing -->
-    <!-- <xacro:rvl_arm prefix="" ur_variant="ur5e" robotiq_variant="2f_85"/> -->
+    <!-- <xacro:rvl_arm prefix="" ur_variant="ur5e" robotiq_variant="2f_85" /> -->
 </robot>

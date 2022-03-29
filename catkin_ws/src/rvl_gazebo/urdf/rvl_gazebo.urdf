@@ -5,7 +5,7 @@
 <!-- =================================================================================== -->
 <robot name="rvl_arm_gazebo">
   <!-- testing -->
-  <!-- <xacro:rvl_arm prefix="" ur_variant="ur5e" robotiq_variant="2f_85"/> -->
+  <!-- <xacro:rvl_arm prefix="" ur_variant="ur5e" robotiq_variant="2f_85" /> -->
   <!--
         Base UR robot series xacro macro.
 
@@ -718,8 +718,82 @@
     <child link="robotiq_2f_base_palm"/>
     <origin rpy="0.0 0.0 1.5707963267948966" xyz="0.0 0.0 0.0053"/>
   </joint>
-  <!-- Intel RealSense Camera - TBD -->
-  <!-- TODO: Add Intel RealSense L515 (or other variant) support -->
+  <material name="aluminum">
+    <color rgba="0.5 0.5 0.5 1"/>
+  </material>
+  <material name="plastic">
+    <color rgba="0.1 0.1 0.1 1"/>
+  </material>
+  <!-- this specific plug does not apply to L515 -->
+  <!-- camera body, with origin at bottom screw mount -->
+  <joint name="L515_joint" type="fixed">
+    <origin rpy="1.5707963267948966 -1.5707963267948966 0.0" xyz="0.0 -0.087 0.0183"/>
+    <parent link="tool0"/>
+    <child link="L515_bottom_screw_frame"/>
+  </joint>
+  <link name="L515_bottom_screw_frame"/>
+  <joint name="L515_link_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0.007500000000000001 0.0 0.021150000000000002"/>
+    <parent link="L515_bottom_screw_frame"/>
+    <child link="L515_link"/>
+  </joint>
+  <link name="L515_link">
+    <visual>
+      <origin rpy="1.5707963267948966 0 1.5707963267948966" xyz="0.0045 0 0.009000000000000001"/>
+      <geometry>
+        <mesh filename="package://rvl_robot_description/models/realsense/l515.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 1.5707963267948966" xyz="-0.0085 0 0.009000000000000001"/>
+      <geometry>
+        <cylinder length="0.026" radius="0.0305"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- The following are not reliable values, and should not be used for modeling -->
+      <!-- calculated assuming full cylinder as described here: https://en.wikipedia.org/wiki/List_of_moments_of_inertia -->
+      <mass value="0.095"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.000044" ixy="0.0" ixz="0.0" iyy="0.000027" iyz="0.0" izz="0.000027"/>
+    </inertial>
+  </link>
+  <joint name="L515_lower_mount_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.013999999999999999 0 0.01015"/>
+    <parent link="L515_bottom_screw_frame"/>
+    <child link="L515_lower_mount"/>
+  </joint>
+  <link name="L515_lower_mount"/>
+  <joint name="L515_upper_mount_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.013999999999999999 0 0.05015"/>
+    <parent link="L515_bottom_screw_frame"/>
+    <child link="L515_upper_mount"/>
+  </joint>
+  <link name="L515_upper_mount"/>
+  <joint name="L515_usb_plug_joint" type="fixed">
+    <origin rpy="0.7853981633974483 0 0 " xyz="-0.0028000000000000004 -0.018 0.018"/>
+    <parent link="L515_bottom_screw_frame"/>
+    <child link="L515_usb_plug_link"/>
+  </joint>
+  <link name="L515_usb_plug_link">
+    <visual>
+      <!-- 0.044850 0.008000 0.018500 -->
+      <origin rpy="0 0 1.5707963267948966" xyz="0. -0.022425 0."/>
+      <geometry>
+        <!--box size="0.044850 0.008 0.0185" /-->
+        <mesh filename="package://rvl_robot_description/models/realsense/plug.stl"/>
+      </geometry>
+      <material name="plastic"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 1.5707963267948966" xyz="0. -0.022425 0."/>
+      <geometry>
+        <!--box size="0.044850 0.008 0.0185" /-->
+        <mesh filename="package://rvl_robot_description/models/realsense/plug_collision.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- TODO: Add other Intel RealSense camera support -->
   <!-- Additional link for planning (center of gripper tips when fully closed) -->
   <link name="gripper_center_tip"/>
   <joint name="gripper_center_tip_joint" type="fixed">
