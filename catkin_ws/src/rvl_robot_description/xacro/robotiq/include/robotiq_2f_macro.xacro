@@ -265,7 +265,7 @@
 
         <!-- ATTACHMENT WHEN REQUIRED -->
         <xacro:if value="${parent_link != ''}">
-            <joint name="${parent_link}-robotiq_2f_base" type="fixed">
+            <joint name="${parent_link}-${palm_link_name}" type="fixed">
                 <parent link="${parent_link}"/>
                 <child link="${prefix}${palm_link_name}"/>
                 <origin xyz="${attachment_x} ${attachment_y} ${attachment_z}" rpy="${attachment_roll} ${attachment_pitch} ${attachment_yaw}"/>

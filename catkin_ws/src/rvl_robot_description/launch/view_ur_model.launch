@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- specify which robot to load -->
+    <arg name="ur_variant" default="ur5e"/>
+
+    <!-- common parameters -->
+    <arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface" />
+    <arg name="safety_limits" default="false" doc="If True, enable the safety limits controller" />
+    <arg name="safety_pos_margin" default="0.15" doc="The lower/upper limits in the safety controller" />
+    <arg name="safety_k_position" default="20" doc="Used to set k position in the safety controller" />
+
+    <!-- use common launch file and pass all arguments to it -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find rvl_robot_description)/xacro/universal_robots/ur_robot.xacro'
+        variant:=$(arg ur_variant)
+        transmission_hw_interface:=$(arg transmission_hw_interface)
+        safety_limits:=$(arg safety_limits)
+        safety_pos_margin:=$(arg safety_pos_margin)
+        safety_k_position:=$(arg safety_k_position)" />
+
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rvl_robot_description)/config/universal_robots/view_robot.rviz" required="true" />
+</launch>

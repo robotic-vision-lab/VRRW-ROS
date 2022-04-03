@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="rs_variant" default="l515" doc="RealSense camera model to preview. Currently support d415, d435[i], l515, r410, r430."/>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find rvl_robot_description)/xacro/realsense/realsense_loader.xacro'
+        rs_variant:=$(arg rs_variant)
+        use_nominal_extrinsics:=true
+        add_plug:=false" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rvl_robot_description)/config/realsense/view_realsense.rviz" required="true" />
+</launch>
