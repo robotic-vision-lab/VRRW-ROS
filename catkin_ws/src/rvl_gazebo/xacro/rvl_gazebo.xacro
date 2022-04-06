@@ -100,6 +100,9 @@
         <material>Gazebo/Black</material>
     </gazebo>
 
+    <xacro:include filename="$(find rvl_gazebo)/xacro/macros/rs_l515_addon.xacro" />
+    <xacro:rs_l515_gazebo_addon camera_name="L515" publish_pointcloud="true"/>
+
     <!--
         Attach the Gazebo model to Gazebo's world frame.
         Note: if you're looking to integrate a UR into a larger scene and need

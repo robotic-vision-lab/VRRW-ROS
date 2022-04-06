@@ -8,4 +8,4 @@ moveit_setup_assistant_config:
   CONFIG:
     author_name: Minh Tram
     author_email: minh.tram@mavs.uta.edu
-    generated_timestamp: 1648958912
+    generated_timestamp: 1649201126
