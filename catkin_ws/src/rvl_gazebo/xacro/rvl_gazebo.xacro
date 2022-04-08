@@ -100,8 +100,15 @@
         <material>Gazebo/Black</material>
     </gazebo>
 
-    <xacro:include filename="$(find rvl_gazebo)/xacro/macros/rs_l515_addon.xacro" />
+    <!-- ======================================= REALSENSE ======================================== -->
+
+    <xacro:include filename="$(find rvl_gazebo)/xacro/macros/rs_l515_addon_rsgz.xacro" />
     <xacro:rs_l515_gazebo_addon camera_name="L515" publish_pointcloud="true"/>
+    <gazebo reference="L515_usb_plug_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <!-- ========================================================================================== -->
 
     <!--
         Attach the Gazebo model to Gazebo's world frame.

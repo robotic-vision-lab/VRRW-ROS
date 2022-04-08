@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="paused" default="false" />
+    <arg name="gazebo_gui" default="true" />
+    <arg name="gazebo_world" default="worlds/empty.world"/>
+
+    <!-- startup simulated world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" default="$(arg gazebo_world)" />
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="gui" value="$(arg gazebo_gui)" />
+    </include>
+
+</launch>

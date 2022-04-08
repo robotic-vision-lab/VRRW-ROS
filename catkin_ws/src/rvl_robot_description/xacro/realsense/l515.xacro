@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 
 <!--
-License: Apache 2.0. See LICENSE file in root directory.
-Copyright(c) 2017 Intel Corporation. All Rights Reserved
+    License: Apache 2.0. See LICENSE file in root directory.
+    Copyright(c) 2017 Intel Corporation. All Rights Reserved
 
-This is the URDF model for the Intel RealSense L515 camera, in its
-aluminum peripherial evaluation case.
+    This is the URDF model for the Intel RealSense L515 camera, in its
+    aluminum peripherial evaluation case.
 -->
 
 <robot name="sensor_l515" xmlns:xacro="http://ros.org/wiki/xacro">
+
     <!-- Includes -->
     <xacro:include filename="$(find rvl_robot_description)/xacro/realsense/materials.xacro" />
     <xacro:include filename="$(find rvl_robot_description)/xacro/realsense/usb_plug.xacro" /> <!-- this specific plug does not apply to L515 -->
 
     <xacro:macro name="sensor_l515" params="parent *origin name:=camera use_nominal_extrinsics:=false add_plug:=false use_mesh:=true">
-
         <xacro:property name="M_PI" value="3.1415926535897931" />
 
         <!--
@@ -31,7 +31,6 @@ aluminum peripherial evaluation case.
         <xacro:property name="l515_cam_width" value="0.061" />
         <xacro:property name="l515_cam_height" value="0.06065" />
         <xacro:property name="l515_cam_depth" value="0.026" />
-
         <xacro:property name="l515_cam_mount_from_glass_offset" value="0.012" />
         <!-- Zero depth to glass: see datasheet Revision 002, Fig. 2-2 page 11 -->
         <xacro:property name="l515_zero_depth_to_glass" value="0.0045" />
@@ -201,10 +200,14 @@ aluminum peripherial evaluation case.
             </joint>
         </xacro:if>
 
+        <!-- USB PLUG -->
+
         <xacro:if value="${add_plug}">
             <xacro:usb_plug parent="${name}_bottom_screw_frame" name="${name}_usb_plug">
                 <origin xyz="${l515_cam_mount_from_glass_offset-0.0148} -0.018 0.018" rpy="${M_PI/4} 0 0 " />
             </xacro:usb_plug>
         </xacro:if>
+
     </xacro:macro>
+
 </robot>
