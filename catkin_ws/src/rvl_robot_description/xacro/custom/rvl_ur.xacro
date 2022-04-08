@@ -4,9 +4,9 @@
     <!-- TODO: Save dimensions in yaml and load as property -->
     <xacro:property name="tool_rotation" value="${pi/2}" />
     <xacro:property name="coupling_offset" value="0.0053" />
-    <xacro:property name="plate_offset" value="0.1175" />
+    <xacro:property name="vertical_offset" value="0.1175" />
     <xacro:property name="camera_thickness" value="0.061" />
-    <xacro:property name="camera_placement_xyz" value="0.0 ${camera_thickness/2.0 - plate_offset} ${0.015 + coupling_offset}" />
+    <xacro:property name="camera_placement_xyz" value="0.0 ${camera_thickness/2.0 - vertical_offset} ${0.015 + coupling_offset}" />
     <xacro:property name="camera_placement_rpy" value="${pi/2} ${-pi/2} 0.0" />
 
     <!-- Universal Robot UR5e -->
@@ -31,8 +31,7 @@
 
     <!-- Intel RealSense L515 -->
     <xacro:include filename="$(find rvl_robot_description)/xacro/realsense/l515.xacro" />
-    <xacro:sensor_l515 name="L515" parent="tool0" use_nominal_extrinsics="false" add_plug="false" use_mesh="false">
-    <!-- <xacro:sensor_l515 parent="tool0" use_nominal_extrinsics="false" add_plug="false" use_mesh="false"> -->
+    <xacro:sensor_l515 name="L515" parent="tool0" add_plug="true">
         <origin xyz="${camera_placement_xyz}" rpy="${camera_placement_rpy}" />
     </xacro:sensor_l515>
 

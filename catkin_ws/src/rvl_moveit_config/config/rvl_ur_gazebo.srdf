@@ -34,6 +34,7 @@
     <passive_joint name="right_proximal_joint"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="L515_link" link2="L515_mounting_plate" reason="Adjacent"/>
+    <disable_collisions link1="L515_link" link2="L515_usb_plug_link" reason="Adjacent"/>
     <disable_collisions link1="L515_link" link2="left_bar_link" reason="Never"/>
     <disable_collisions link1="L515_link" link2="left_distal_phalanx_link" reason="Never"/>
     <disable_collisions link1="L515_link" link2="left_finger_tip_link" reason="Never"/>
@@ -48,6 +49,7 @@
     <disable_collisions link1="L515_link" link2="wrist_1_link" reason="Never"/>
     <disable_collisions link1="L515_link" link2="wrist_2_link" reason="Never"/>
     <disable_collisions link1="L515_link" link2="wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="L515_mounting_plate" link2="L515_usb_plug_link" reason="Adjacent"/>
     <disable_collisions link1="L515_mounting_plate" link2="left_bar_link" reason="Never"/>
     <disable_collisions link1="L515_mounting_plate" link2="left_distal_phalanx_link" reason="Never"/>
     <disable_collisions link1="L515_mounting_plate" link2="left_finger_tip_link" reason="Never"/>
@@ -62,6 +64,20 @@
     <disable_collisions link1="L515_mounting_plate" link2="wrist_1_link" reason="Never"/>
     <disable_collisions link1="L515_mounting_plate" link2="wrist_2_link" reason="Never"/>
     <disable_collisions link1="L515_mounting_plate" link2="wrist_3_link" reason="Adjacent"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="left_bar_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="left_distal_phalanx_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="left_finger_tip_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="left_knuckle_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="left_proximal_phalanx_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="right_bar_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="right_distal_phalanx_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="right_finger_tip_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="right_knuckle_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="right_proximal_phalanx_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="robotiq_2f_base_palm" reason="Adjacent"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="wrist_1_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="wrist_2_link" reason="Never"/>
+    <disable_collisions link1="L515_usb_plug_link" link2="wrist_3_link" reason="Adjacent"/>
     <disable_collisions link1="base_link_inertia" link2="shoulder_link" reason="Adjacent"/>
     <disable_collisions link1="forearm_link" link2="upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="forearm_link" link2="wrist_1_link" reason="Adjacent"/>

@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="kinect_v2" params="
+        prefix=''
+        camera_name='kinect_v2'
+        parent_link:=''
+        gazebo_addon:=false">
+
+        <xacro:property name="M_PI" value="3.14159" />
+
+        <link name="${prefix}${camera_name}_link">
+            <inertial>
+                <origin xyz="-0.0028247 0.00047839 0.038307" rpy="0 0 0" />
+                <mass value="0.82085" />
+                <inertia ixx="0.0039702" ixy="0" ixz="0" iyy="0.00059235" iyz="0" izz="0.0041195" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rvl_robot_description/models/kinect/kinect2.STL" />
+                </geometry>
+                <material name="">
+                    <color rgba="0.5 0.5 0.5 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rvl_robot_description/models/kinect/kinect2.STL" />
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="${prefix}${camera_name}_rgb_link" />
+        <link name="${prefix}${camera_name}_rgb_optical_frame" />
+        <link name="${prefix}${camera_name}_ir_link" />
+        <link name="${prefix}${camera_name}_ir_optical_frame" />
+
+        <joint name="${prefix}${camera_name}_rgb_joint" type="fixed">
+            <origin xyz="0.032 -0.095 0.042015" rpy="0 0 0" />
+            <parent link="${prefix}${camera_name}_link" />
+            <child link="${prefix}${camera_name}_rgb_link" />
+        </joint>
+
+        <joint name="${prefix}${camera_name}_rgb_optical_frame_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="${-M_PI / 2.0} 0 ${-M_PI / 2.0}" />
+            <parent link="${prefix}${camera_name}_rgb_link" />
+            <child link="${prefix}${camera_name}_rgb_optical_frame" />
+        </joint>
+
+        <joint name="${prefix}${camera_name}_ir_joint" type="fixed">
+            <origin xyz="0 0.05157 0" rpy="0 0 0" />
+            <parent link="${prefix}${camera_name}_rgb_link" />
+            <child link="${prefix}${camera_name}_ir_link" />
+        </joint>
+
+        <joint name="${prefix}${camera_name}_ir_optical_frame_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="${-M_PI / 2.0} 0 ${-M_PI / 2.0}" />
+            <parent link="${prefix}${camera_name}_ir_link" />
+            <child link="${prefix}${camera_name}_ir_optical_frame" />
+        </joint>
+
+        <!-- ATTACHMENT WHEN REQUIRED -->
+        <!-- TODO: Add dynamic attachment orientation -->
+        <xacro:if value="${parent_link != ''}">
+            <joint name="${parent_link}_${prefix}${camera_name}_link_joint" type="fixed">
+                <parent link="${parent_link}" />
+                <child link="${prefix}${camera_name}_link_joint" />
+                <origin xyz="0 0 0" rpy="0 0 0" />
+            </joint>
+        </xacro:if>
+
+        <xacro:if value="${parent_link == ''}">
+            <link name="base_link" />
+            <joint name="${parent_link}_${prefix}${camera_name}_link_joint" type="fixed">
+                <parent link="base_link" />
+                <child link="${prefix}${camera_name}_link_joint" />
+                <origin xyz="0 0 0" rpy="0 0 0" />
+            </joint>
+        </xacro:if>
+
+        <xacro:if value="${gazebo_addon}">
+            <gazebo reference="${prefix}${camera_name}_link_joint">
+                <material>Gazebo/Grey</material>
+            </gazebo>
+
+            <gazebo reference="${prefix}${camera_name}_ir_link">
+                <sensor type="depth" name="kinect_v2_ir_sensor">
+                    <always_on>true</always_on>
+                    <update_rate>1.0</update_rate>
+                    <camera>
+                        <horizontal_fov>${57.0 * 3.141592654 / 180.0}</horizontal_fov>
+                        <image>
+                            <format>L8</format>
+                            <width>640</width>
+                            <height>480</height>
+                        </image>
+                        <clip>
+                            <near>0.01</near>
+                            <far>5</far>
+                        </clip>
+                    </camera>
+                    <plugin name="${prefix}${camera_name}_ir_link_controller" filename="libgazebo_ros_openni_kinect.so">
+                        <baseline>0.2</baseline>
+                        <alwaysOn>true</alwaysOn>
+                        <updateRate>1.0</updateRate>
+                        <cameraName>${prefix}${camera_name}_ir</cameraName>
+                        <imageTopicName>/${prefix}${camera_name}/ir/image_raw</imageTopicName>
+                        <cameraInfoTopicName>/${prefix}${camera_name}/ir/camera_info</cameraInfoTopicName>
+                        <depthImageTopicName>/${prefix}${camera_name}/depth/image_raw</depthImageTopicName>
+                        <depthImageCameraInfoTopicName>/${prefix}${camera_name}/depth/camera_info</depthImageCameraInfoTopicName>
+                        <pointCloudTopicName>/${prefix}${camera_name}/depth/points</pointCloudTopicName>
+                        <frameName>${prefix}${camera_name}_ir_optical_frame</frameName>
+                        <pointCloudCutoff>0.5</pointCloudCutoff>
+                        <distortionK1>0.00000001</distortionK1>
+                        <distortionK2>0.00000001</distortionK2>
+                        <distortionK3>0.00000001</distortionK3>
+                        <distortionT1>0.00000001</distortionT1>
+                        <distortionT2>0.00000001</distortionT2>
+                        <CxPrime>0</CxPrime>
+                        <Cx>0</Cx>
+                        <Cy>0</Cy>
+                        <focalLength>0</focalLength>
+                        <hackBaseline>0</hackBaseline>
+                    </plugin>
+                </sensor>
+                <material value="Gazebo/Red" />
+            </gazebo>
+
+            <gazebo reference="${prefix}${camera_name}_rgb_link">
+                <sensor type="depth" name="kinect_v2_rgb_sensor">
+                    <always_on>true</always_on>
+                    <update_rate>1.0</update_rate>
+                    <camera>
+                        <horizontal_fov>${57.0 * 3.141592654 / 180.0}</horizontal_fov>
+                        <image>
+                            <format>B8G8R8</format>
+                            <width>640</width>
+                            <height>480</height>
+                        </image>
+                        <clip>
+                            <near>0.01</near>
+                            <far>5</far>
+                        </clip>
+                    </camera>
+                    <plugin name="${prefix}${camera_name}_rgb_link_controller" filename="libgazebo_ros_openni_kinect.so">
+                        <alwaysOn>true</alwaysOn>
+                        <updateRate>1.0</updateRate>
+                        <cameraName>${prefix}${camera_name}_rgb</cameraName>
+                        <imageTopicName>/${prefix}${camera_name}/rgb/image_raw</imageTopicName>
+                        <cameraInfoTopicName>/${prefix}${camera_name}/rgb/camera_info</cameraInfoTopicName>
+                        <depthImageTopicName>/${prefix}${camera_name}/depth/image_raw</depthImageTopicName>
+                        <depthImageCameraInfoTopicName>/${prefix}${camera_name}/depth/camera_info</depthImageCameraInfoTopicName>
+                        <pointCloudTopicName>/${prefix}${camera_name}/depth_registered/points</pointCloudTopicName>
+                        <frameName>${prefix}${camera_name}_rgb_optical_frame</frameName>
+                        <pointCloudCutoff>0.5</pointCloudCutoff>
+                        <distortionK1>0.00000001</distortionK1>
+                        <distortionK2>0.00000001</distortionK2>
+                        <distortionK3>0.00000001</distortionK3>
+                        <distortionT1>0.00000001</distortionT1>
+                        <distortionT2>0.00000001</distortionT2>
+                        <CxPrime>0</CxPrime>
+                        <Cx>0</Cx>
+                        <Cy>0</Cy>
+                        <focalLength>0</focalLength>
+                        <hackBaseline>0</hackBaseline>
+                    </plugin>
+                </sensor>
+                <material value="Gazebo/Red" />
+            </gazebo>
+        </xacro:if>
+
+    </xacro:macro>
+
+    <xacro:kinect_v2 gazebo_addon="true"/>
+
+</robot>
