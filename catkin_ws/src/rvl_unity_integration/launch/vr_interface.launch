@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="paused" default="false" doc="Start gazebo paused." />
+    <arg name="gazebo_gui" default="true" doc="Show gazebo GUI on startup." />
+    <arg name="tcp_ip" default="0.0.0.0"/>
+    <arg name="tcp_port" default="10000"/>
+    <arg name="show_rviz" default="false"/>
+
+    <include file="$(find rvl_gazebo)/launch/test_camera.launch" pass_all_args="true" />
+
+    <include file="$(find rvl_unity_integration)/launch/tcp_endpoint.launch">
+        <arg name="tcp_ip" value="$(arg tcp_ip)"/>
+        <arg name="tcp_port" value="$(arg tcp_port)"/>
+    </include>
+
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find rvl_unity_integration)/launch/view_camera.rviz" if="$(arg show_rviz)" />
+</launch>

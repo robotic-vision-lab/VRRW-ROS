@@ -27,9 +27,7 @@
             <color rgba="0.9 0.9 0.9 1" />
         </material>
 
-        <link name="${prefix}${camera_name}_dummy_link">
-
-        </link>
+        <link name="${prefix}${camera_name}_dummy_link"></link>
 
         <link name="${prefix}${camera_name}_body">
             <visual>
@@ -145,12 +143,22 @@
         <joint name="rgb_optical_frame_joint" type="fixed">
             <parent link="${prefix}${camera_name}_rgb_camera_link" />
             <child link="${prefix}${camera_name}_rgb_optical_frame" />
+
+            <!-- Unity correct orientation -->
+            <!-- <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" /> -->
+
+            <!-- Gazebo correct orientation -->
             <origin xyz="0.0 0.0 0.0" rpy="${-pi / 2.0} 0.0 ${-pi / 2.0}" />
         </joint>
 
         <joint name="depth_optical_frame_joint" type="fixed">
             <parent link="${prefix}${camera_name}_depth_camera_link" />
             <child link="${prefix}${camera_name}_depth_optical_frame" />
+
+            <!-- Unity correct orientation -->
+            <!-- <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" /> -->
+
+            <!-- Gazebo correct orientation -->
             <origin xyz="0.0 0.0 0.0" rpy="${-pi / 2.0} 0.0 ${-pi / 2.0}" />
         </joint>
 
@@ -180,27 +188,29 @@
             <gazebo reference="${prefix}${camera_name}_rgb_camera_link">
                 <sensor name="${prefix}${camera_name}_rgb_camera" type="camera">
                     <update_rate>30.0</update_rate>
-                    <!-- See https://docs.microsoft.com/en-us/azure/kinect-dk/hardware-specification#color-camera-supported-operating-modes -->
-                    <horizontal_fov>${90.0 * pi / 180.0}</horizontal_fov>
-                    <image>
-                        <width>1920</width>
-                        <height>1080</height>
-                        <format>RGB_INT8</format>
-                    </image>
-                    <clip>
-                        <near>0.02</near>
-                        <far>300</far>
-                    </clip>
-                    <noise>
-                        <type>gaussian</type>
-                        <!--
+                    <camera>
+                        <!-- See https://docs.microsoft.com/en-us/azure/kinect-dk/hardware-specification#color-camera-supported-operating-modes -->
+                        <horizontal_fov></horizontal_fov>
+                        <image>
+                            <width>1920</width>
+                            <height>1080</height>
+                            <format>R8G8B8</format>
+                        </image>
+                        <clip>
+                            <near>0.02</near>
+                            <far>300</far>
+                        </clip>
+                        <noise>
+                            <type>gaussian</type>
+                            <!--
                             Noise is sampled independently per pixel on each frame.
                             That pixel's noise value is added to each of its color
                             channels, which at that point lie in the range [0,1].
                         -->
-                        <mean>0.0</mean>
-                        <stddev>0.007</stddev>
-                    </noise>
+                            <mean>0.0</mean>
+                            <stddev>0.007</stddev>
+                        </noise>
+                    </camera>
                     <plugin name="${prefix}${camera_name}_rgb_controller" filename="libgazebo_ros_camera.so">
                         <alwaysOn>true</alwaysOn>
                         <visualize>true</visualize>
