@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<!--
+    Copyright (c) Microsoft Corporation. All rights reserved.
+    Licensed under the MIT License.
+-->
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="azure_kinect" params="prefix camera_name gazebo_addon:=false">
+
+        <material name="black">
+            <color rgba="0. 0. 0. 1" />
+        </material>
+        <material name="dark_grey">
+            <color rgba="0.1 0.1 0.1 1" />
+        </material>
+        <material name="grey">
+            <color rgba="0.6 0.6 0.6 1" />
+        </material>
+        <material name="orange">
+            <color rgba="1.0 0.8 0.0 1" />
+        </material>
+        <material name="teal">
+            <color rgba="0.0 0.8 1.0 1" />
+        </material>
+        <material name="white">
+            <color rgba="0.9 0.9 0.9 1" />
+        </material>
+
+        <link name="${prefix}${camera_name}_dummy_link">
+
+        </link>
+
+        <link name="${prefix}${camera_name}_body">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <box size="0.0994 0.0996 0.023" />
+                </geometry>
+                <material name="white" />
+            </visual>
+            <!-- <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <box size="0.0994 0.0996 0.023" />
+                </geometry>
+            </collision> -->
+            <!-- TODO: make gazebo spawn without inertial somehow -->
+            <inertial>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <mass value="0.050" />
+                <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0" />
+            </inertial>
+        </link>
+
+        <link name="${prefix}${camera_name}_lens_frame">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <box size="0.026 0.103 0.039" />
+                </geometry>
+                <material name="grey" />
+            </visual>
+            <!-- <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <box size="0.026 0.103 0.039" />
+                </geometry>
+            </collision> -->
+        </link>
+
+        <link name="${prefix}${camera_name}_visor">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <box size="0.026 0.101 0.037" />
+                </geometry>
+                <material name="black" />
+            </visual>
+            <!-- <collision>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+                <geometry>
+                    <box size="0.026 0.101 0.037" />
+                </geometry>
+            </collision> -->
+        </link>
+
+        <joint name="dummy_joint" type="fixed">
+            <parent link="${prefix}${camera_name}_dummy_link" />
+            <child link="${prefix}${camera_name}_body" />
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        </joint>
+
+        <joint name="body_to_lens_frame_joint" type="fixed">
+            <parent link="${prefix}${camera_name}_body" />
+            <child link="${prefix}${camera_name}_lens_frame" />
+            <origin xyz="${(0.0994 + 0.026)/2.0} 0.0 -${(0.039 - 0.023)/2.0}" rpy="0.0 0.0 0.0" />
+        </joint>
+
+        <joint name="lens_frame_to_visor_joint" type="fixed">
+            <parent link="${prefix}${camera_name}_lens_frame" />
+            <child link="${prefix}${camera_name}_visor" />
+            <origin xyz="0.0002 0.0 0.0" rpy="0.0 0.0 0.0" />
+        </joint>
+
+        <!-- camera links and frames for gazebo plugins -->
+
+        <link name="${prefix}${camera_name}_rgb_camera_link">
+            <!-- for verifying the model is accurate -->
+            <!-- <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="0.005 0.005 0.005"/>
+                </geometry>
+                <material name="orange" />
+            </visual> -->
+        </link>
+
+        <link name="${prefix}${camera_name}_depth_camera_link">
+            <!-- for verifying the model is accurate -->
+            <!-- <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="0.005 0.005 0.005"/>
+                </geometry>
+                <material name="teal" />
+            </visual> -->
+        </link>
+
+        <joint name="rgb_camera_joint" type="fixed">
+            <parent link="${prefix}${camera_name}_visor" />
+            <child link="${prefix}${camera_name}_rgb_camera_link" />
+            <origin xyz="${0.026/2} -0.035 0.0" rpy="0.0 0.0 0.0" />
+        </joint>
+
+        <joint name="depth_camera_joint" type="fixed">
+            <parent link="${prefix}${camera_name}_visor" />
+            <child link="${prefix}${camera_name}_depth_camera_link" />
+            <origin xyz="${0.026/2} 0.0 0.0" rpy="0.0 0.0 0.0" />
+        </joint>
+
+        <link name="${prefix}${camera_name}_rgb_optical_frame" />
+        <link name="${prefix}${camera_name}_depth_optical_frame" />
+
+        <joint name="rgb_optical_frame_joint" type="fixed">
+            <parent link="${prefix}${camera_name}_rgb_camera_link" />
+            <child link="${prefix}${camera_name}_rgb_optical_frame" />
+            <origin xyz="0.0 0.0 0.0" rpy="${-pi / 2.0} 0.0 ${-pi / 2.0}" />
+        </joint>
+
+        <joint name="depth_optical_frame_joint" type="fixed">
+            <parent link="${prefix}${camera_name}_depth_camera_link" />
+            <child link="${prefix}${camera_name}_depth_optical_frame" />
+            <origin xyz="0.0 0.0 0.0" rpy="${-pi / 2.0} 0.0 ${-pi / 2.0}" />
+        </joint>
+
+        <xacro:if value="${gazebo_addon}">
+            <!-- Attach it to the Gazebo 'world' frame -->
+            <!-- NOTE: Link disabled for free floating camera -->
+            <!-- <link name="world" />
+            <joint name="world_joint" type="fixed">
+                <parent link="world" />
+                <child link="${prefix}${camera_name}_body" />
+                <origin xyz="0 0 0" rpy="0 0 0" />
+            </joint> -->
+
+            <!-- Color for body parts -->
+            <gazebo reference="${prefix}${camera_name}_visor">
+                <material>Gazebo/Black</material>
+            </gazebo>
+            <gazebo reference="${prefix}${camera_name}_body">
+                <material>Gazebo/White</material>
+                <gravity>false</gravity>
+            </gazebo>
+            <gazebo reference="${prefix}${camera_name}_lens_frame">
+                <material>Gazebo/Grey</material>
+            </gazebo>
+
+            <!-- Sensor plugins -->
+            <gazebo reference="${prefix}${camera_name}_rgb_camera_link">
+                <sensor name="${prefix}${camera_name}_rgb_camera" type="camera">
+                    <update_rate>30.0</update_rate>
+                    <!-- See https://docs.microsoft.com/en-us/azure/kinect-dk/hardware-specification#color-camera-supported-operating-modes -->
+                    <horizontal_fov>${90.0 * pi / 180.0}</horizontal_fov>
+                    <image>
+                        <width>1920</width>
+                        <height>1080</height>
+                        <format>RGB_INT8</format>
+                    </image>
+                    <clip>
+                        <near>0.02</near>
+                        <far>300</far>
+                    </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <!--
+                            Noise is sampled independently per pixel on each frame.
+                            That pixel's noise value is added to each of its color
+                            channels, which at that point lie in the range [0,1].
+                        -->
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
+                    <plugin name="${prefix}${camera_name}_rgb_controller" filename="libgazebo_ros_camera.so">
+                        <alwaysOn>true</alwaysOn>
+                        <visualize>true</visualize>
+                        <updateRate>0.0</updateRate>
+                        <cameraName>${prefix}${camera_name}/rgb</cameraName>
+                        <imageTopicName>image_raw</imageTopicName>
+                        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                        <frameName>${prefix}${camera_name}_rgb_optical_frame</frameName>
+                        <hackBaseline>0.07</hackBaseline>
+                        <distortionK1>0.0</distortionK1>
+                        <distortionK2>0.0</distortionK2>
+                        <distortionK3>0.0</distortionK3>
+                        <distortionT1>0.0</distortionT1>
+                        <distortionT2>0.0</distortionT2>
+                    </plugin>
+                </sensor>
+            </gazebo>
+
+            <gazebo reference="${prefix}${camera_name}_depth_camera_link">
+                <sensor name="${prefix}${camera_name}_depth_camera" type="depth">
+                    <update_rate>30</update_rate>
+                    <!-- See https://docs.microsoft.com/en-us/azure/kinect-dk/hardware-specification#depth-camera-supported-operating-modes -->
+                    <!-- Using NFOV 2x2 binned (SW) || Not sure if it is accurate? -->
+                    <camera>
+                        <horizontal_fov>${75.0 * pi / 180.0}</horizontal_fov>
+                        <image>
+                            <width>320</width>
+                            <height>288</height>
+                            <!-- <format>R8G8B8</format> -->
+                            <format>L8</format>
+                        </image>
+                        <clip>
+                            <near>0.3</near>
+                            <far>5.6</far>
+                        </clip>
+                    </camera>
+
+                    <plugin name="${prefix}${camera_name}_depth_controller" filename="libgazebo_ros_openni_kinect.so">
+                        <baseline>0.2</baseline>
+                        <alwaysOn>true</alwaysOn>
+                        <visualize>true</visualize>
+                        <updateRate>0.0</updateRate>
+                        <cameraName>${prefix}${camera_name}/depth</cameraName>
+                        <imageTopicName>infrared/image_raw</imageTopicName>
+                        <cameraInfoTopicName>infrared/camera_info</cameraInfoTopicName>
+                        <depthImageTopicName>image_raw</depthImageTopicName>
+                        <depthImageCameraInfoTopicName>camera_info</depthImageCameraInfoTopicName>
+                        <pointCloudTopicName>points</pointCloudTopicName>
+                        <frameName>${prefix}${camera_name}_depth_optical_frame</frameName>
+                        <pointCloudCutoff>0.3</pointCloudCutoff>
+                        <pointCloudCutoffMax>5.6</pointCloudCutoffMax>
+                        <distortionK1>0.00000001</distortionK1>
+                        <distortionK2>0.00000001</distortionK2>
+                        <distortionK3>0.00000001</distortionK3>
+                        <distortionT1>0.00000001</distortionT1>
+                        <distortionT2>0.00000001</distortionT2>
+                        <CxPrime>0</CxPrime>
+                        <Cx>0</Cx>
+                        <Cy>0</Cy>
+                        <focalLength>0</focalLength>
+                        <hackBaseline>0</hackBaseline>
+                    </plugin>
+                </sensor>
+            </gazebo>
+
+        </xacro:if>
+
+    </xacro:macro>
+
+    <!-- <xacro:azure_kinect prefix="" camera_name="azure_kinect" gazebo_addon="true" /> -->
+
+</robot>

@@ -1,6 +1,25 @@
 <?xml version="1.0"?>
 <launch>
 
+    <!-- startup gazebo simulator world -->
+    <arg name="paused" default="false" doc="Start gazebo paused." />
+    <arg name="gazebo_gui" default="true" doc="Show gazebo GUI on startup." />
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="gui" value="$(arg gazebo_gui)" />
+    </include>
 
+    <param name="robot_description" command="xacro '$(find rvl_robot_description)/xacro/kinect/azure_kinect.xacro' camera_name:='hmd'" />
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="500" />
+        <param name="tf_prefix" value="" />
+    </node>
+
+    <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="
+        -urdf
+        -param robot_description
+        -model hmd_camera
+        -x 0.0 -y 0.0 -z 0.05" respawn="false" output="screen" />
 
 </launch>

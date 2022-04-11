@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="kinect">
+
+    <xacro:arg name="prefix" default=""/>
+    <xacro:arg name="camera_name" default="azure_kinect"/>
+    <xacro:arg name="gazebo_addon" default="true"/>
+
+    <xacro:include filename="$(find rvl_robot_description)/xacro/kinect/azure_macro.xacro"/>
+
+    <xacro:azure_kinect prefix="$(arg prefix)" camera_name="$(arg camera_name)" gazebo_addon="$(arg gazebo_addon)" />
+
+</robot>

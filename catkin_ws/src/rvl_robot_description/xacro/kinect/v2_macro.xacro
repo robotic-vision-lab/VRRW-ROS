@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<robot name="kinect_v2" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- Kinect2 and mount assembly -->
+    <xacro:macro name="kinect_v2" params="
+        prefix
+        camera_name:='kinect'
+        gazebo_addon:=false">
+
+        <link name="${prefix}${camera_name}_link">
+            <inertial>
+                <origin xyz="-0.0028247 0.00047839 0.038307" rpy="0 0 0" />
+                <mass value="0.82085" />
+                <inertia ixx="0.0039702" ixy="0" ixz="0" iyy="0.00059235" iyz="0" izz="0.0041195" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rvl_robot_description/models/kinect/kinect.STL" />
+                </geometry>
+                <material name="">
+                    <color rgba="0.5 0.5 0.5 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://rvl_robot_description/models/kinect/kinect.STL" />
+                </geometry>
+            </collision>
+        </link>
+
+        <link name="${prefix}${camera_name}_rgb_link" />
+        <link name="${prefix}${camera_name}_rgb_optical_frame" />
+        <link name="${prefix}${camera_name}_ir_link" />
+        <link name="${prefix}${camera_name}_ir_optical_frame" />
+
+        <!-- kinect2 rgb sensor physical attachment -->
+        <joint name="${prefix}${camera_name}_rgb_joint" type="fixed">
+            <origin xyz="0.032 -0.095 0.042015" rpy="0 0 0" />
+            <parent link="${prefix}${camera_name}_link" />
+            <child link="${prefix}${camera_name}_rgb_link" />
+        </joint>
+
+        <!-- kinect2 rgb sensor frame -->
+        <joint name="${prefix}${camera_name}_rgb_optical_frame_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="${-pi / 2.0} 0 ${-pi / 2.0}" />
+            <parent link="${prefix}${camera_name}_rgb_link" />
+            <child link="${prefix}${camera_name}_rgb_optical_frame" />
+        </joint>
+
+        <!-- kinect2 ir sensor physical attachment -->
+        <joint name="${prefix}${camera_name}_ir_joint" type="fixed">
+            <origin xyz="0 0.05157 0" rpy="0 0 0" />
+            <parent link="${prefix}${camera_name}_rgb_link" />
+            <child link="${prefix}${camera_name}_ir_link" />
+        </joint>
+
+        <!-- kinect2 ir sensor frame -->
+        <joint name="${prefix}${camera_name}_ir_optical_frame_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="${-pi / 2.0} 0 ${-pi / 2.0}" />
+            <parent link="${prefix}${camera_name}_ir_link" />
+            <child link="${prefix}${camera_name}_ir_optical_frame" />
+        </joint>
+
+        <xacro:if value="${gazebo_addon}">
+            <!-- Base Camera Gazebo Config -->
+            <gazebo reference="${prefix}${camera_name}_link">
+                <material value="Gazebo/Black" />
+            </gazebo>
+
+            <!-- IR Sensor Gazebo Config -->
+            <gazebo reference="${prefix}${camera_name}_ir_link">
+                <material value="Gazebo/Red" />
+            </gazebo>
+
+            <!-- RGB Sensor Gazebo Config -->
+            <gazebo reference="${prefix}${camera_name}_ir_link">
+                <material value="Gazebo/Red" />
+            </gazebo>
+        </xacro:if>
+
+    </xacro:macro>
+
+    <!-- <xacro:kinect_v2 /> -->
+
+</robot>

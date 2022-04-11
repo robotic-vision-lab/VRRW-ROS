@@ -63,6 +63,18 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     && apt-get -y autoremove \
     && apt-get clean
 
+# install packages per Unity Robotics Hub requirements
+RUN apt-get update && apt-get -y --no-install-recommends install \
+    ros-noetic-robot-state-publisher \
+    ros-noetic-moveit \
+    ros-noetic-rosbridge-suite \
+    ros-noetic-joy \
+    ros-noetic-ros-control \
+    ros-noetic-ros-controllers \
+    && apt-get -y autoremove \
+    && apt-get clean && \
+    python3 -m pip install --upgrade rospkg jsonpickle
+
 # define catkin workspace
 ENV HOME /root
 ENV CATKIN_WS /root/catkin_ws
