@@ -5,6 +5,7 @@
     <arg name="paused" default="false" doc="Start gazebo paused." />
     <arg name="gazebo_gui" default="true" doc="Show gazebo GUI on startup." />
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value ="$(find rvl_unity_integration)/world/test_viewer" />
         <arg name="paused" value="$(arg paused)" />
         <arg name="gui" value="$(arg gazebo_gui)" />
     </include>

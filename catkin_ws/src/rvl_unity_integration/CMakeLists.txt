@@ -13,7 +13,6 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   sensor_msgs
   message_generation
-  genmsg
   actionlib_msgs
 )
 
@@ -204,6 +203,7 @@ catkin_install_python(PROGRAMS
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(DIRECTORY
   launch
+  urdf
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
