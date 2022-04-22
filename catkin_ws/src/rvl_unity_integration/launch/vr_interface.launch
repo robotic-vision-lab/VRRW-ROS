@@ -12,7 +12,7 @@
         <arg name="gui" value="$(arg gazebo_gui)" />
     </include>
 
-    <include file="$(find rvl_unity_integration)/launch/tcp_endpoint.launch">
+    <include file="$(find ros_tcp_endpoint)/launch/endpoint.launch">
         <arg name="tcp_ip" value="$(arg tcp_ip)"/>
         <arg name="tcp_port" value="$(arg tcp_port)"/>
     </include>

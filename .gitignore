@@ -533,13 +533,4 @@ TSWLatexianTemp*
 #                            Addtional ROS Packages                            #
 # ---------------------------------------------------------------------------- #
 
-catkin_ws/src/fmauch_universal_robot
-catkin_ws/src/o2ac-ur
-catkin_ws/src/ros_industrial_robotiq
-catkin_ws/src/jr_robotics_robotiq
-catkin_ws/src/beta_robotics_robotiq
-catkin_ws/src/realsense-ros
-catkin_ws/src/gazebo_ros_l515
-catkin_ws/src/gazebo_ros_d435
-catkin_ws/src/gazebo_models
-catkin_ws/src/kinect_v2_urdf
+.catkin_tools
