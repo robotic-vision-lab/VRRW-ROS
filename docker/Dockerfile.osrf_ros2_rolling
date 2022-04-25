@@ -1,0 +1,14 @@
+# using OSRF ROS 2 Galactic Image
+FROM osrf/ros2:devel
+
+# no prompts from apt-get
+ARG DEBIAN_FRONTEND=noninteractive
+
+# use bash as primary shell for RUN commands
+SHELL [ "/bin/bash", "-c" ]
+
+# for slow downloading mirror (no idea why this happens sometimes)
+RUN apt-get update && apt-get -y --no-install-recommends install python3-pip && \
+    python3 -m pip install --upgrade pip setuptools wheel testresources && \
+    python3 -m pip install --upgrade apt-mirror-updater && \
+    apt-mirror-updater -a

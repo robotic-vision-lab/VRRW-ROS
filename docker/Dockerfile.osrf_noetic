@@ -1,5 +1,5 @@
-# using NVIDIA CUDA GL Image
-FROM osrf/ros:noetic-desktop-full-focal
+# using OSRF ROS Noetic Image
+FROM nvidia/cudagl:11.4.2-devel-ubuntu20.04
 
 # no prompts from apt-get
 ARG DEBIAN_FRONTEND=noninteractive
@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # use bash as primary shell for RUN commands
 SHELL [ "/bin/bash", "-c" ]
 
-# for slow downloading mirror (no idea why this happens at my university)
+# for slow downloading mirror (no idea why this happens sometimes)
 RUN apt-get update && apt-get -y --no-install-recommends install python3-pip && \
     python3 -m pip install --upgrade pip setuptools wheel testresources && \
     python3 -m pip install --upgrade apt-mirror-updater && \
@@ -33,19 +33,6 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     && apt-get -y autoremove \
     && apt-get clean
 
-# install packages per Unity Robotics Hub requirements
-# see https://github.com/Unity-Technologies/Unity-Robotics-Hub/blob/main/tutorials/pick_and_place/0_ros_setup.md#option-b-manual-setup=
-RUN apt-get update && apt-get -y --no-install-recommends install \
-    ros-noetic-robot-state-publisher \
-    ros-noetic-moveit \
-    ros-noetic-rosbridge-suite \
-    ros-noetic-joy \
-    ros-noetic-ros-control \
-    ros-noetic-ros-controllers \
-    && apt-get -y autoremove \
-    && apt-get clean && \
-    python3 -m pip install --upgrade rospkg jsonpickle
-
 # define catkin workspace
 ENV HOME /root
 ENV CATKIN_WS /root/catkin_ws
@@ -58,12 +45,10 @@ ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 ENV ROS_DISTRO noetic
 
-# for WSL2
-ENV LD_LIBRARY_PATH=/usr/lib/wsl/lib
-
 # setup catkin workspace
 # https://wiki.ros.org/rosdep
-RUN rosdep update && \
+RUN rosdep init && \
+    rosdep update && \
     source /opt/ros/${ROS_DISTRO}/setup.bash && \
     mkdir -p ${CATKIN_SRC} && \
     cd ${CATKIN_WS} && \
