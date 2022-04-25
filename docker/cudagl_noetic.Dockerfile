@@ -7,13 +7,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 # use bash as primary shell for RUN commands
 SHELL [ "/bin/bash", "-c" ]
 
-# YOU MAY WANT TO ADD --no-install-recommends TO REDUCE IMAGE SIZE
-
-# for slow downloading mirror (no idea why this happens sometimes)
-RUN apt-get update && apt-get -y install python3-pip apt-utils && \
-    python3 -m pip install --upgrade pip setuptools wheel testresources && \
-    python3 -m pip install --upgrade apt-mirror-updater && \
-    apt-mirror-updater -a
+# "fast" source list for my area, can be redundant or negatively affect download speed
+RUN apt-get update && apt-get -y install ca-certificates curl gnupg
+COPY mirrors.list /etc/apt/sources.list
 
 # installing initial setup packages
 RUN apt-get update && apt-get -y install \
@@ -40,7 +36,7 @@ RUN apt-get update && apt-get -y install \
 # installing ROS1 Noetic Desktop Full
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
     curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - && \
-    apt-get update && apt-get -y ros-noetic-desktop-full
+    apt-get update && apt-get -y install ros-noetic-desktop-full
 
 # installing addition ROS packages
 RUN apt-get update && apt-get -y install \
