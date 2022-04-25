@@ -21,21 +21,15 @@ CONTAINER_ID=`docker ps -aqf "name=^/${CONTAINER_NAME}$"`
 # if container with name not found
 if [ -z "${CONTAINER_ID}" ]; then
     # creating the docker container
-    # you may also want the --privileged flag instead of --device to access more devices
     docker run -t -d \
     --name ${CONTAINER_NAME} \
-    --device /dev/dxg \
+    --privileged \
     --runtime nvidia \
     --gpus all \
     --shm-size 16G \
     --network host \
-    -e "WAYLAND_DISPLAY=$WAYLAND_DISPLAY" \
-    -e "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR" \
-    -e "PULSE_SERVER=$PULSE_SERVER" \
     -e "DISPLAY=$DISPLAY" \
     -v "/tmp/.X11-unix:/tmp/.X11-unix" \
-    -v "/mnt/wslg:/mnt/wslg" \
-    -v "/usr/lib/wsl:/usr/lib/wsl" \
     -v "${HOST_CATKIN_WS}:/root/catkin_ws/src" \
     ${IMAGE_NAME}:${IMAGE_TAG} \
     bash
