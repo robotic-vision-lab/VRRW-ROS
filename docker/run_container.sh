@@ -13,7 +13,7 @@ CONTAINER_NAME=unity-robosim-container
 
 # Docker image and tag to use
 IMAGE_NAME=unity-robosim
-IMAGE_TAG=latest
+IMAGE_TAG=cudagl_noetic
 
 # get docker container ID if exists
 CONTAINER_ID=`docker ps -aqf "name=^/${CONTAINER_NAME}$"`

@@ -20,19 +20,19 @@ def update_gazebo_pose(pose_msg:Pose):
 
     try:
         set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
-        _ = set_state( state_msg )
+        resp = set_state( state_msg )
+        del resp
+        del state_msg
     except rospy.ServiceException as e:
         print(f"Service call failed: {e}")
-    finally:
-        del pose_msg
-        del state_msg
 
 def main():
     rospy.init_node('hmd_pose_updater_node', anonymous=True)
+    print('[RVL Unity] Waiting for topics from Unity...')
     rospy.wait_for_message('/unity/hmd_pose', Pose)
     rospy.wait_for_service('/gazebo/set_model_state')
-
-    _ = rospy.Subscriber('/unity/hmd_pose', Pose, callback=update_gazebo_pose)
+    print('[RVL Unity] Pose updating...')
+    sub = rospy.Subscriber('/unity/hmd_pose', Pose, callback=update_gazebo_pose)
 
     rospy.spin()
 
