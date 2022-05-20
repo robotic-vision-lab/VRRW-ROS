@@ -192,8 +192,8 @@
                         <!-- See https://docs.microsoft.com/en-us/azure/kinect-dk/hardware-specification#color-camera-supported-operating-modes -->
                         <horizontal_fov></horizontal_fov>
                         <image>
-                            <width>1920</width>
-                            <height>1080</height>
+                            <width>960</width>
+                            <height>540</height>
                             <format>R8G8B8</format>
                         </image>
                         <clip>

@@ -30,6 +30,7 @@
         -model hmd_camera
         -x 0.0 -y 0.0 -z 0.05" respawn="false" output="screen" />
 
-    <node name="hmd_updater" pkg="rvl_unity_integration" type="test_gazebo_set_pose.py" output="screen"/>
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find rvl_unity_integration)/launch/view_camera.rviz" if="$(arg show_rviz)" />
+    <!-- <node name="hmd_updater" pkg="rvl_unity_integration" type="test_gazebo_set_pose.py" output="screen"/> -->
+
+    <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find rvl_unity_integration)/launch/view_camera.rviz" if="$(arg show_rviz)" /> -->
 </launch>

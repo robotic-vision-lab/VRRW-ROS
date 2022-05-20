@@ -11,6 +11,12 @@ SHELL [ "/bin/bash", "-c" ]
 RUN apt-get update && apt-get -y install ca-certificates curl gnupg
 COPY mirrors.list /etc/apt/sources.list
 
+# Alternatively, runs apt-mirror-updater, similar effects but no https
+# RUN apt-get update && apt-get -y install python3-pip && \
+#     python3 -m pip install --upgrade pip setuptools wheel testresources && \
+#     python3 -m pip install --upgrade apt-mirror-updater && \
+#     apt-mirror-updater -a
+
 # installing initial setup packages
 RUN apt-get update && apt-get -y install \
     git \
