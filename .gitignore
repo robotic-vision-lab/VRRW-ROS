@@ -193,6 +193,6 @@ AMENT_IGNORE
 #                               VS Code Generated                              #
 # ---------------------------------------------------------------------------- #
 
-.vscode/*
+.vscode
 !.vscode/extensions.json
 !.vscode/settings.json
