@@ -5,7 +5,7 @@ project(rvl_robot_description)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY config launch models urdf xacro
+  DIRECTORY config launch models urdf xacro rviz
   DESTINATION share/${PROJECT_NAME}
 )
 
