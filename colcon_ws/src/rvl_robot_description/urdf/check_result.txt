@@ -1,0 +1,33 @@
+robot name is: rvl_ur5e
+---------- Successfully Parsed XML ---------------
+root Link: world has 1 child(ren)
+    child(1):  base_link
+        child(1):  base
+        child(2):  base_link_inertia
+            child(1):  shoulder_link
+                child(1):  upper_arm_link
+                    child(1):  forearm_link
+                        child(1):  wrist_1_link
+                            child(1):  wrist_2_link
+                                child(1):  wrist_3_link
+                                    child(1):  flange
+                                        child(1):  tool0
+                                            child(1):  camera_bottom_screw_frame
+                                                child(1):  camera_link
+                                                child(2):  camera_lower_mount
+                                                child(3):  camera_upper_mount
+                                                child(4):  camera_usb_plug_link
+                                            child(2):  gripper_center_tip
+                                            child(3):  L515_mounting_plate
+                                            child(4):  robotiq_2f_base_palm
+                                                child(1):  left_knuckle_link
+                                                    child(1):  left_bar_link
+                                                        child(1):  left_distal_phalanx_link
+                                                            child(1):  left_finger_tip_link
+                                                child(2):  left_proximal_phalanx_link
+                                                child(3):  right_knuckle_link
+                                                    child(1):  right_bar_link
+                                                        child(1):  right_distal_phalanx_link
+                                                            child(1):  right_finger_tip_link
+                                                child(4):  right_proximal_phalanx_link
+                                    child(2):  ft_frame
