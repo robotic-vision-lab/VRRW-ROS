@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="multibot">
+
+    <xacro:include filename="$(find rvl_robot_description)/xacro/universal_robots/include/ur_macro.xacro"/>
+
+    <xacro:ur_robot prefix="first_" variant="ur5e" />
+
+    <xacro:ur_robot prefix="second_" variant="ur5e" />
+
+    <link name="world" />
+
+    <joint name="first_to_platform" type="fixed">
+        <parent link="world"/>
+        <child link="first_base_link"/>
+        <origin xyz="0 -0.6 0.05"/>
+    </joint>
+
+    <joint name="second_to_platform" type="fixed">
+        <parent link="world"/>
+        <child link="second_base_link"/>
+        <origin xyz="0 -1.2 0.05"/>
+    </joint>
+
+</robot>

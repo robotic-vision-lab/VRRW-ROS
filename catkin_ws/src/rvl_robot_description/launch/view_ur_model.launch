@@ -19,5 +19,5 @@
 
     <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rvl_robot_description)/config/universal_robots/view_robot.rviz" required="true" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rvl_robot_description)/rviz/view_ur.rviz" required="true" />
 </launch>

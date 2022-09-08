@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- specify which robot to load -->
+    <arg name="fetch_variant" default="fetch"/>
+
+    <!-- use common launch file and pass all arguments to it -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find rvl_robot_description)/xacro/fetch/$(arg fetch_variant).urdf'" />
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rvl_robot_description)/rviz/view_$(arg fetch_variant).rviz" required="true" />
+</launch>

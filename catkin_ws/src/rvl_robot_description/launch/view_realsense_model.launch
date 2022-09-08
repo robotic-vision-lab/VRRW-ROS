@@ -6,5 +6,5 @@
         use_nominal_extrinsics:=true
         add_plug:=false" />
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rvl_robot_description)/config/realsense/view_realsense.rviz" required="true" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rvl_robot_description)/rviz/view_realsense.rviz" required="true" />
 </launch>

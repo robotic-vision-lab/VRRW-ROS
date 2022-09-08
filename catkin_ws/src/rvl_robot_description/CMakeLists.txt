@@ -5,5 +5,5 @@ find_package(catkin REQUIRED)
 
 catkin_package()
 
-install(DIRECTORY config launch models xacro
+install(DIRECTORY config launch models xacro rviz
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

@@ -1,6 +1,0 @@
-[submodule "catkin_ws/src/realsense_gazebo_plugin"]
-	path = catkin_ws/src/realsense_gazebo_plugin
-	url = https://github.com/pal-robotics/realsense_gazebo_plugin
-[submodule "catkin_ws/src/ros_tcp_endpoint"]
-	path = catkin_ws/src/ros_tcp_endpoint
-	url = https://github.com/Unity-Technologies/ROS-TCP-Endpoint.git
