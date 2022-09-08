@@ -70,6 +70,11 @@ RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb
     wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add - && \
     apt-get update && apt-get -y --no-install-recommends install gazebo11 libgazebo11-dev
 
+# upgrade MESA for Ignition Gazebo
+RUN add-apt-repository ppa:kisak/kisak-mesa && \
+    apt-get update && \
+    apt-get -y full-upgrade
+
 # define catkin workspace
 ENV HOME /root
 ENV CATKIN_WS /root/catkin_ws
@@ -93,8 +98,10 @@ RUN rosdep init && \
     rosdep install --from-paths src --ignore-src -r -y && \
     catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-# enable GPU supports
-# https://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration#nvidia-docker2
+# NVIDIA access for WSL
+ENV LD_LIBRARY_PATH=/usr/lib/wsl/lib
+
+# ROS NVIDIA acceleration, see http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration#nvidia-docker2
 ENV NVIDIA_VISIBLE_DEVICES \
     ${NVIDIA_VISIBLE_DEVICES:-all}
 ENV NVIDIA_DRIVER_CAPABILITIES \
