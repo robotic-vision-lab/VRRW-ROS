@@ -11,10 +11,10 @@
 <robot name="sensor_l515" xmlns:xacro="http://ros.org/wiki/xacro">
 
     <!-- Includes -->
-    <xacro:include filename="$(find rvl_robot_description)/xacro/realsense/materials.xacro" />
+    <xacro:include filename="$(find rvl_robot_description)/xacro/rvl/materials.xacro" />
     <xacro:include filename="$(find rvl_robot_description)/xacro/realsense/usb_plug.xacro" /> <!-- this specific plug does not apply to L515 -->
 
-    <xacro:macro name="sensor_l515" params="parent *origin name:=camera use_nominal_extrinsics:=false add_plug:=false use_mesh:=true">
+    <xacro:macro name="sensor_l515" params="parent *origin name:=camera use_nominal_extrinsics:=false add_plug:=true use_mesh:=true">
         <xacro:property name="M_PI" value="3.1415926535897931" />
 
         <!--

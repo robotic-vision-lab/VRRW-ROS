@@ -31,7 +31,7 @@
 
     <!-- Intel RealSense L515 -->
     <xacro:include filename="$(find rvl_robot_description)/xacro/realsense/l515.xacro" />
-    <xacro:sensor_l515 name="L515" parent="tool0" add_plug="true">
+    <xacro:sensor_l515 name="L515" parent="tool0">
         <origin xyz="${camera_placement_xyz}" rpy="${camera_placement_rpy}" />
     </xacro:sensor_l515>
 

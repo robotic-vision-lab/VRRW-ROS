@@ -381,7 +381,7 @@
       <geometry>
         <mesh filename="package://rvl_robot_description/models/robotiq/2f_85/visual/robotiq_arg2f_base_link.stl" scale="1 1 1"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_black">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -403,7 +403,7 @@
       <geometry>
         <mesh filename="package://rvl_robot_description/models/robotiq/2f_85/visual/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_grey">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
       </material>
     </visual>
@@ -425,7 +425,7 @@
       <geometry>
         <mesh filename="package://rvl_robot_description/models/robotiq/2f_85/visual/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_black">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -447,7 +447,7 @@
       <geometry>
         <mesh filename="package://rvl_robot_description/models/robotiq/2f_85/visual/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_black">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -469,7 +469,7 @@
       <geometry>
         <mesh filename="package://rvl_robot_description/models/robotiq/2f_85/visual/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_black">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -491,7 +491,7 @@
       <geometry>
         <box size="0.022 0.00635 0.0375"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_white">
         <color rgba="0.9 0.9 0.9 1"/>
       </material>
     </visual>
@@ -500,9 +500,6 @@
       <geometry>
         <box size="0.022 0.00635 0.0375"/>
       </geometry>
-      <material name="">
-        <color rgba="0.9 0.0 0.0 1"/>
-      </material>
     </collision>
   </link>
   <joint name="left_bar_joint" type="fixed">
@@ -546,7 +543,7 @@
       <geometry>
         <mesh filename="package://rvl_robot_description/models/robotiq/2f_85/visual/robotiq_arg2f_85_outer_knuckle.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_grey">
         <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
       </material>
     </visual>
@@ -568,7 +565,7 @@
       <geometry>
         <mesh filename="package://rvl_robot_description/models/robotiq/2f_85/visual/robotiq_arg2f_85_outer_finger.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_black">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -590,7 +587,7 @@
       <geometry>
         <mesh filename="package://rvl_robot_description/models/robotiq/2f_85/visual/robotiq_arg2f_85_inner_knuckle.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_black">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -612,7 +609,7 @@
       <geometry>
         <mesh filename="package://rvl_robot_description/models/robotiq/2f_85/visual/robotiq_arg2f_85_inner_finger.dae" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_black">
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
@@ -634,7 +631,7 @@
       <geometry>
         <box size="0.022 0.00635 0.0375"/>
       </geometry>
-      <material name="">
+      <material name="robotiq_white">
         <color rgba="0.9 0.9 0.9 1"/>
       </material>
     </visual>
@@ -643,9 +640,6 @@
       <geometry>
         <box size="0.022 0.00635 0.0375"/>
       </geometry>
-      <material name="">
-        <color rgba="0.9 0.0 0.0 1"/>
-      </material>
     </collision>
   </link>
   <joint name="right_bar_joint" type="fixed">
@@ -689,6 +683,30 @@
     <child link="robotiq_2f_base_palm"/>
     <origin rpy="0.0 0.0 1.5707963267948966" xyz="0.0 0.0 0.0053"/>
   </joint>
+  <material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+  <material name="orange">
+    <color rgba="1.0 0.4235294117647059 0.0392156862745098 1.0"/>
+  </material>
+  <material name="brown">
+    <color rgba="0.8705882352941177 0.8117647058823529 0.7647058823529411 1.0"/>
+  </material>
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
   <material name="aluminum">
     <color rgba="0.5 0.5 0.5 1"/>
   </material>

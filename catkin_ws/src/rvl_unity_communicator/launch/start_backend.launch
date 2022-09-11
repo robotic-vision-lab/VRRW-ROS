@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find ros_tcp_endpoint)/launch/endpoint.launch" />
+    <include file="$(find rvl_ur_moveit_config)/launch/demo.launch" />
+    <!-- <include file="$(find rvl_multibot_moveit_config)/launch/demo.launch" /> -->
+</launch>

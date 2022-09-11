@@ -155,8 +155,6 @@
         <xacro:property name="finger_tip_collision_parameters" value="${finger_tip_mesh_files['collision']}" scope="parent" />
         <xacro:property name="finger_tip_collision_xyz" value="${finger_tip_collision_parameters['origin']['xyz']}" scope="parent" />
         <xacro:property name="finger_tip_collision_rpy" value="${finger_tip_collision_parameters['origin']['rpy']}" scope="parent" />
-        <xacro:property name="finger_tip_collision_material_name" value="${finger_tip_collision_parameters['material']['name']}" scope="parent" />
-        <xacro:property name="finger_tip_collision_material_color" value="${finger_tip_collision_parameters['material']['color']}" scope="parent" />
 
         <!-- INDIVIDUAL JOINT NAMES -->
 

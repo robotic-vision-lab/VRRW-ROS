@@ -1,0 +1,9 @@
+float32 shoulder_pan_joint
+float32 shoulder_lift_joint
+float32 elbow_joint
+float32 wrist_1_joint
+float32 wrist_2_joint
+float32 wrist_3_joint
+---
+bool success
+string error

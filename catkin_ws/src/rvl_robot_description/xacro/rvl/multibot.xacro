@@ -1,24 +1,71 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="multibot">
 
+    <!-- ####################################################################### -->
+    <!--                        TWO UNIVERSAL ROBOT UR5e                         -->
+    <!-- ####################################################################### -->
+
+    <xacro:property name="ur_range" value="0.85" />
+    <xacro:property name="ur_overlap" value="${ur_range * 2.0 - (ur_range * 0.75 * 2.0)}" />
+    <xacro:property name="ur_spacing" value="${0.85 * 2.0 - ur_overlap}" />
     <xacro:include filename="$(find rvl_robot_description)/xacro/universal_robots/include/ur_macro.xacro"/>
+    <xacro:ur_robot prefix="left_" variant="ur5e" />
+    <xacro:ur_robot prefix="right_" variant="ur5e" />
 
-    <xacro:ur_robot prefix="first_" variant="ur5e" />
+    <!-- ####################################################################### -->
+    <!--             TWO ROBOTIQ 2F-85 GRIPPERS ATTACHED TO THE UR5e             -->
+    <!-- ####################################################################### -->
 
-    <xacro:ur_robot prefix="second_" variant="ur5e" />
+    <xacro:include filename="$(find rvl_robot_description)/xacro/robotiq/include/robotiq_2f_macro.xacro" />
+
+    <xacro:robotiq_2f_gripper
+        prefix="left_"
+        stroke="85"
+        transmission_hw_interface="hardware_interface/EffortJointInterface"
+        parent_link="left_tool0"
+        attachment_yaw="${pi/2}" />
+
+    <xacro:robotiq_2f_gripper
+        prefix="right_"
+        stroke="85"
+        transmission_hw_interface="hardware_interface/EffortJointInterface"
+        parent_link="right_tool0"
+        attachment_yaw="${pi/2}" />
+
+    <!-- ####################################################################### -->
+    <!--              ADDITIONAL PLANNING JOINT FOR GRIPPER CENTER               -->
+    <!-- ####################################################################### -->
+
+    <link name="left_gripper_center_tip" />
+    <joint name="left_gripper_center_tip_joint" type="fixed">
+        <parent link="left_tool0" />
+        <child link="left_gripper_center_tip" />
+        <origin xyz="0.0 0.0 ${0.1628 * 0.8}" rpy="0.0 0.0 0.0" />
+    </joint>
+
+    <link name="right_gripper_center_tip" />
+    <joint name="right_gripper_center_tip_joint" type="fixed">
+        <parent link="right_tool0" />
+        <child link="right_gripper_center_tip" />
+        <origin xyz="0.0 0.0 ${0.1628 * 0.8}" rpy="0.0 0.0 0.0" />
+    </joint>
+
+    <!-- ####################################################################### -->
+    <!--         MOUNTING THE BOTS TO THE "WORLD" AS A COMMON BASE LINK          -->
+    <!-- ####################################################################### -->
 
     <link name="world" />
 
-    <joint name="first_to_platform" type="fixed">
+    <joint name="left_to_world" type="fixed">
         <parent link="world"/>
-        <child link="first_base_link"/>
-        <origin xyz="0 -0.6 0.05"/>
+        <child link="left_base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 ${-pi/2.0}"/>
     </joint>
 
-    <joint name="second_to_platform" type="fixed">
+    <joint name="right_to_world" type="fixed">
         <parent link="world"/>
-        <child link="second_base_link"/>
-        <origin xyz="0 -1.2 0.05"/>
+        <child link="right_base_link"/>
+        <origin xyz="0 ${ur_spacing} 0" rpy="0 0 ${-pi/2.0}"/>
     </joint>
 
 </robot>

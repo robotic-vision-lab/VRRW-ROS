@@ -143,9 +143,6 @@
                     <geometry>
                         <box size="${finger_tip_box_dimension}" />
                     </geometry>
-                    <material name="${finger_tip_collision_material_name}">
-                        <color rgba="${finger_tip_collision_material_color}" />
-                    </material>
                 </collision>
             </link>
         </xacro:macro>

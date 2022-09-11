@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: rvl_robot_description
+    relative_path: xacro/rvl/rvl_ur.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/rvl_ur.srdf
+  CONFIG:
+    author_name: Minh Tram
+    author_email: minh.tram@mavs.uta.edu
+    generated_timestamp: 1662863395
