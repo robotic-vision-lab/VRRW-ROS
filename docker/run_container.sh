@@ -9,7 +9,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 HOST_COLCON_WS=$( cd "${SCRIPT_DIR}/../colcon_ws/src" &> /dev/null && pwd )
 
 # name of the container to be created
-CONTAINER_NAME=robosim-container
+CONTAINER_NAME=ros2-robosim-container
 
 # Docker image and tag to use
 IMAGE_NAME=robosim
