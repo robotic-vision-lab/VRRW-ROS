@@ -21,6 +21,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     lsb-release \
     python3-pip \
     python3-dev \
+    python-is-python3 \
     gnupg2 \
     libxext6 \
     libx11-6 \

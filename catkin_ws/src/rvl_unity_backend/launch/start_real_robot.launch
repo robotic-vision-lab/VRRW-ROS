@@ -1,0 +1,10 @@
+<launch>
+    <include file="$(find ros_tcp_endpoint)/launch/endpoint.launch" />
+    <include file="$(find rvl_ur_remote_dashboard)/launch/rvl_ur5e_bringup.launch" />
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <rosparam param="source_list">[Robotiq2F/joint_states]</rosparam>
+    </node>
+
+    <include file="$(find rvl_ur5e_moveit_config)/launch/move_group.launch" />
+</launch>

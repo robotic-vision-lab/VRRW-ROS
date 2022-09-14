@@ -18,6 +18,7 @@
   <arg name="fake_execution_type" default="interpolate"/>
   <arg name="max_safe_path_cost" default="1"/>
   <arg name="publish_monitored_planning_scene" default="true"/>
+  <arg name="jiggle_fraction" default="0.05" />
 
   <arg name="capabilities" default=""/>
   <arg name="disable_capabilities" default=""/>
@@ -88,8 +89,21 @@
     <param name="allow_trajectory_execution" value="$(arg allow_trajectory_execution)"/>
     <param name="sense_for_plan/max_safe_path_cost" value="$(arg max_safe_path_cost)"/>
     <param name="default_planning_pipeline" value="$(arg pipeline)" />
-    <param name="capabilities" value="$(arg capabilities)" />
     <param name="disable_capabilities" value="$(arg disable_capabilities)" />
+    <param name="jiggle_fraction" value="$(arg jiggle_fraction)" />
+
+    <!-- MoveGroup capabilities to load -->
+    <param name="capabilities" value="move_group/MoveGroupCartesianPathService
+				      move_group/MoveGroupExecuteService
+				      move_group/MoveGroupKinematicsService
+				      move_group/MoveGroupMoveAction
+				      move_group/MoveGroupPickPlaceAction
+				      move_group/MoveGroupPlanService
+				      move_group/MoveGroupQueryPlannersService
+				      move_group/MoveGroupStateValidationService
+				      move_group/MoveGroupGetPlanningSceneService
+				      move_group/ClearOctomapService
+				      " />
 
     <!-- Publish the planning scene of the physical robot so that rviz plugin can know actual robot -->
     <param name="planning_scene_monitor/publish_planning_scene" value="$(arg publish_monitored_planning_scene)" />

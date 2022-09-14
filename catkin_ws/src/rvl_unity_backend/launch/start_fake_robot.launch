@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find ros_tcp_endpoint)/launch/endpoint.launch" />
+    <include file="$(find rvl_ur5e_moveit_config)/launch/demo.launch" />
+</launch>

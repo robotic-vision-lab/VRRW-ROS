@@ -25,7 +25,6 @@ def publish_gripper_joint_state(status_msg, publisher):
     gripper_joint_state.position = [raw_to_rad_2f85(status_msg.current_position)]
     gripper_joint_state.effort = [0.0]
     gripper_joint_state.velocity = [0.0]
-
     publisher.publish(gripper_joint_state)
 
 def send_command_to_gripper(command_msg, communicator:RobotiqRTUClient):
@@ -42,7 +41,7 @@ def start_robotiq_backend(device, refresh_rate = 200, delayed_start = 5):
     limiter = rospy.Rate(hz = refresh_rate)
 
     # publish joint state for MoveIt!
-    joint_state_publisher = rospy.Publisher('joint_states', JointState, queue_size=1)
+    joint_state_publisher = rospy.Publisher('/Robotiq2F/joint_states', JointState, queue_size=1)
 
     # status handler
     status_publisher = rospy.Publisher('/Robotiq2F/gripper_status', Robotiq2FStatus, queue_size=200)
@@ -66,7 +65,7 @@ def start_robotiq_backend(device, refresh_rate = 200, delayed_start = 5):
         logger.log_warn('UR Arm powered, updating and accepting command')
     else:
         logger.log_warn('UR Arm already powered, updating and accepting command')
-    rospy.sleep(3)
+    rospy.sleep(1)
     logger.log_success('Gripper interface node is now running')
 
     # UR power dependent
@@ -77,7 +76,7 @@ def start_robotiq_backend(device, refresh_rate = 200, delayed_start = 5):
                 limiter.sleep()
             # wait a little bit before updating again
             logger.log_success('UR Arm repowered, updating and accepting command')
-            rospy.sleep(3)
+            rospy.sleep(1)
         else:
             gripper_status = generate_2f_status_from_binary(gripper.request_status())
             status_publisher.publish(gripper_status)
