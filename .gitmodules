@@ -4,3 +4,12 @@
 [submodule "catkin_ws/src/ros_tcp_endpoint"]
 	path = catkin_ws/src/ros_tcp_endpoint
 	url = https://github.com/Unity-Technologies/ROS-TCP-Endpoint.git
+[submodule "catkin_ws/src/ur_robot_description"]
+	path = catkin_ws/src/ur_robot_description
+	url = https://github.com/fmauch/universal_robot.git
+[submodule "moveit_msgs"]
+	path = moveit_msgs
+	url = https://github.com/ros-planning/moveit_msgs
+[submodule "catkin_ws/src/moveit_msgs"]
+	path = catkin_ws/src/moveit_msgs
+	url = https://github.com/ros-planning/moveit_msgs

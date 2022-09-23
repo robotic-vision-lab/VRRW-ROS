@@ -60,6 +60,6 @@
     </include>
 
     <!-- Robotiq Gripper Node -->
-    <include file="$(find rvl_robotiq_controller)/launch/rvl_2f_85_bringup.launch"/>
+    <!-- <include file="$(find rvl_robotiq_controller)/launch/rvl_2f_85_bringup.launch"/> -->
 
 </launch>

@@ -3,11 +3,15 @@ project(rvl_unity_backend)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
-  roslaunch
   std_msgs
-  sensor_msgs
+  geometry_msgs
+  ros_tcp_endpoint
   message_generation
-  # actionlib_msgs
+  moveit_msgs
+  sensor_msgs
+  controller_manager
+  roslaunch
+  trajectory_msgs
 )
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -59,9 +63,10 @@ add_service_files(DIRECTORY srv)
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
+  geometry_msgs
   std_msgs
+  moveit_msgs
   sensor_msgs
-  # actionlib_msgs
 )
 
 ################################################
