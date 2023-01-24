@@ -11,11 +11,11 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 HOST_CATKIN_WS=$( cd "${SCRIPT_DIR}/../catkin_ws/src" &> /dev/null && pwd )
 
 # name of the container to be created
-CONTAINER_NAME=ros1-robosim-container
+CONTAINER_NAME=vr-demo-container
 
 # Docker image and tag to use
-IMAGE_NAME=robosim
-IMAGE_TAG=noetic-desktop-focal-cuda
+IMAGE_NAME=rvl-vr
+IMAGE_TAG=ros1-noetic-windows
 
 # get docker container ID if exists
 CONTAINER_ID=`docker ps -aqf "name=^/${CONTAINER_NAME}$"`

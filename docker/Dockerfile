@@ -1,5 +1,5 @@
-# using stock Ubuntu 20.04 image
-FROM ubuntu:focal
+# using OSRF ROS 1 Noetic image
+FROM osrf/ros:noetic-desktop-full-focal
 
 # no prompts from apt-get
 ARG DEBIAN_FRONTEND=noninteractive
@@ -9,7 +9,8 @@ SHELL [ "/bin/bash", "-c" ]
 
 # "fast" source list for my area
 # NOTE: can be redundant or negatively affect download speed!
-COPY sources.dallas.list /etc/apt/sources.list
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.original && \
+    sed -i -r 's,http://(.*).ubuntu.com,http://mirror.us-tx.kamatera.com,' /etc/apt/sources.list
 
 # installing initial setup packages
 RUN apt-get update && apt-get -y --no-install-recommends install \
@@ -35,21 +36,15 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     mesa-utils-extra \
     locales \
     net-tools \
+    iputils-ping \
+    netcat \
     software-properties-common \
+    && apt-get update \
     && apt-get -y autoremove \
     && apt-get clean
 
-# installing CUDA 11.7.1
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb && \
-    dpkg -i cuda-keyring_1.0-1_all.deb && \
-    apt-get update && apt-get -y --no-install-recommends install cuda && \
-    rm -rf cuda-keyring_1.0-1_all.deb
-
 # installing ROS1 Noetic Desktop Full
-RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
-    curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add - && \
-    apt-get update && apt-get -y --no-install-recommends install \
-    ros-noetic-desktop-full \
+RUN apt-get update && apt-get -y --no-install-recommends install \
     ros-noetic-moveit \
     ros-noetic-moveit-resources \
     ros-noetic-moveit-visual-tools \
@@ -66,16 +61,6 @@ RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main"
     python3-wstool \
     python3-catkin-tools
 
-# installing Gazebo 11
-RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
-    wget https://packages.osrfoundation.org/gazebo.key -O - | apt-key add - && \
-    apt-get update && apt-get -y --no-install-recommends install gazebo11 libgazebo11-dev
-
-# upgrade MESA for Ignition Gazebo
-RUN add-apt-repository ppa:kisak/kisak-mesa && \
-    apt-get update && \
-    apt-get -y full-upgrade
-
 # define catkin workspace
 ENV HOME /root
 ENV CATKIN_WS /root/catkin_ws
@@ -90,14 +75,16 @@ ENV TERM xterm-256color
 
 # setup catkin workspace
 # https://wiki.ros.org/rosdep
-RUN rosdep init && \
-    rosdep update && \
+RUN rosdep update && \
     source /opt/ros/${ROS_DISTRO}/setup.bash && \
     mkdir -p ${CATKIN_SRC} && \
     cd ${CATKIN_WS} && \
     catkin init && \
     rosdep install --from-paths src --ignore-src -r -y && \
     catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+# always pre sourcing at least the default setup.bash
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 
 # NVIDIA access for WSL
 ENV LD_LIBRARY_PATH=/usr/lib/wsl/lib
