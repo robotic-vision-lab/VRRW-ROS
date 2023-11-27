@@ -84,7 +84,7 @@ root ~/catkin_ws
 
 6. Start Unity-side Application Package
 
-Refer to the [Unity VR Robotic Workspace]() repository for more information.
+Refer to the [Unity VR Robotic Workspace](https://github.com/robotic-vision-lab/Unity-VR-Robotic-Workspace.git) repository for more information.
 
 ## Troubleshooting
 
