@@ -9,7 +9,7 @@ SHELL [ "/bin/bash", "-c" ]
 
 # "fast" source list for my area
 # NOTE: can be redundant or negatively affect download speed!
-COPY sources.dallas.list /etc/apt/sources.list
+RUN sed -i -r 's,http://(.*).ubuntu.com,http://mirror.us-tx.kamatera.com,' /etc/apt/sources.list
 
 # installing initial setup packages
 RUN apt-get update && apt-get -y --no-install-recommends install \
@@ -37,12 +37,6 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     software-properties-common \
     && apt-get -y autoremove \
     && apt-get clean
-
-# installing CUDA 11.7.1
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb && \
-    dpkg -i cuda-keyring_1.0-1_all.deb && \
-    apt-get update && apt-get -y --no-install-recommends install cuda && \
-    rm -rf cuda-keyring_1.0-1_all.deb
 
 # installing ROS1 Noetic Desktop Full
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
@@ -98,11 +92,11 @@ RUN rosdep init && \
     rosdep install --from-paths src --ignore-src -r -y && \
     catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-# NVIDIA access for WSL
-ENV LD_LIBRARY_PATH=/usr/lib/wsl/lib
-
-# ROS NVIDIA acceleration, see http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration#nvidia-docker2
+# see https://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration#nvidia-docker2
 ENV NVIDIA_VISIBLE_DEVICES \
     ${NVIDIA_VISIBLE_DEVICES:-all}
 ENV NVIDIA_DRIVER_CAPABILITIES \
     ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+# convenient aliases
+COPY .bash_aliases /root/.bash_aliases
