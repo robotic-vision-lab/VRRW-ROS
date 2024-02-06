@@ -3,8 +3,8 @@
 ### Overview 
 
 This repository contains the ROS-side package to communicate and control a
-simulated or real (e.g., UR5e) robot a through a Unity UI for the virtual
-reality robotic workspace project.
+simulated or real (e.g., UR5e) robot through a Unity UI for the virtual reality
+robotic workspace project.
 
 ### Citation
 
