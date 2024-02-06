@@ -1,7 +1,23 @@
-## Virtual Reality Robotic Workspace (Unity ROS-Side Package) 
+## Virtual Reality Robotic Workspace (ROS-Side Package) 
 
-This repository contains the ROS-side package to communicate and control
-simulated or real UR5e robots through Unity UI interface.
+### Overview 
+
+This repository contains a ROS-side package to communicate and control a
+simulated or real (e.g., UR5e) robot a through Unity UI interface.
+
+### Citation
+
+If you find this project useful, then please consider citing our work.
+
+```bibitex
+@inproceedings{tram2023intuitive,
+  title={Intuitive Robot Integration via Virtual Reality Workspaces},
+  author={Tram, Minh Q. and Cloud, Joseph M. and Beksi, William J},
+  booktitle={Proceedings of the IEEE International Conference on Robotics and Automation (ICRA)},
+  pages={11654--11660},
+  year={2023}
+}
+```
 
 ### Quick Start
 
