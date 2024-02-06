@@ -126,4 +126,4 @@ however, we have not experienced any issues with the hostname.
 
 ### License
 
-[![license](https://img.shields.io/badge/license-Apache%202-blue)](https://github.com/robotic-vision-lab/VRRW-ROS/blob/main/LICENSE)
+[![license](https://img.shields.io/badge/license-Apache%202-blue)](https://github.com/robotic-vision-lab/VRRW-ROS/blob/ros1/LICENSE)
