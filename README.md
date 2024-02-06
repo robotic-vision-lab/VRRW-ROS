@@ -3,7 +3,7 @@
 ### Overview 
 
 This repository contains a ROS-side package to communicate and control a
-simulated or real (e.g., UR5e) robot a through Unity UI.
+simulated or real (e.g., UR5e) robot a through a Unity UI.
 
 ### Citation
 
@@ -102,14 +102,14 @@ root ~/catkin_ws
 
 6. Start the Unity-side application package:
 
-Refer to the [Unity VR Robotic Workspace](https://github.com/robotic-vision-lab/Unity-VR-Robotic-Workspace.git) repository for more information.
+Refer to the [VRRW-Unity](https://github.com/robotic-vision-lab/VRRW-Unity.git) repository for more information.
 
 ### Troubleshooting
 
 In many cases, the most common issues are the following:
 
 1. Either the ROS-side, Unity-side, or physical robot (if applicable), does not
-   have proper permission to communicate through the LAN. To ensure that all
+   have proper permissions to communicate through the LAN. To ensure that all
    devices are able to communicate with each other, a simple ping test may be
    suffice:
 
