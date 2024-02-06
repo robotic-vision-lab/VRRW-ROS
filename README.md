@@ -110,7 +110,7 @@ In many cases, the most common issues are the following:
 
 1. Either the ROS-side, Unity-side, or physical robot (if applicable), does not
    have proper permissions to communicate through the LAN. To ensure that all
-   devices are able to communicate with each other, a simple ping test may be
+   devices are able to communicate with each other, a simple ping test may 
    suffice:
 
 ```console
@@ -123,3 +123,7 @@ however, we have not experienced any issues with the hostname.
 2. On the Unity-side application, the ROS configuration is incorrect. Ensure
    that the `ROS IP Adress` under `Robotics > ROS Settings` is set to the IP
    address of the ROS-side computer where this package is running.
+
+### License
+
+[![license](https://img.shields.io/badge/license-Apache%202-blue)](https://github.com/robotic-vision-lab/VRRW-ROS/blob/main/LICENSE)
