@@ -3,7 +3,7 @@
 ### Overview 
 
 This repository contains a ROS-side package to communicate and control a
-simulated or real (e.g., UR5e) robot a through Unity UI interface.
+simulated or real (e.g., UR5e) robot a through Unity UI.
 
 ### Citation
 
@@ -28,7 +28,7 @@ user@DESKTOP:~$ git clone https://github.com/robotic-vision-lab/VRRW-ROS.git
 user@DESKTOP:~$ cd VRRW-ROS 
 ```
 
-2. Build or pull the docker image:
+2. Build or pull the Docker image:
 
 ```console
 user@DESKTOP:~$ cd docker
@@ -40,7 +40,7 @@ user@DESKTOP:~$ ./build_image.sh
 A convenient script is provided to run the Docker container. The script will do
 the following:
 
-- Create a container if it does not exists.
+- Create a container if it does not exist.
 - If the container exists, then it will start the container and attach to it.
 - Mount the `catkin_ws` directory to the container.
 - Expose sufficient ports and devices for rendering and ROS communication.
@@ -52,7 +52,7 @@ user@DESKTOP:~$ ./run_container.sh
 ```
 
 Several convenient aliases have also been defined in the container. They will
-be listed as a user attaches to the container.
+be listed when a user attaches to the container.
 
 ```
 user@DESKTOP:~$ ./run_container.sh
@@ -63,7 +63,7 @@ root ~/catkin_ws
 >
 ```
 
-4. Install the dependencies and build catkin workspace:
+4. Install the dependencies and build the catkin workspace:
 
 ```console
 root ~/catkin_ws
@@ -80,8 +80,9 @@ root ~/catkin_ws
 > src_ros
 ```
 
-> 🗒️ **In order for autocomplete to find all ROS commands and packages, for every new terminal or
-rebuilding packages, you must run `src_ros` to source the ROS environment.**
+> 🗒️ **In order for autocomplete to find all ROS commands and packages, for
+every new terminal or package rebuild you must run `src_ros` to source the ROS 
+environment.**
 
 5. Run the simulation or real robot control backend:
 
